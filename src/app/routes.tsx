@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { News } from "./components/News";
@@ -34,7 +34,7 @@ function HomePage() {
   );
 }
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     Component: Layout,
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
           The requested data sector could not be located in the grid. The coordinates may be invalid or the observation target has moved.
         </p>
         <a 
-          href="/"
+          href="#/"
           className="group relative inline-flex items-center gap-3 bg-black text-[#F4F4EB] px-8 py-4 font-['VT323'] text-2xl uppercase tracking-wide border-2 border-transparent hover:bg-[#E2F16B] hover:text-black hover:border-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
           <span>Return to Grid</span>
