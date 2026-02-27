@@ -2,28 +2,29 @@ import { useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { newsFeature as img3, newsImages } from "../assets";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
+import { Link } from "react-router-dom";
 
 const newsItems = [
   {
     id: 1,
-    title: "TEXT TEXT TEXT TEXT TEXT TEXT TEXT",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    title: "Latest Publication: New Paper on Urban Exposure & Health",
+    desc: "Our latest research published in Environment & Planning B explores the relationship between urban spatial exposure and mental health outcomes.",
     detail:
-      "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
+      "Using wearable sensors and mobile data from 2,400 participants, we quantified daily exposure to green space, noise, and air quality across three neighborhoods. The findings reveal significant correlations between spatial design and self-reported wellbeing, offering new evidence for health-centered urban planning.",
   },
   {
     id: 2,
-    title: "TEXT TEXT TEXT TEXT TEXT TEXT TEXT",
-    desc: "This is a detailed description of the news item. It talks about the latest advancements in urban technology.",
+    title: "Tools Release: AI for Citizen Science — Demo Available",
+    desc: "We've released a demo of our AI-powered citizen science toolkit, enabling communities to participate in urban data collection.",
     detail:
-      "The convergence of AI-driven infrastructure and next-gen biotech implants is reshaping how citizens interact with urban environments. From self-healing roads to neural traffic routing, the boundary between human and machine continues to blur across megacity districts worldwide.",
+      "The platform uses conversational AI to guide non-expert users through environmental monitoring tasks. Early testing with community groups in Gainesville showed 89% task completion rates. Watch the demo video on our project page to see it in action.",
   },
   {
     id: 3,
-    title: "TEXT TEXT TEXT TEXT TEXT TEXT TEXT",
-    desc: "More news about upcoming events and conferences.",
+    title: "On-going User Test: Urban VR Planning Experience",
+    desc: "We are currently recruiting participants for our immersive VR urban planning user study.",
     detail:
-      "CyberCon 2026 is set to host over 12,000 attendees across three sprawling venues. Highlights include live demos of quantum mesh networks, panel discussions on synthetic consciousness ethics, and the annual hackathon with a 50,000 credit prize pool.",
+      "Participants will experience proposed neighborhood changes in VR and provide feedback through our interactive evaluation system. The study is open to all residents aged 18+. Sessions last approximately 45 minutes at our lab in Gainesville. Contact us to schedule your session.",
   },
 ];
 
@@ -63,11 +64,11 @@ export function News() {
   };
 
   return (
-    <section className="bg-[#fcfcea] py-16 px-4 md:px-12 border-t-4 border-black">
+    <section id="news" className="bg-[#fcfcea] py-16 px-4 md:px-12 border-t-4 border-black">
       <div className="text-center mb-12">
         <h2 className="font-['VT323'] text-5xl md:text-6xl mb-4 uppercase">News</h2>
         <p className="font-mono text-sm uppercase tracking-widest text-gray-600">
-          TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
+          Latest updates from the lab
         </p>
       </div>
 
@@ -82,8 +83,8 @@ export function News() {
                   onClick={() => handleToggle(item.id)}
                   className={`block p-6 border-2 border-black rounded-3xl transition-all duration-300 relative overflow-hidden cursor-pointer ${
                     isActive
-                      ? "bg-[#ff6b00] text-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]"
-                      : "bg-white hover:bg-gray-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                      ? "bg-[#ff6b00] text-black"
+                      : "bg-white hover:bg-gray-100"
                   }`}
                 >
                   <div className="flex justify-between items-center mb-2">
@@ -119,12 +120,14 @@ export function News() {
                             onClick={(e) => {
                               e.stopPropagation();
                             }}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-[#ff6b00] border-2 border-black rounded-full uppercase text-sm tracking-wider cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,0.3)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150 group"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-[#ff6b00] border-2 border-black rounded-full uppercase text-sm tracking-wider cursor-pointer transition-all duration-150 group"
                           >
-                            <span className="font-['VT323'] text-base tracking-widest">
-                              Learn More
-                            </span>
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            <Link to={`/news/${item.id}`} className="flex items-center gap-2">
+                              <span className="font-['VT323'] text-base tracking-widest">
+                                Learn More
+                              </span>
+                              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
                           </button>
                         </div>
                       </motion.div>
@@ -167,7 +170,7 @@ export function News() {
                   exit={{ scale: 0.3, opacity: 0, y: 60 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   style={{ x: popupX, y: popupY }}
-                  className="absolute z-20 w-[78%] rounded-xl border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden"
+                  className="absolute z-20 w-[78%] rounded-xl border-2 border-black bg-white overflow-hidden"
                 >
                   {/* Window title bar */}
                   <div className="flex items-center justify-between px-3 py-2 bg-black text-white border-b-2 border-black">

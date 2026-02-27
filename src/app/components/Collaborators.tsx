@@ -1,19 +1,27 @@
 import { motion } from "motion/react";
 
 const partners = [
-  { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 },
-  { id: 7 }, { id: 8 }, { id: 9 }, { id: 10 },
+  { id: 1, name: "UF" },
+  { id: 2, name: "NYU Tandon" },
+  { id: 3, name: "NYU GPH" },
+  { id: 4, name: "Emory" },
+  { id: 5, name: "UC Berkeley" },
+  { id: 6, name: "FSU" },
+  { id: 7, name: "FAU" },
+  { id: 8, name: "Fudan" },
+  { id: 9, name: "Ghana" },
+  { id: 10, name: "South Carolina" },
 ];
 
 export function Collaborators() {
   return (
     <section className="bg-white text-black py-20 px-4 md:px-12 relative border-t-4 border-black">
       <div className="relative z-10 max-w-6xl mx-auto text-center mb-16">
-        <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest text-black drop-shadow-[2px_2px_0px_rgba(255,255,255,1)]">
-          collaborator
+        <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest text-black">
+          Who We've Worked With
         </h2>
         <p className="font-mono text-xs uppercase text-gray-500 mt-4 max-w-2xl mx-auto">
-          TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
+          Academic and community partners across multiple institutions and regions
         </p>
       </div>
 
@@ -28,9 +36,9 @@ export function Collaborators() {
           {[...partners, ...partners].map((partner, index) => (
             <div
               key={`${partner.id}-${index}`}
-              className="w-48 h-24 shrink-0 border-2 border-black rounded-lg flex items-center justify-center bg-transparent hover:bg-black/5 transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="w-52 h-24 shrink-0 border-2 border-black rounded-lg flex items-center justify-center bg-transparent hover:bg-[#E2F16B]/30 transition-all"
             >
-              <span className="font-mono text-gray-400 text-xs">Partner {partner.id}</span>
+              <span className="font-['VT323'] text-xl uppercase tracking-wider text-black">{partner.name}</span>
             </div>
           ))}
         </motion.div>
