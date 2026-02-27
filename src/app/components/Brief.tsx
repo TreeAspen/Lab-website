@@ -17,15 +17,15 @@ export function Brief() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          {/* 仅修改：统一加上 font-['VT323'] 字体，并将全称包裹在橙色 text-[#FF7A00] 中 */}
+          {/* 第一段：实验室名称橙色，其余统一像素字体 */}
           <p className="font-['VT323'] text-2xl md:text-3xl leading-relaxed mb-8 max-w-3xl">
             <span className="text-[#FF7A00]">U.TOP Lab (Urban Technology, Observation & Practice)</span>{" "}
             is a forward-thinking group dedicated to 
             engineering the "utopia" of evidence-based, human-centered, and participatory cities.
           </p>
           
-          {/* 仅修改：统一加上 font-['VT323'] 字体，颜色保留原本的 text-black/70 */}
-          <p className="font-['VT323'] text-xl md:text-2xl leading-relaxed text-black/70 max-w-3xl">
+          {/* 第二段：完美对齐第一段的 text-2xl md:text-3xl 样式，做到“同样字体” */}
+          <p className="font-['VT323'] text-2xl md:text-3xl leading-relaxed max-w-3xl">
             Positioned at the intersection of urban science and cutting-edge technology, we bridge 
             the gap between scientific inquiry and real-world application. Through collaborative 
             partnerships with public agencies and local communities, we develop the novel systems, 
@@ -33,7 +33,7 @@ export function Brief() {
           </p>
         </motion.div>
 
-        {/* Three Pillars Preview - 完全保留你的原版白色卡片样式 */}
+        {/* Three Pillars Preview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           {[
             {
@@ -58,11 +58,12 @@ export function Brief() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="border-2 border-black p-6 bg-white hover:bg-[#E2F16B]/20 transition-colors group"
+              /* 👇 在这里加入了 hover:-translate-y-2 和 transition-all 来实现上浮动画 */
+              className="border-2 border-black p-6 bg-black text-white hover:bg-neutral-900 hover:-translate-y-2 transition-all duration-300 group"
             >
               <span className="font-['VT323'] text-4xl text-[#FF7A00] block mb-2">{pillar.num}</span>
               <h3 className="font-['VT323'] text-2xl uppercase tracking-wider mb-3">{pillar.title}</h3>
-              <p className="font-mono text-xs text-black/60 leading-relaxed">{pillar.desc}</p>
+              <p className="font-mono text-xs text-white/70 leading-relaxed">{pillar.desc}</p>
             </motion.div>
           ))}
         </div>

@@ -56,17 +56,15 @@ export function Highlights() {
         <div className="flex flex-col mb-12">
           <div className="flex items-center gap-4 mb-6">
              <div className="bg-[#E2F16B] text-black px-3 py-1 font-['VT323'] text-lg">{" >>> "}</div>
-             {/* 仅修改文字为 Research + Practice */}
              <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest">Research + Practice</h2>
           </div>
-          {/* 仅将原本在底部的介绍文字移到了这里，其他不变 */}
           <p className="font-mono text-sm text-white/70 leading-relaxed max-w-3xl">
             We believe our work only matters if it lands. At U.TOP Lab, we don't just theorize; we co-create live pilots with local communities and people to test ideas in the real world. Ultimately, our goal is to turn "urban tech" into tangible improvements — democratizing urban intelligence to create genuine public value.
           </p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Tabs */}
+          {/* Tabs - 这里彻底恢复了你第三张截图的箭头样式 */}
           <div className="w-full md:w-1/4 flex flex-col gap-2">
             {pillars.map((tab) => (
               <button
@@ -85,7 +83,7 @@ export function Highlights() {
             ))}
           </div>
 
-          {/* Content Card */}
+          {/* Content Card - 恢复了你原本卡片内部的排版 */}
           <div className="w-full md:w-3/4 relative">
             <AnimatePresence mode="wait">
               <motion.div

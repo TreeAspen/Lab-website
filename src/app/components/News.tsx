@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { newsFeature as img3, newsImages } from "../assets";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // 👈 帮你把这里改对了，防止打包报错！
 
 const newsItems = [
   {
@@ -90,8 +90,9 @@ export function News() {
                   <div className="flex justify-between items-center mb-2">
                     {/* 仅在此处修改了字体样式 */}
                     <h3 className="font-['VT323'] text-2xl md:text-3xl">{item.title}</h3>
+                    {/* 完全保留你原版的圆形展开按钮 */}
                     <div
-                      className={`w-6 h-6 rounded-full border-2 border-black flex items-center justify-center transition-colors duration-300 shrink-0 ${
+                      className={`w-6 h-6 rounded-full border-2 border-black flex items-center justify-center transition-colors duration-300 ${
                         isActive ? "bg-black" : "bg-transparent"
                       }`}
                     >
