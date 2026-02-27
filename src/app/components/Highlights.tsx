@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 import { highlightsVR as imgVR } from "../assets";
 import { Link } from "react-router-dom";
 
@@ -42,44 +42,56 @@ export function Highlights() {
   const active = pillars.find((p) => p.id === activeTab)!;
 
   return (
-    <section id="pillars" className="bg-black text-white py-20 px-4 md:px-12 overflow-hidden relative border-t-4 border-white">
-      {/* Grid Background */}
+    <section id="research" className="bg-black text-[#F4F4EB] py-24 px-4 md:px-12 overflow-hidden relative border-t-4 border-white">
+      {/* 装饰性网格背景 */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-20"
+        className="absolute inset-0 pointer-events-none opacity-10"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.5 39.5 L0.5 10.5 A10 10 0 0 1 10.5 0.5 L29.5 0.5 A10 10 0 0 1 39.5 10.5 L39.5 39.5 Z' fill='none' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.5 39.5 L0.5 10.5 A10 10 0 0 1 10.5 0.5 L29.5 0.5 A10 10 0 0 1 39.5 10.5 L39.5 39.5 Z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E")`,
           backgroundSize: '40px 40px'
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="flex items-center gap-4 mb-12">
-           <div className="bg-[#E2F16B] text-black px-3 py-1 font-['VT323'] text-lg">{" >>> "}</div>
-           <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest">Research Pillars</h2>
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* 顶部标题区：Research + Practice */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 text-[#E2F16B] mb-6">
+            <Terminal size={24} />
+            <span className="font-['VT323'] text-2xl tracking-widest uppercase">
+              Core Framework
+            </span>
+          </div>
+          
+          <h2 className="font-['VT323'] text-6xl md:text-8xl uppercase tracking-tighter mb-8 leading-none">
+            Research <span className="text-[#FF7A00]">+</span> Practice
+          </h2>
+          
+          <p className="font-['VT323'] text-xl md:text-2xl text-white/80 max-w-4xl leading-relaxed border-l-8 border-[#FF7A00] pl-8 py-2">
+            We believe our work only matters if it lands. At U.TOP Lab, we don't just theorize; we co-create live pilots with local communities and people to test ideas in the real world. Ultimately, our goal is to turn "urban tech" into tangible improvements — democratizing urban intelligence to create genuine public value.
+          </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Tabs */}
-          <div className="w-full md:w-1/4 flex flex-col gap-2">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* 左侧 Pillar 导航 */}
+          <div className="flex lg:flex-col gap-3 lg:w-1/3 overflow-x-auto pb-4 lg:pb-0">
             {pillars.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-6 py-3 text-left text-lg uppercase transition-all duration-300
+                className={`relative px-8 py-5 text-left transition-all duration-300 border-l-4 whitespace-nowrap lg:whitespace-normal
                   ${activeTab === tab.id 
-                    ? "bg-[#FF7A00] text-black translate-x-4" 
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
+                    ? "bg-[#E2F16B] text-black border-[#FF7A00] translate-x-2" 
+                    : "bg-white/5 text-gray-400 border-transparent hover:bg-white/10 hover:text-white"
                   }`}
-                style={{ clipPath: "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)" }}
               >
-                <span className="font-mono text-xs block mb-0.5 opacity-60">{tab.num}</span>
-                {tab.label}
+                <span className="font-mono text-xs block mb-1 opacity-60 uppercase">{tab.num}</span>
+                <span className="font-['VT323'] text-2xl md:text-3xl uppercase tracking-wider">{tab.label}</span>
               </button>
             ))}
           </div>
 
-          {/* Content Card */}
-          <div className="w-full md:w-3/4 relative">
+          {/* 右侧内容展示区 */}
+          <div className="lg:w-2/3">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -87,63 +99,52 @@ export function Highlights() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
-                className="bg-[#fcfcea] text-black p-6 rounded-lg border-2 border-white relative"
+                className="bg-[#fcfcea] text-black p-8 md:p-12 border-4 border-[#E2F16B] relative"
               >
-                <div className="bg-[#eef093] h-64 md:h-80 w-full mb-6 relative overflow-hidden rounded-md border-2 border-black">
+                {/* 装饰性角标 */}
+                <div className="absolute top-4 right-4 font-['VT323'] text-[#FF7A00] text-xl">
+                  [ MODULE_0{pillars.findIndex(p => p.id === activeTab) + 1} ]
+                </div>
+
+                <div className="bg-black h-64 md:h-80 w-full mb-8 relative overflow-hidden border-2 border-black">
                    <img 
                       src={imgVR} 
                       alt={active.label}
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
                    />
+                   <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%]" />
                 </div>
 
-                {/* Tags */}
-                <div className="flex gap-2 mb-4 flex-wrap">
+                <div className="flex gap-2 mb-6 flex-wrap">
                   {active.tags.map((tag, i) => (
-                    <span key={i} className="bg-[#E2F16B] border border-black px-3 py-1 rounded-full text-xs uppercase">
+                    <span key={i} className="bg-[#E2F16B] border-2 border-black px-4 py-1 font-['VT323'] text-sm uppercase">
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <h3 className="text-2xl uppercase mb-3">
+                <h3 className="font-['VT323'] text-4xl md:text-5xl uppercase mb-6 leading-tight">
                   {active.label}
                 </h3>
-                <p className="font-mono text-sm mb-4 leading-relaxed max-w-2xl">
+                
+                <p className="font-sans text-lg mb-4 leading-relaxed max-w-2xl text-black/90">
                   {active.summary}
                 </p>
-                <p className="font-mono text-sm mb-6 leading-relaxed max-w-2xl text-black/60">
+                <p className="font-sans text-base mb-10 leading-relaxed max-w-2xl text-black/60 italic">
                   {active.focus}
                 </p>
 
                 <Link 
                   to={`/highlights/${activeTab}`}
-                  className="inline-flex items-center gap-2 uppercase hover:underline group"
+                  className="inline-flex items-center gap-3 bg-black text-[#F4F4EB] px-8 py-4 font-['VT323'] text-2xl uppercase tracking-widest hover:bg-[#FF7A00] transition-colors group"
                 >
-                  <span>View Our Work</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <span>View Full Research</span>
+                  <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
                 </Link>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Research + Practice callout */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 border-l-4 border-[#FF7A00] pl-6 max-w-3xl"
-        >
-          <h3 className="font-['VT323'] text-3xl uppercase tracking-wider text-[#E2F16B] mb-3">
-            Research + Practice
-          </h3>
-          <p className="font-mono text-sm text-white/70 leading-relaxed">
-            We believe our work only matters if it lands. At U.TOP Lab, we don't just theorize; we co-create 
-            live pilots with local communities and people to test ideas in the real world. Ultimately, our goal 
-            is to turn "urban tech" into tangible improvements — democratizing urban intelligence to create genuine public value.
-          </p>
-        </motion.div>
       </div>
     </section>
   );

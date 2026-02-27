@@ -17,12 +17,15 @@ export function Brief() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-3xl">
-            <span className="font-['VT323'] text-3xl text-[#FF7A00]">U.TOP Lab</span>{" "}
-            (Urban Technology, Observation & Practice) is a forward-thinking group dedicated to 
+          {/* 第一段：将全称全部放入了 text-[#FF7A00] 橙色样式中 */}
+          <p className="font-['VT323'] text-2xl md:text-3xl leading-relaxed mb-8 max-w-3xl">
+            <span className="text-[#FF7A00]">U.TOP Lab (Urban Technology, Observation & Practice)</span>{" "}
+            is a forward-thinking group dedicated to 
             engineering the "utopia" of evidence-based, human-centered, and participatory cities.
           </p>
-          <p className="text-base md:text-lg leading-relaxed text-black/70 max-w-3xl">
+          
+          {/* 第二段：保持原本的样式 */}
+          <p className="font-['VT323'] text-xl md:text-2xl leading-relaxed text-black/70 max-w-3xl">
             Positioned at the intersection of urban science and cutting-edge technology, we bridge 
             the gap between scientific inquiry and real-world application. Through collaborative 
             partnerships with public agencies and local communities, we develop the novel systems, 
