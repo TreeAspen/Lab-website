@@ -1,30 +1,31 @@
 import { ArrowRight, ChevronRight, ChevronDown, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // 确保导入 Link
 import { useState, useRef, useEffect } from "react";
 
-// 修正后的导航数据：去掉开头的 / 以防止 GitHub Pages 404
 const navItems = [
   {
     label: "Home",
     children: [
-      { label: "Brief", href: "#brief" },
-      { label: "News", href: "#news" },
+      /* 使用 /#id 配合 Link 组件，React Router 会自动处理项目路径 */
+      { label: "Brief", to: "/#brief" }, 
+      { label: "News", to: "/#news" },
     ],
   },
   {
     label: "Projects",
     children: [
-      { label: "Urban Sensing", href: "/highlights/urban" },
-      { label: "Urban HCI", href: "/highlights/hci" },
-      { label: "Urban Chatbot", href: "/highlights/ai" },
+      /* 这里的路径必须与 App.tsx 中的 Route path 一致 */
+      { label: "Urban Sensing", to: "/highlights/urban" },
+      { label: "Urban HCI", to: "/highlights/hci" },
+      { label: "Urban Chatbot", to: "/highlights/ai" },
     ],
   },
   {
     label: "Team",
     children: [
-      { label: "Director", href: "#director" },
-      { label: "Current members", href: "#members" },
-      { label: "Join Us", href: "#interest" },
+      { label: "Director", to: "/#director" },
+      { label: "Current members", to: "/#members" },
+      { label: "Join Us", to: "/#interest" },
     ],
   },
 ];
@@ -50,7 +51,6 @@ export function Header() {
         U.TOP
       </Link>
 
-      {/* 黑色胶囊导航栏 */}
       <nav ref={dropdownRef} className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-1 bg-black text-[#F4F4EB] rounded-full px-4 py-2 pointer-events-auto shadow-2xl">
         {navItems.map((item) => (
           <div key={item.label} className="relative">
@@ -62,14 +62,14 @@ export function Header() {
               <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`} />
             </button>
 
-            {/* 下拉菜单：黑底、无阴影、带缩进和 > 箭头 */}
             {openDropdown === item.label && (
               <div className="absolute top-[calc(100%+15px)] left-0 bg-black p-6 min-w-[220px] rounded-2xl z-50">
                 <div className="flex flex-col gap-4">
                   {item.children.map((child) => (
-                    <a 
+                    /* 关键修改：统一使用 Link 组件，href 换成 to */
+                    <Link 
                       key={child.label} 
-                      href={child.href} 
+                      to={child.to} 
                       className="group flex items-center gap-3 transition-colors" 
                       onClick={() => setOpenDropdown(null)}
                     >
@@ -77,7 +77,7 @@ export function Header() {
                       <span className="font-sans text-lg text-[#F4F4EB]/80 font-medium group-hover:text-white">
                         {child.label}
                       </span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -86,7 +86,7 @@ export function Header() {
         ))}
       </nav>
 
-      <Link to="#interest" className="pointer-events-auto hidden md:flex items-center gap-3 bg-[#F4F4EB] border-2 border-black rounded-full px-1 py-1 pr-5 hover:bg-gray-100 transition-colors">
+      <Link to="/#interest" className="pointer-events-auto hidden md:flex items-center gap-3 bg-[#F4F4EB] border-2 border-black rounded-full px-1 py-1 pr-5 hover:bg-gray-100 transition-colors">
         <div className="bg-[#FF7A00] rounded-full p-2 border border-black">
           <ArrowRight className="w-4 h-4 text-black" />
         </div>
@@ -96,6 +96,29 @@ export function Header() {
       <button className="pointer-events-auto md:hidden bg-black text-white p-2 rounded-lg" onClick={() => setMobileOpen(!mobileOpen)}>
         {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
+
+      {/* 移动端菜单也同步修改为 Link */}
+      {mobileOpen && (
+        <div className="pointer-events-auto fixed inset-0 top-16 bg-black/95 md:hidden z-40 flex flex-col items-center pt-12 gap-8 overflow-y-auto pb-20">
+          {navItems.map((item) => (
+            <div key={item.label} className="w-full px-12 text-center">
+              <h3 className="font-['VT323'] text-3xl text-[#E2F16B] uppercase mb-4">{item.label}</h3>
+              <div className="flex flex-col gap-3">
+                {item.children.map((child) => (
+                  <Link
+                    key={child.label}
+                    to={child.to}
+                    className="flex items-center justify-center gap-2 font-['VT323'] text-2xl text-white/80"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <ChevronRight size={18} /> {child.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </header>
   );
 }
