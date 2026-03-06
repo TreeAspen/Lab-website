@@ -114,7 +114,7 @@ export function Hero() {
         <motion.div 
           className="flex gap-8 whitespace-nowrap text-[#E2F16B] font-['VT323'] text-2xl uppercase tracking-widest"
           animate={{ x: "-50%" }}
-          transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+          transition={{ duration: 60, ease: "linear", repeat: Infinity }}
         >
            {[...Array(20)].map((_, i) => (
              <span key={i} className="mx-8">Urban Sensing /// Urban HCI /// Urban AI /// Observation & Practice</span>
