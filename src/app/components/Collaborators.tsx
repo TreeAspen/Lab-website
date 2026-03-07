@@ -10,17 +10,18 @@ import logoSouthCarolina from "../../assets/South Carolina.svg";
 import logoBerkeley from "../../assets/UC Berkeley.png";
 import logoUF from "../../assets/UF.webp";
 
+// 👇 给两个 JPG 格式的 NYU Logo 单独加上 needsBlend: true 标记，其他保持原样
 const partners = [
-  { id: 1, name: "UF", src: logoUF },
-  { id: 2, name: "NYU Tandon", src: logoNYUTandon },
-  { id: 3, name: "NYU GPH", src: logoNYUGPH },
-  { id: 4, name: "Emory", src: logoEmory },
-  { id: 5, name: "UC Berkeley", src: logoBerkeley },
-  { id: 6, name: "FSU", src: logoFSU },
-  { id: 7, name: "FAU", src: logoFAU },
-  { id: 8, name: "Fudan", src: logoFudan },
-  { id: 9, name: "Ghana", src: logoGhana },
-  { id: 10, name: "South Carolina", src: logoSouthCarolina },
+  { id: 1, name: "University of Florida", src: logoUF },
+  { id: 2, name: "NYU Tandon School of Engineering", src: logoNYUTandon, needsBlend: true },
+  { id: 3, name: "NYU School of Global Public Health", src: logoNYUGPH, needsBlend: true },
+  { id: 4, name: "Emory University", src: logoEmory },
+  { id: 5, name: "University of California, Berkeley", src: logoBerkeley },
+  { id: 6, name: "Florida State University", src: logoFSU },
+  { id: 7, name: "Florida Atlantic University", src: logoFAU },
+  { id: 8, name: "Fudan University", src: logoFudan },
+  { id: 9, name: "University of Ghana", src: logoGhana },
+  { id: 10, name: "University of South Carolina", src: logoSouthCarolina },
 ];
 
 export function Collaborators() {
@@ -42,19 +43,22 @@ export function Collaborators() {
         <motion.div
           className="flex gap-6 w-max"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 35, ease: "linear", repeat: Infinity }}
+          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
         >
           {[...partners, ...partners].map((partner, index) => (
             <div
               key={`${partner.id}-${index}`}
-              className="w-56 h-32 shrink-0 border-2 border-black rounded-lg flex flex-col items-center justify-center bg-transparent hover:bg-[#E2F16B]/30 transition-all group cursor-pointer p-4"
+              className="w-64 h-32 shrink-0 border-2 border-black rounded-lg flex flex-col items-center justify-center bg-transparent hover:bg-[#E2F16B]/30 transition-all group cursor-pointer p-4"
             >
               <img 
                 src={partner.src} 
                 alt={partner.name} 
-                className="h-12 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 mb-3"
+                /* 👇 核心修改：只有带有 needsBlend 标记的图片，才会加上 mix-blend-multiply 去除白底 */
+                className={`h-10 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 mb-2 ${
+                  partner.needsBlend ? 'mix-blend-multiply' : ''
+                }`}
               />
-              <span className="font-['VT323'] text-sm uppercase tracking-wider text-black/40 group-hover:text-black transition-colors">
+              <span className="font-['VT323'] text-sm text-center uppercase tracking-wider text-black/40 group-hover:text-black transition-colors leading-tight px-2">
                 {partner.name}
               </span>
             </div>
