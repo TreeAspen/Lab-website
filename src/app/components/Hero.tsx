@@ -42,13 +42,13 @@ function FloatingModule({
 
 /**
  * 赛博胶囊按键：黑底 + 黄/橙圆点交互
- * 💡 注意：圆点的物理中心坐标永远是 X: 25px, Y: 24px (相对于此标签的左上角)
+ * 💡 橙色圆点的物理中心点被严格固定在距离标签左上角的 (X: 25px, Y: 24px)
  */
 function ModernLabel({ label, href, className = "" }: { label: string; href: string; className?: string }) {
   return (
     <Link
       to={href}
-      className={`group relative flex items-center h-12 bg-[#1C1C13] rounded-full pl-2 pr-8 hover:bg-[#FF7A00] transition-colors duration-300 border-2 border-transparent shadow-lg ${className}`}
+      className={`group absolute flex items-center h-12 bg-[#1C1C13] rounded-full pl-2 pr-8 hover:bg-[#FF7A00] transition-colors duration-300 border-2 border-transparent shadow-lg z-20 ${className}`}
     >
       {/* 外部黄色大圆圈 */}
       <div className="relative flex items-center justify-center w-[34px] h-[34px] rounded-full bg-[#FAFF71]">
@@ -63,14 +63,14 @@ function ModernLabel({ label, href, className = "" }: { label: string; href: str
 }
 
 /**
- * 智能引导线组件：放置于最底层，提供自适应的斜度连接
+ * 智能引导线：处于模块最底层 (z-0)，根据像素坐标精准连接
  */
-function ConnectLine({ x1, y1, x2, y2 }: { x1: string; y1: string; x2: string; y2: string }) {
+function ConnectLine({ x1, y1, x2, y2 }: { x1: number; y1: number; x2: number; y2: number }) {
   return (
-    <svg className="absolute inset-0 w-full h-full -z-10 pointer-events-none">
+    <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none">
       <line 
         x1={x1} y1={y1} x2={x2} y2={y2} 
-        stroke="black" strokeWidth="2" strokeOpacity="0.3" 
+        stroke="black" strokeWidth="1.5" strokeOpacity="0.4" 
       />
     </svg>
   );
@@ -87,72 +87,69 @@ export function Hero() {
       {/* === 核心布局容器 === */}
       <div className="relative w-full max-w-[1280px] h-[750px] md:h-[800px] mt-16 md:mt-24 z-10 pointer-events-none">
         
-        {/* === 居中大标题 === */}
-        <div className="absolute left-1/2 top-[12%] -translate-x-1/2 text-center w-full px-4 pointer-events-auto">
+        {/* === 居中大标题 (优化了层级和大小，防止被模型遮挡) === */}
+        <div className="absolute left-1/2 top-[18%] lg:top-[22%] -translate-x-1/2 text-center w-full px-4 pointer-events-auto z-30">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-3 mb-4 lg:mb-6">
               <span className="font-['VT323'] text-2xl tracking-widest uppercase text-black/60">U.TOP LAB</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]" />
               <span className="font-['VT323'] text-2xl tracking-widest uppercase text-black/60">UF</span>
             </div>
             
-            <h1 className="font-['VT323'] text-6xl md:text-[6.5rem] lg:text-[7.5rem] text-black uppercase leading-[0.85] tracking-tight select-none">
+            <h1 className="font-['VT323'] text-5xl md:text-6xl lg:text-[6.5rem] text-black uppercase leading-[0.85] tracking-tight select-none">
               Urban Technology,<br />
-              <span className="text-5xl md:text-[5.5rem] lg:text-[6rem]">Observation & Practice</span>
+              <span className="text-4xl md:text-5xl lg:text-[5.5rem]">Observation & Practice</span>
             </h1>
           </motion.div>
         </div>
 
-        {/* 🌟 核心重构：4 个散落的独立容器 
-          每个容器都有固定的宽高，图片和标签散落在对角线，通过 SVG 斜线在底层相连 
-        */}
+        {/* 🌟 核心重构：4 个独立画板，物理坐标计算完美锁定圆点 */}
 
         {/* === 模块 1: Interaction (VR头显) === */}
-        {/* 布局：图片在右上，标签在左下 */}
-        <FloatingModule className="left-[2%] top-[15%] w-[300px] h-[280px] hidden md:block" delay={0} duration={3.5} amplitude={10}>
-          <ConnectLine x1="70%" y1="35%" x2="25px" y2="calc(100% - 24px)" />
-          <img src={img1} alt="VR Headset" className="absolute top-0 right-0 w-48 object-contain drop-shadow-2xl" />
-          <ModernLabel label="Interaction" href="/highlights/vr" className="absolute bottom-0 left-0" />
+        <FloatingModule className="left-[2%] lg:left-[5%] top-[8%] w-[320px] h-[200px] hidden md:block" delay={0} duration={3.5} amplitude={10}>
+          {/* 起点 x1,y1：图片中心 (232, 88) | 终点 x2,y2：标签圆点 (25, 176) */}
+          <ConnectLine x1={232} y1={88} x2={25} y2={176} />
+          <img src={img1} alt="VR Headset" className="absolute top-0 right-0 w-44 object-contain drop-shadow-xl z-10 pointer-events-none" />
+          <ModernLabel label="Interaction" href="/highlights/vr" className="bottom-0 left-0" />
         </FloatingModule>
 
         {/* === 模块 2: Intelligence (像素机器人) === */}
-        {/* 布局：标签在左上，图片在右下 */}
-        <FloatingModule className="left-[10%] bottom-[8%] w-[280px] h-[280px] hidden md:block" delay={0.8} duration={4} amplitude={14}>
-          <ConnectLine x1="25px" y1="24px" x2="65%" y2="65%" />
-          <ModernLabel label="Intelligence" href="/highlights/ai" className="absolute top-0 left-0" />
-          <img src={img4} alt="Intelligence AI" className="absolute bottom-0 right-0 w-48 object-contain drop-shadow-2xl" />
+        <FloatingModule className="left-[5%] lg:left-[8%] bottom-[8%] w-[260px] h-[240px] hidden md:block" delay={0.8} duration={4} amplitude={14}>
+          {/* 起点 x1,y1：图片中心 (120, 168) | 终点 x2,y2：标签圆点 (57, 24) */}
+          <ConnectLine x1={120} y1={168} x2={57} y2={24} />
+          <ModernLabel label="Intelligence" href="/highlights/ai" className="top-0 left-8" />
+          <img src={img4} alt="Intelligence AI" className="absolute bottom-0 left-12 w-36 object-contain drop-shadow-xl z-10 pointer-events-none" />
         </FloatingModule>
 
         {/* === 模块 3: Collaboration (像素小人) === */}
-        {/* 布局：图片在左上，标签在右下 */}
-        {/* 标签靠右放置，利用 calc() 计算橙色圆点的物理坐标进行连线 */}
-        <FloatingModule className="right-[8%] bottom-[6%] w-[320px] h-[300px] hidden md:block" delay={1.5} duration={3.8} amplitude={12}>
-          <ConnectLine x1="30%" y1="35%" x2="calc(100% - 165px)" y2="calc(100% - 24px)" />
-          <img src={img3} alt="Collaboration" className="absolute top-0 left-0 w-64 object-contain drop-shadow-2xl" />
-          <ModernLabel label="Collaboration" href="/highlights/hci" className="absolute bottom-0 right-0" />
+        <FloatingModule className="right-[5%] lg:right-[8%] bottom-[6%] w-[300px] h-[240px] hidden md:block" delay={1.5} duration={3.8} amplitude={12}>
+          {/* 起点 x1,y1：图片中心 (164, 152) | 终点 x2,y2：标签圆点 (57, 24) */}
+          <ConnectLine x1={164} y1={152} x2={57} y2={24} />
+          <ModernLabel label="Collaboration" href="/highlights/hci" className="top-0 left-8" />
+          <img src={img3} alt="Collaboration" className="absolute bottom-0 right-12 w-44 object-contain drop-shadow-xl z-10 pointer-events-none" />
         </FloatingModule>
 
         {/* === 模块 4: Health (智能眼镜) === */}
-        {/* 布局：标签在右上，图片在左下 */}
-        <FloatingModule className="right-[2%] top-[12%] w-[320px] h-[260px] hidden md:block" delay={0.4} duration={3.2} amplitude={11}>
-          <ConnectLine x1="calc(100% - 95px)" y1="24px" x2="35%" y2="65%" />
-          <ModernLabel label="Health" href="/highlights/urban" className="absolute top-0 right-0" />
-          <img src={img2} alt="Urban Sensing" className="absolute bottom-0 left-0 w-64 object-contain drop-shadow-2xl" />
+        <FloatingModule className="right-[2%] lg:right-[5%] top-[10%] w-[320px] h-[220px] hidden md:block" delay={0.4} duration={3.2} amplitude={11}>
+          {/* 起点 x1,y1：图片中心 (208, 136) | 终点 x2,y2：标签圆点 (73, 24) */}
+          <ConnectLine x1={208} y1={136} x2={73} y2={24} />
+          <ModernLabel label="Health" href="/highlights/urban" className="top-0 left-12" />
+          <img src={img2} alt="Urban Sensing" className="absolute bottom-0 right-0 w-56 object-contain drop-shadow-xl z-10 pointer-events-none" />
         </FloatingModule>
 
         {/* === 移动端降级展示 (Mobile Fallback) === */}
-        <div className="absolute top-[40%] w-full md:hidden flex flex-wrap justify-center gap-8 px-4 z-20 pointer-events-auto">
-          <div className="flex flex-col items-center gap-6">
+        <div className="absolute top-[40%] w-full md:hidden flex flex-wrap justify-center gap-10 px-4 z-20 pointer-events-auto">
+          <div className="flex flex-col items-center gap-4 relative">
             <img src={img1} alt="Interaction" className="w-32 h-auto" />
-            <ModernLabel label="Interaction" href="/highlights/vr" />
+            <ModernLabel label="Interaction" href="/highlights/vr" className="static" />
           </div>
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-4 relative">
             <img src={img2} alt="Health" className="w-40 h-auto" />
-            <ModernLabel label="Health" href="/highlights/urban" />
+            <ModernLabel label="Health" href="/highlights/urban" className="static" />
           </div>
         </div>
 
