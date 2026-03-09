@@ -354,8 +354,8 @@ export const teamMembers: TeamMember[] = [
     email: "z.zhang@ufl.edu",
     website: "https://zhaoxizhang.com",
     education: [
-      "Ph.D. in Urban Planning, New York University",
-      "M.S. in Computer Science, Columbia University"
+      // "Ph.D. in Urban Planning, New York University",
+      // "M.S. in Computer Science, Columbia University"
     ],
     publications: [
       {
@@ -371,7 +371,7 @@ export const teamMembers: TeamMember[] = [
     name: "Isaiah Garnett",
     role: "Graduate Researcher",
     title: "Ph.D. Candidate in HCI",
-    category: "phd",
+    category: "master",
     avatar: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
     bio: "Isaiah specializes in Human-Computer Interaction, specifically designing seamless interfaces for smart city infrastructure.",
     research: ["HCI", "Accessibility", "Public Design"],
