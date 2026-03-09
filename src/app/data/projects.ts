@@ -16,6 +16,26 @@ export interface ProjectData {
   team: string[];
 }
 
+/**
+ * 🌟 新增：团队成员的数据结构定义
+ */
+export interface TeamMember {
+  id: string; // url slug
+  name: string;
+  role: string;
+  title: string;
+  category: "faculty" | "phd" | "master" | "alumni";
+  avatar: string;
+  bio: string;
+  fullBio?: string;
+  research: string[];
+  email?: string;
+  website?: string;
+  education?: string[];
+  publications?: { title: string; venue: string; year: string }[];
+  projects?: string[]; // 关联到 ProjectData 的 slug
+}
+
 export const projects: ProjectData[] = [
   {
     id: 1,
@@ -315,4 +335,69 @@ export const highlightDetailData = [
       },
     ],
   },
+];
+
+/**
+ * 🌟 新增：U.TOP 实验室的团队成员数据
+ */
+export const teamMembers: TeamMember[] = [
+  {
+    id: "zhaoxi-zhang",
+    name: "Dr. Zhaoxi Zhang",
+    role: "Lab Director",
+    title: "Assistant Professor of Urban Technology",
+    category: "faculty",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw0fHxyZXNlYXJjaGVyJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzcyMjI5MTIwfDA&ixlib=rb-4.1.0&q=80&w=400",
+    bio: "Dr. Zhang leads the U.TOP Lab, focusing on the intersection of urban science, physiological computing, and virtual reality.",
+    fullBio: "Dr. Zhaoxi Zhang's research pioneers the use of multimodal sensing (EEG/EDA) within immersive VR environments to decode human physiological responses to complex urban spaces. He holds a Ph.D. in Urban Planning and directs multiple NSF-funded projects aiming to create evidence-based, neuro-inclusive design guidelines for future cities.",
+    research: ["VR/AR", "Physiological Computing", "Urban Design"],
+    email: "z.zhang@ufl.edu",
+    website: "https://zhaoxizhang.com",
+    education: [
+      "Ph.D. in Urban Planning, New York University",
+      "M.S. in Computer Science, Columbia University"
+    ],
+    publications: [
+      {
+        title: "Using virtual reality to study human response to flood risk across controlled experiments",
+        venue: "International Journal of Disaster Risk Reduction",
+        year: "2026"
+      }
+    ],
+    projects: ["neural-feedback-loop", "smart-city-interfaces"]
+  },
+  {
+    id: "isaiah-garnett",
+    name: "Isaiah Garnett",
+    role: "Graduate Researcher",
+    title: "Ph.D. Candidate in HCI",
+    category: "phd",
+    avatar: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
+    bio: "Isaiah specializes in Human-Computer Interaction, specifically designing seamless interfaces for smart city infrastructure.",
+    research: ["HCI", "Accessibility", "Public Design"],
+    email: "igarnett@ufl.edu",
+    projects: ["smart-city-interfaces", "community-engagement"]
+  },
+  {
+    id: "ruolin-wu",
+    name: "Ruolin Wu",
+    role: "Graduate Researcher",
+    title: "M.S. Student in Urban Analytics",
+    category: "master",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxMHx8cG9ydHJhaXR8ZW58MXx8fHwxNzcyMjI5MTI0fDA&ixlib=rb-4.1.0&q=80&w=400",
+    bio: "Ruolin leads the data processing pipelines for our biosensing experiments, focusing on EEG signal cleaning and analysis.",
+    research: ["Data Analytics", "Biosensing", "Machine Learning"],
+    projects: ["neural-feedback-loop", "data-visualization"]
+  },
+  {
+    id: "shu-aspen-yang",
+    name: "Shu (Aspen) Yang",
+    role: "Graduate Researcher",
+    title: "M.S. Student in Computer Science",
+    category: "master",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
+    bio: "Aspen focuses on developing the VR engine and Generative AI pipelines that power our immersive urban simulations.",
+    research: ["VR Engineering", "Generative AI", "Computer Vision"],
+    projects: ["urban-grid-optimization", "data-visualization"]
+  }
 ];

@@ -12,6 +12,10 @@ import { ProjectDetailPage } from "./components/ProjectDetailPage";
 import { NewsDetailPage } from "./components/NewsDetailPage";
 import { HighlightDetailPage } from "./components/HighlightDetailPage";
 
+// 👇 新增：导入 Team 相关的两个页面组件
+import { TeamPage } from "./components/TeamPage";
+import { TeamMemberDetailPage } from "./components/TeamMemberDetailPage";
+
 /**
  * 布局组件：全局脚手架
  */
@@ -67,6 +71,15 @@ export const router = createHashRouter([
       { 
         path: "highlights/:id", 
         Component: HighlightDetailPage 
+      },
+      // 👇 新增：注册 Team 列表页和个人详情页的路由
+      {
+        path: "team",
+        Component: TeamPage
+      },
+      {
+        path: "team/:id",
+        Component: TeamMemberDetailPage
       },
       /* 404 页面：保持你的硬核设计风格 */
       { 

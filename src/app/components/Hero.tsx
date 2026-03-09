@@ -42,7 +42,6 @@ function FloatingModule({
 
 /**
  * 赛博胶囊按键：黑底 + 黄/橙圆点交互
- * 💡 橙色圆点的物理中心点被严格固定在距离标签左上角的 (X: 25px, Y: 24px)
  */
 function ModernLabel({ label, href, className = "" }: { label: string; href: string; className?: string }) {
   return (
@@ -63,13 +62,34 @@ function ModernLabel({ label, href, className = "" }: { label: string; href: str
 }
 
 /**
- * 智能引导线：处于模块最底层 (z-0)，根据像素坐标精准连接
+ * 智能引导线：基于向量数学自动计算图片边缘起点
  */
-function ConnectLine({ x1, y1, x2, y2 }: { x1: number; y1: number; x2: number; y2: number }) {
+function ConnectLine({ 
+  imgX, 
+  imgY, 
+  targetX, 
+  targetY, 
+  imgRadius = 60 
+}: { 
+  imgX: number; 
+  imgY: number; 
+  targetX: number; 
+  targetY: number; 
+  imgRadius?: number 
+}) {
+  // 计算图片中心到目标圆点的向量距离
+  const dx = targetX - imgX;
+  const dy = targetY - imgY;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  // 沿着这根线，将起点从图片中心向目标方向移动 imgRadius（图片半径）的距离
+  const startX = imgX + (dx / distance) * imgRadius;
+  const startY = imgY + (dy / distance) * imgRadius;
+
   return (
     <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none">
       <line 
-        x1={x1} y1={y1} x2={x2} y2={y2} 
+        x1={startX} y1={startY} x2={targetX} y2={targetY} 
         stroke="black" strokeWidth="1.5" strokeOpacity="0.4" 
       />
     </svg>
@@ -80,14 +100,14 @@ export function Hero() {
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#faff71] overflow-hidden border-b-4 border-black pb-12">
       
-      {/* === 原汁原味的重力网格背景交互 === */}
+      {/* === 重力网格背景交互 === */}
       <GravityGrid amplitude={24} radius={400} cellSize={40} color="#000" opacity={0.18} className="z-[1]" />
       <div className="absolute inset-0 pointer-events-none opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMwMDAiLz4KPC9zdmc+')] mix-blend-overlay z-[2]" />
 
       {/* === 核心布局容器 === */}
       <div className="relative w-full max-w-[1280px] h-[750px] md:h-[800px] mt-16 md:mt-24 z-10 pointer-events-none">
         
-        {/* === 居中大标题 (优化了层级和大小，防止被模型遮挡) === */}
+        {/* === 居中大标题 === */}
         <div className="absolute left-1/2 top-[18%] lg:top-[22%] -translate-x-1/2 text-center w-full px-4 pointer-events-auto z-30">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -107,36 +127,36 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* 🌟 核心重构：4 个独立画板，物理坐标计算完美锁定圆点 */}
+        {/* 🌟 核心重构：引入图片半径 imgRadius，自动计算边缘起点 */}
 
         {/* === 模块 1: Interaction (VR头显) === */}
         <FloatingModule className="left-[2%] lg:left-[5%] top-[8%] w-[320px] h-[200px] hidden md:block" delay={0} duration={3.5} amplitude={10}>
-          {/* 起点 x1,y1：图片中心 (232, 88) | 终点 x2,y2：标签圆点 (25, 176) */}
-          <ConnectLine x1={232} y1={88} x2={25} y2={176} />
+          {/* 半径约 70px，刚好位于 VR 头显的黑框边缘 */}
+          <ConnectLine imgX={232} imgY={88} targetX={25} targetY={176} imgRadius={70} />
           <img src={img1} alt="VR Headset" className="absolute top-0 right-0 w-44 object-contain drop-shadow-xl z-10 pointer-events-none" />
           <ModernLabel label="Interaction" href="/highlights/vr" className="bottom-0 left-0" />
         </FloatingModule>
 
         {/* === 模块 2: Intelligence (像素机器人) === */}
         <FloatingModule className="left-[5%] lg:left-[8%] bottom-[8%] w-[260px] h-[240px] hidden md:block" delay={0.8} duration={4} amplitude={14}>
-          {/* 起点 x1,y1：图片中心 (120, 168) | 终点 x2,y2：标签圆点 (57, 24) */}
-          <ConnectLine x1={120} y1={168} x2={57} y2={24} />
+          {/* 半径约 55px，位于方形机器人边角 */}
+          <ConnectLine imgX={120} imgY={168} targetX={57} targetY={24} imgRadius={55} />
           <ModernLabel label="Intelligence" href="/highlights/ai" className="top-0 left-8" />
           <img src={img4} alt="Intelligence AI" className="absolute bottom-0 left-12 w-36 object-contain drop-shadow-xl z-10 pointer-events-none" />
         </FloatingModule>
 
         {/* === 模块 3: Collaboration (像素小人) === */}
         <FloatingModule className="right-[5%] lg:right-[8%] bottom-[6%] w-[300px] h-[240px] hidden md:block" delay={1.5} duration={3.8} amplitude={12}>
-          {/* 起点 x1,y1：图片中心 (164, 152) | 终点 x2,y2：标签圆点 (57, 24) */}
-          <ConnectLine x1={164} y1={152} x2={57} y2={24} />
+          {/* 半径约 65px，避开小人的身体 */}
+          <ConnectLine imgX={164} imgY={152} targetX={57} targetY={24} imgRadius={65} />
           <ModernLabel label="Collaboration" href="/highlights/hci" className="top-0 left-8" />
           <img src={img3} alt="Collaboration" className="absolute bottom-0 right-12 w-44 object-contain drop-shadow-xl z-10 pointer-events-none" />
         </FloatingModule>
 
         {/* === 模块 4: Health (智能眼镜) === */}
         <FloatingModule className="right-[2%] lg:right-[5%] top-[10%] w-[320px] h-[220px] hidden md:block" delay={0.4} duration={3.2} amplitude={11}>
-          {/* 起点 x1,y1：图片中心 (208, 136) | 终点 x2,y2：标签圆点 (73, 24) */}
-          <ConnectLine x1={208} y1={136} x2={73} y2={24} />
+          {/* 半径约 85px，适配眼镜更长的形状 */}
+          <ConnectLine imgX={208} imgY={136} targetX={73} y2={24} targetY={24} imgRadius={85} />
           <ModernLabel label="Health" href="/highlights/urban" className="top-0 left-12" />
           <img src={img2} alt="Urban Sensing" className="absolute bottom-0 right-0 w-56 object-contain drop-shadow-xl z-10 pointer-events-none" />
         </FloatingModule>

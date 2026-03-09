@@ -2,13 +2,13 @@ import { ArrowRight, ChevronRight, ChevronDown, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
-// 修正后的导航数据：去掉开头的 / 以防止 GitHub Pages 404
+// 👇 修正后的导航数据：精准指向你的新页面和锚点
 const navItems = [
   {
     label: "Home",
     children: [
-      { label: "Brief", href: "#brief" },
-      { label: "News", href: "#news" },
+      { label: "Brief", href: "/#brief" }, // 加上 / 确保从其他页面也能跳回首页锚点
+      { label: "News", href: "/#news" },
     ],
   },
   {
@@ -16,15 +16,14 @@ const navItems = [
     children: [
       { label: "Urban Sensing", href: "/highlights/urban" },
       { label: "Urban HCI", href: "/highlights/hci" },
-      { label: "Urban Chatbot", href: "/highlights/ai" },
+      { label: "Urban AI", href: "/highlights/ai" },
     ],
   },
   {
     label: "Team",
     children: [
-      { label: "Director", href: "#director" },
-      { label: "Current members", href: "#members" },
-      { label: "Join Us", href: "#interest" },
+      { label: "Our Team", href: "/team" },       // 👈 指向你新写的 TeamPage
+      { label: "Join Us", href: "/#interest" },   // 👈 指向首页的招聘锚点
     ],
   },
 ];
@@ -46,7 +45,7 @@ export function Header() {
 
   return (
     <header className="w-full fixed top-0 left-0 right-0 flex justify-between items-center px-6 md:px-8 py-5 z-50 pointer-events-none">
-      <Link to="/" className="font-['VT323'] text-3xl tracking-tighter pointer-events-auto text-black select-none">
+      <Link to="/" className="font-['VT323'] text-3xl tracking-tighter pointer-events-auto text-black select-none hover:text-[#FF7A00] transition-colors">
         U.TOP
       </Link>
 
@@ -67,9 +66,10 @@ export function Header() {
               <div className="absolute top-[calc(100%+15px)] left-0 bg-black p-6 min-w-[220px] rounded-2xl z-50">
                 <div className="flex flex-col gap-4">
                   {item.children.map((child) => (
-                    <a 
+                    /* 👇 核心修改：将 <a> 替换回 <Link> 以支持单页应用无缝路由 */
+                    <Link 
                       key={child.label} 
-                      href={child.href} 
+                      to={child.href} 
                       className="group flex items-center gap-3 transition-colors" 
                       onClick={() => setOpenDropdown(null)}
                     >
@@ -77,7 +77,7 @@ export function Header() {
                       <span className="font-sans text-lg text-[#F4F4EB]/80 font-medium group-hover:text-white">
                         {child.label}
                       </span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -86,9 +86,9 @@ export function Header() {
         ))}
       </nav>
 
-      <Link to="#interest" className="pointer-events-auto hidden md:flex items-center gap-3 bg-[#F4F4EB] border-2 border-black rounded-full px-1 py-1 pr-5 hover:bg-gray-100 transition-colors">
-        <div className="bg-[#FF7A00] rounded-full p-2 border border-black">
-          <ArrowRight className="w-4 h-4 text-black" />
+      <Link to="/#interest" className="pointer-events-auto hidden md:flex items-center gap-3 bg-[#F4F4EB] border-2 border-black rounded-full px-1 py-1 pr-5 hover:bg-gray-100 transition-colors group">
+        <div className="bg-[#FF7A00] rounded-full p-2 border border-black group-hover:bg-[#E2F16B] transition-colors">
+          <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-0.5 transition-transform" />
         </div>
         <span className="font-['VT323'] text-lg uppercase tracking-wide text-black">Apply Now</span>
       </Link>
