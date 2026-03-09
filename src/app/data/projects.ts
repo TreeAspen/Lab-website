@@ -370,19 +370,19 @@ export const teamMembers: TeamMember[] = [
     id: "isaiah-garnett",
     name: "Isaiah Garnett",
     role: "Graduate Researcher",
-    title: "Ph.D. Candidate in HCI",
+    title: "M.S. Student in CUSP",
     category: "master",
     avatar: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
     bio: "Isaiah specializes in Human-Computer Interaction, specifically designing seamless interfaces for smart city infrastructure.",
     research: ["HCI", "Accessibility", "Public Design"],
-    email: "igarnett@ufl.edu",
+    email: "ig907@nyu.edu",
     projects: ["smart-city-interfaces", "community-engagement"]
   },
   {
     id: "ruolin-wu",
     name: "Ruolin Wu",
     role: "Graduate Researcher",
-    title: "M.S. Student in Urban Analytics",
+    title: "M.S. Student in CUSP",
     category: "master",
     avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxMHx8cG9ydHJhaXR8ZW58MXx8fHwxNzcyMjI5MTI0fDA&ixlib=rb-4.1.0&q=80&w=400",
     bio: "Ruolin leads the data processing pipelines for our biosensing experiments, focusing on EEG signal cleaning and analysis.",
@@ -393,11 +393,12 @@ export const teamMembers: TeamMember[] = [
     id: "shu-aspen-yang",
     name: "Shu (Aspen) Yang",
     role: "Graduate Researcher",
-    title: "M.S. Student in Computer Science",
+    title: "M.S. Student in CUSP",
     category: "master",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
     bio: "Aspen focuses on developing the VR engine and Generative AI pipelines that power our immersive urban simulations.",
     research: ["VR Engineering", "Generative AI", "Computer Vision"],
+    email: "sy4254@nyu.edu",
     projects: ["urban-grid-optimization", "data-visualization"]
   }
 ];
