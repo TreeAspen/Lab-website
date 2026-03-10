@@ -1,20 +1,26 @@
 import { motion } from "motion/react";
-import logoEmory from "../../assets/Emory.png";
-import logoFAU from "../../assets/FAU.png";
-import logoFSU from "../../assets/FSU.svg";
-import logoFudan from "../../assets/Fudan.webp";
-import logoGhana from "../../assets/Ghana.png";
-import logoNYUGPH from "../../assets/NYU GPH.jpg";
-import logoNYUTandon from "../../assets/NYU TANDON.jpg";
-import logoSouthCarolina from "../../assets/South Carolina.svg";
-import logoBerkeley from "../../assets/UC Berkeley.png";
-import logoUF from "../../assets/UF.webp";
 
-// 👇 给两个 JPG 格式的 NYU Logo 单独加上 needsBlend: true 标记，其他保持原样
+// 👇 从我们统一的资产调度中心导入，代码更干净
+import { 
+  logoEmory, 
+  logoFAU, 
+  logoFSU, 
+  logoFudan, 
+  logoGhana, 
+  logoNYUGPH, 
+  logoNYUTandon, 
+  logoNYUCUSP, // 👈 补全了之前遗漏的 NYU CUSP
+  logoSouthCarolina, 
+  logoBerkeley, 
+  logoUF 
+} from "../assets";
+
+// 👇 保留了你的 needsBlend 逻辑，并补全了所有的 11 个合作伙伴
 const partners = [
   { id: 1, name: "University of Florida", src: logoUF },
   { id: 2, name: "NYU Tandon School of Engineering", src: logoNYUTandon, needsBlend: true },
   { id: 3, name: "NYU School of Global Public Health", src: logoNYUGPH, needsBlend: true },
+  { id: 11, name: "NYU Center for Urban Science and Progress", src: logoNYUCUSP }, // CUSP 补全
   { id: 4, name: "Emory University", src: logoEmory },
   { id: 5, name: "University of California, Berkeley", src: logoBerkeley },
   { id: 6, name: "Florida State University", src: logoFSU },
@@ -37,6 +43,7 @@ export function Collaborators() {
       </div>
 
       <div className="relative z-10 w-full overflow-hidden">
+        {/* 左右两边的渐变白色遮罩，让滚动效果更自然 */}
         <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
 
@@ -53,7 +60,7 @@ export function Collaborators() {
               <img 
                 src={partner.src} 
                 alt={partner.name} 
-                /* 👇 核心修改：只有带有 needsBlend 标记的图片，才会加上 mix-blend-multiply 去除白底 */
+                /* 👇 核心逻辑：带有 needsBlend 标记的图片会加上 mix-blend-multiply 去除白底 */
                 className={`h-10 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 mb-2 ${
                   partner.needsBlend ? 'mix-blend-multiply' : ''
                 }`}

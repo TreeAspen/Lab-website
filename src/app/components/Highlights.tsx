@@ -4,10 +4,11 @@ import { ArrowRight } from "lucide-react";
 import { highlightsVR as imgVR } from "../assets";
 import { Link } from "react-router-dom";
 
+// 👇 更新了 Pillar 名称和文案
 const pillars = [
   {
     id: "urban",
-    label: "Urban Sensing",
+    label: "Perceptive — Urban Sensing",
     num: "Pillar 1",
     summary:
       "To understand the city, we first need to measure it. We deploy sensor-based measurements that capture urban life at every level. By combining mobile data, wearables, and computer vision, we move beyond static maps to track the \"pulse\" of daily life.",
@@ -16,24 +17,24 @@ const pillars = [
     tags: ["IoT", "Wearables", "Computer Vision", "Exposure"],
   },
   {
-    id: "hci",
-    label: "Urban HCI & Immersive Systems",
+    id: "vr", // 👈 改为 vr，对应路由
+    label: "Immersive — Urban VR", // 👈 更新名称
     num: "Pillar 2",
     summary:
-      "If sensing is about measuring, the next step is making that data legible and actionable. We develop urban HCI systems — integrating immersive VR, photogrammetry, and 3D interfaces — that allow people to literally step into future urban realities.",
+      "If sensing is about measuring, the next step is making that data legible and actionable. We develop urban VR systems — integrating immersive reality, photogrammetry, and 3D interfaces — that allow people to literally step into future urban realities.",
     focus:
       "By turning complex \"what-if\" scenarios into playful, interactive experiences, we move beyond dry planning toward a more human-centered process.",
     tags: ["VR", "Photogrammetry", "3D", "Interaction"],
   },
   {
-    id: "ai",
-    label: "Urban AI & Responsive Systems",
+    id: "agent", // 👈 改为 agent，对应路由
+    label: "Responsive — Urban Agent", // 👈 更新名称
     num: "Pillar 3",
     summary:
-      "If sensing measures the city and HCI lets us see it, our final pillar is about making the city respond. We build AI agents and conversational systems to bridge complex urban data with the daily lives of citizens.",
+      "If sensing measures the city and VR lets us see it, our final pillar is about making the city respond. We build AI agents and conversational systems to bridge complex urban data with the daily lives of citizens.",
     focus:
       "Our urban systems are not merely efficient — they are traceable, intuitive, and deeply responsive to human needs.",
-    tags: ["AI Agents", "Chatbot", "NLP", "Responsive"],
+    tags: ["AI Agents", "Co-Design", "NLP", "Responsive"],
   },
 ];
 
@@ -58,13 +59,13 @@ export function Highlights() {
              <div className="bg-[#E2F16B] text-black px-3 py-1 font-['VT323'] text-lg">{" >>> "}</div>
              <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest">Research + Practice</h2>
           </div>
-          <p className="font-mono text-sm text-white/70 leading-relaxed max-w-3xl">
+          <p className="font-mono text-base md:text-lg text-white/70 leading-relaxed max-w-3xl">
             We believe our work only matters if it lands. At U.TOP Lab, we don't just theorize; we co-create live pilots with local communities and people to test ideas in the real world. Ultimately, our goal is to turn "urban tech" into tangible improvements — democratizing urban intelligence to create genuine public value.
           </p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Tabs - 这里彻底恢复了你第三张截图的箭头样式 */}
+          {/* Tabs */}
           <div className="w-full md:w-1/4 flex flex-col gap-2">
             {pillars.map((tab) => (
               <button
@@ -78,12 +79,12 @@ export function Highlights() {
                 style={{ clipPath: "polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%)" }}
               >
                 <span className="font-mono text-xs block mb-0.5 opacity-60">{tab.num}</span>
-                {tab.label}
+                <span className="font-mono">{tab.label}</span>
               </button>
             ))}
           </div>
 
-          {/* Content Card - 恢复了你原本卡片内部的排版 */}
+          {/* Content Card */}
           <div className="w-full md:w-3/4 relative">
             <AnimatePresence mode="wait">
               <motion.div
@@ -105,25 +106,26 @@ export function Highlights() {
                 {/* Tags */}
                 <div className="flex gap-2 mb-4 flex-wrap">
                   {active.tags.map((tag, i) => (
-                    <span key={i} className="bg-[#E2F16B] border border-black px-3 py-1 rounded-full text-xs uppercase">
+                    <span key={i} className="bg-[#E2F16B] border border-black px-3 py-1 rounded-full font-mono text-xs uppercase">
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <h3 className="text-2xl uppercase mb-3">
+                <h3 className="font-['VT323'] text-3xl md:text-4xl uppercase mb-3">
                   {active.label}
                 </h3>
-                <p className="font-mono text-sm mb-4 leading-relaxed max-w-2xl">
+                <p className="font-mono text-base md:text-lg mb-4 leading-relaxed max-w-2xl">
                   {active.summary}
                 </p>
-                <p className="font-mono text-sm mb-6 leading-relaxed max-w-2xl text-black/60">
+                <p className="font-mono text-base md:text-lg mb-6 leading-relaxed max-w-2xl text-black/60">
                   {active.focus}
                 </p>
 
+                {/* 👇 核心修改：添加了 underline underline-offset-4 decoration-2 */}
                 <Link 
                   to={`/highlights/${activeTab}`}
-                  className="inline-flex items-center gap-2 uppercase hover:underline group"
+                  className="inline-flex items-center gap-2 font-mono uppercase underline underline-offset-4 decoration-2 hover:text-[#FF7A00] hover:decoration-[#FF7A00] transition-colors group"
                 >
                   <span>View Our Work</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

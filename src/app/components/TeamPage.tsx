@@ -51,7 +51,7 @@ export function TeamPage() {
       <div className="max-w-6xl mx-auto px-4 md:px-8 py-6">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 font-['VT323'] text-lg uppercase tracking-wide text-white/70 hover:text-[#E2F16B] transition-colors group"
+          className="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wide text-white/70 hover:text-[#E2F16B] transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
@@ -109,7 +109,7 @@ export function TeamPage() {
             <button
               key={cat.key}
               onClick={() => setActiveFilter(cat.key)}
-              className={`px-5 py-2 rounded-full font-['VT323'] text-base uppercase tracking-wider border-2 transition-all ${
+              className={`px-5 py-2 rounded-full font-mono text-xs md:text-sm uppercase tracking-wider border-2 transition-all ${
                 activeFilter === cat.key
                   ? "bg-[#E2F16B] text-black border-[#E2F16B]"
                   : "bg-transparent text-white/60 border-white/20 hover:border-white/40 hover:text-white"
@@ -132,13 +132,21 @@ export function TeamPage() {
               transition={{ duration: 0.5, delay: 0.3 + i * 0.08 }}
               className="group bg-white/5 border-2 border-white/15 rounded-xl overflow-hidden hover:border-[#E2F16B]/50 transition-all flex flex-col"
             >
-              <Link to={`/team/${member.id}`} className="block flex-1">
-                {/* 🌟 核心修改：无照片的赛博风格头像区 */}
-                <div className="relative h-48 bg-[#0a0a0a] overflow-hidden flex items-center justify-center group-hover:bg-[#111] transition-colors border-b border-white/10">
-                  {/* 大字体的首字母作为背景图腾 */}
-                  <div className="font-['VT323'] text-[8rem] text-white/5 group-hover:text-[#E2F16B]/10 transition-colors leading-none select-none">
-                    {member.name.charAt(0)}
-                  </div>
+              <Link to={`/team/${member.id}`} className="block flex-1 flex flex-col h-full">
+                {/* 🌟 核心修改：使用 aspect-[4/3] 固定长宽比，并彻底去除了灰色滤镜 */}
+                <div className="relative aspect-[4/3] bg-[#0a0a0a] overflow-hidden flex items-center justify-center border-b border-white/10 shrink-0">
+                  
+                  {member.avatar ? (
+                    <img 
+                      src={member.avatar} 
+                      alt={member.name} 
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="font-['VT323'] text-[8rem] text-white/5 group-hover:text-[#E2F16B]/10 transition-colors leading-none select-none">
+                      {member.name.charAt(0)}
+                    </div>
+                  )}
                   
                   {/* 扫描线 */}
                   <div
@@ -151,67 +159,40 @@ export function TeamPage() {
 
                   {/* 类别徽章 */}
                   <div className="absolute top-3 right-3 z-10">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-['VT323'] text-xs uppercase tracking-wider border ${getCategoryColor(member.category)}`}>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-['VT323'] text-xs uppercase tracking-wider border shadow-md ${getCategoryColor(member.category)}`}>
                       {getCategoryIcon(member.category)}
                       {member.category}
                     </span>
                   </div>
 
                   {/* 底部名字和职位层 */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                    <h3 className="font-['VT323'] text-2xl uppercase text-white leading-tight">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-10">
+                    <h3 className="font-['VT323'] text-2xl uppercase text-white leading-tight drop-shadow-md">
                       {member.name}
                     </h3>
-                    <p className="font-['VT323'] text-base text-[#E2F16B] uppercase tracking-wide">
+                    <p className="font-['VT323'] text-base text-[#E2F16B] uppercase tracking-wide drop-shadow-md">
                       {member.role}
                     </p>
                   </div>
                 </div>
 
                 {/* 文本内容 */}
-                <div className="p-5 space-y-4">
-                  <p className="font-mono text-xs text-white/50 uppercase tracking-wide">
+                <div className="p-5 flex flex-col flex-1">
+                  <p className="font-mono text-xs text-white/50 uppercase tracking-wide mb-3">
                     {member.title}
                   </p>
-                  <p className="font-mono text-sm text-gray-400 leading-relaxed line-clamp-3">
+                  <p className="font-mono text-sm text-gray-400 leading-relaxed line-clamp-3 mb-4 flex-1">
                     {member.bio}
                   </p>
-                  {/* 研究方向标签 */}
-                  <div className="flex gap-1.5 flex-wrap">
+                  <div className="flex gap-1.5 flex-wrap mt-auto">
                     {member.research.map((tag) => (
-                      <span key={tag} className="bg-white/8 border border-white/10 px-2.5 py-0.5 rounded font-mono text-[11px] text-white/50 uppercase">
+                      <span key={tag} className="bg-white/8 border border-white/10 px-2.5 py-0.5 rounded font-mono text-[10px] text-white/50 uppercase">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
               </Link>
-
-              {/* 底部链接 */}
-              {(member.email || member.website) && (
-                <div className="flex gap-3 pt-2 mx-5 mb-5 border-t border-white/10 mt-auto">
-                  {member.email && (
-                    <a
-                      href={`mailto:${member.email}`}
-                      className="inline-flex items-center gap-1.5 font-mono text-xs text-white/40 hover:text-[#FF7A00] transition-colors"
-                    >
-                      <Mail className="w-3.5 h-3.5" />
-                      {member.email}
-                    </a>
-                  )}
-                  {member.website && (
-                    <a
-                      href={member.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-mono text-xs text-white/40 hover:text-[#E2F16B] transition-colors"
-                    >
-                      <Globe className="w-3.5 h-3.5" />
-                      Website
-                    </a>
-                  )}
-                </div>
-              )}
             </motion.div>
           ))}
         </div>

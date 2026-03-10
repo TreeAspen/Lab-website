@@ -11,17 +11,22 @@ import { Footer } from "./components/Footer";
 import { ProjectDetailPage } from "./components/ProjectDetailPage";
 import { NewsDetailPage } from "./components/NewsDetailPage";
 import { HighlightDetailPage } from "./components/HighlightDetailPage";
-
-// 👇 新增：导入 Team 相关的两个页面组件
 import { TeamPage } from "./components/TeamPage";
 import { TeamMemberDetailPage } from "./components/TeamMemberDetailPage";
+
+// 👇 新增：导入滚动到顶部的监听组件
+import { ScrollToTop } from "./components/ScrollToTop";
 
 /**
  * 布局组件：全局脚手架
  */
 function Layout() {
   return (
-    <div className="min-h-screen bg-[#F4F4EB] font-sans text-black selection:bg-[#FF7A00] selection:text-white">
+    /* 👇 核心修改 1：全局应用 font-mono，实现打字机/代码终端质感 */
+    <div className="min-h-screen bg-[#F4F4EB] font-mono text-black selection:bg-[#FF7A00] selection:text-white">
+      
+      <ScrollToTop />
+      
       <Header />
       <main>
         <Outlet />
@@ -39,7 +44,7 @@ function HomePage() {
     <>
       <Hero />
       <Brief />
-      <Highlights /> {/* Research + Practice 放在 News 之前 */}
+      <Highlights />
       <News />
       <OurWork />
       <Achievements />
@@ -72,7 +77,6 @@ export const router = createHashRouter([
         path: "highlights/:id", 
         Component: HighlightDetailPage 
       },
-      // 👇 新增：注册 Team 列表页和个人详情页的路由
       {
         path: "team",
         Component: TeamPage
@@ -81,7 +85,7 @@ export const router = createHashRouter([
         path: "team/:id",
         Component: TeamMemberDetailPage
       },
-      /* 404 页面：保持你的硬核设计风格 */
+      /* 404 页面：硬核赛博设计风格 */
       { 
         path: "*", 
         Component: () => (

@@ -1,190 +1,221 @@
+import { useEffect, useState, useRef } from "react";
 import { 
   heroModel1 as img1, 
   heroModel2 as img2, 
   heroModel3 as img3, 
   heroModel4 as img4 
 } from "../assets";
-import { motion } from "motion/react";
+import { motion, useMotionValue, useTransform, useAnimationFrame, MotionValue } from "motion/react";
 import { GravityGrid } from "./GravityGrid";
 import { Link } from "react-router-dom";
 
 /**
- * 通用浮动容器：处理上下呼吸浮动
+ * 1. 物理引擎参数配置
  */
-function FloatingModule({
-  children,
-  delay = 0,
-  duration = 3,
-  amplitude = 12,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  duration?: number;
-  amplitude?: number;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      className={`absolute z-20 pointer-events-auto ${className}`}
-      animate={{ y: [-amplitude, amplitude, -amplitude] }}
-      transition={{
-        duration,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay,
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const PHYSICS_CONFIG = {
+  vTarget: 1.0,   // 🌟 目标恒定速度
+  damping: 1,     // 🌟 能量无损耗
+  repulsion: 1.0  // 完全弹性碰撞系数
+};
 
 /**
- * 赛博胶囊按键：黑底 + 黄/橙圆点交互
+ * 2. 赛博胶囊按键组件
  */
-function ModernLabel({ label, href, className = "" }: { label: string; href: string; className?: string }) {
-  return (
-    <Link
-      to={href}
-      className={`group absolute flex items-center h-12 bg-[#1C1C13] rounded-full pl-2 pr-8 hover:bg-[#FF7A00] transition-colors duration-300 border-2 border-transparent shadow-lg z-20 ${className}`}
-    >
-      {/* 外部黄色大圆圈 */}
+function ModernLabel({ label, href }: { label: string; href: string }) {
+  const isExternal = href.startsWith('http');
+  const baseClasses = "group flex items-center h-12 bg-[#1C1C13] rounded-full pl-2 pr-8 hover:bg-[#FF7A00] transition-all duration-300 border-2 border-black z-30 pointer-events-auto";
+  const content = (
+    <>
       <div className="relative flex items-center justify-center w-[34px] h-[34px] rounded-full bg-[#FAFF71]">
-        {/* 内部橙色小圆圈 */}
         <div className="w-4 h-4 rounded-full bg-[#FF7802] group-hover:bg-black transition-colors duration-300" />
       </div>
       <span className="font-sans font-bold text-xl text-white group-hover:text-black ml-4 tracking-wide whitespace-nowrap">
         {label}
       </span>
-    </Link>
+    </>
+  );
+
+  return isExternal ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={baseClasses}>{content}</a>
+  ) : (
+    <Link to={href} className={baseClasses}>{content}</Link>
   );
 }
 
 /**
- * 智能引导线：基于向量数学自动计算图片边缘起点
+ * 3. 2D 物理竞技场核心钩子
  */
-function ConnectLine({ 
-  imgX, 
-  imgY, 
-  targetX, 
-  targetY, 
-  imgRadius = 60 
-}: { 
-  imgX: number; 
-  imgY: number; 
-  targetX: number; 
-  targetY: number; 
-  imgRadius?: number 
-}) {
-  // 计算图片中心到目标圆点的向量距离
-  const dx = targetX - imgX;
-  const dy = targetY - imgY;
-  const distance = Math.sqrt(dx * dx + dy * dy);
+function usePhysicsArena() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // 🌟 初始化速度向量，确保初始速率为 1 (vx^2 + vy^2 = 1)
+  const modulesRef = useRef([
+    { id: 0, x: useMotionValue(0), y: useMotionValue(0), vx: -0.707, vy: -0.707, radius: 100 },
+    { id: 1, x: useMotionValue(0), y: useMotionValue(0), vx: 0.707, vy: -0.707, radius: 120 },
+    { id: 2, x: useMotionValue(0), y: useMotionValue(0), vx: -0.707, vy: 0.707, radius: 90 },
+    { id: 3, x: useMotionValue(0), y: useMotionValue(0), vx: 0.707, vy: 0.707, radius: 140 },
+  ]);
 
-  // 沿着这根线，将起点从图片中心向目标方向移动 imgRadius（图片半径）的距离
-  const startX = imgX + (dx / distance) * imgRadius;
-  const startY = imgY + (dy / distance) * imgRadius;
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
+  useEffect(() => {
+    const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener("resize", handleResize);
+    const m = modulesRef.current;
+    m[0].x.set(-dimensions.width * 0.25); m[0].y.set(-dimensions.height * 0.25);
+    m[1].x.set(dimensions.width * 0.25);  m[1].y.set(-dimensions.height * 0.25);
+    m[2].x.set(-dimensions.width * 0.25); m[2].y.set(dimensions.height * 0.25);
+    m[3].x.set(dimensions.width * 0.25);  m[3].y.set(dimensions.height * 0.25);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useAnimationFrame((_, delta) => {
+    if (!containerRef.current) return;
+    
+    const timeFactor = delta / 16; 
+    const modules = modulesRef.current;
+    const boundaryX = dimensions.width / 2;
+    const boundaryY = dimensions.height / 2;
+
+    // --- 第一步：物体间碰撞 ---
+    for (let i = 0; i < modules.length; i++) {
+      for (let j = i + 1; j < modules.length; j++) {
+        const m1 = modules[i];
+        const m2 = modules[j];
+        const dx = m2.x.get() - m1.x.get();
+        const dy = m2.y.get() - m1.y.get();
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const minDist = m1.radius + m2.radius;
+
+        if (distance < minDist) {
+          const overlap = minDist - distance;
+          const nx = dx / distance;
+          const ny = dy / distance;
+          
+          m1.x.set(m1.x.get() - nx * overlap * 0.5);
+          m1.y.set(m1.y.get() - ny * overlap * 0.5);
+          m2.x.set(m2.x.get() + nx * overlap * 0.5);
+          m2.y.set(m2.y.get() + ny * overlap * 0.5);
+
+          const dvx = m2.vx - m1.vx;
+          const dvy = m2.vy - m1.vy;
+          const velAlongNormal = dvx * nx + dvy * ny;
+          
+          if (velAlongNormal < 0) {
+            const jImpulse = -2 * velAlongNormal;
+            // 🌟 移除 pushBack，仅交换动量
+            m1.vx -= jImpulse * nx * 0.5;
+            m1.vy -= jImpulse * ny * 0.5;
+            m2.vx += jImpulse * nx * 0.5;
+            m2.vy += jImpulse * ny * 0.5;
+          }
+        }
+      }
+    }
+
+    // --- 第二步：更新与速度校准 ---
+    modules.forEach(m => {
+      // 🌟 强制保持速度为 1 (速率校准)
+      const currentSpeed = Math.sqrt(m.vx * m.vx + m.vy * m.vy);
+      if (currentSpeed !== 0) {
+        m.vx = (m.vx / currentSpeed) * PHYSICS_CONFIG.vTarget;
+        m.vy = (m.vy / currentSpeed) * PHYSICS_CONFIG.vTarget;
+      }
+
+      let nextX = m.x.get() + m.vx * timeFactor;
+      let nextY = m.y.get() + m.vy * timeFactor;
+
+      // 边界碰撞
+      if (nextX > boundaryX - m.radius) {
+        m.vx = -Math.abs(m.vx); nextX = boundaryX - m.radius;
+      } else if (nextX < -boundaryX + m.radius) {
+        m.vx = Math.abs(m.vx); nextX = -boundaryX + m.radius;
+      }
+      
+      if (nextY > boundaryY - m.radius - 80) {
+        m.vy = -Math.abs(m.vy); nextY = boundaryY - m.radius - 80;
+      } else if (nextY < -boundaryY + m.radius) {
+        m.vy = Math.abs(m.vy); nextY = -boundaryY + m.radius;
+      }
+
+      m.x.set(nextX);
+      m.y.set(nextY);
+    });
+  });
+
+  return { containerRef, modules: modulesRef.current };
+}
+
+function PhysicsModulePresenter({ imgSrc, label, href, imgWidth = "w-48", mValues }: any) {
   return (
-    <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-      <line 
-        x1={startX} y1={startY} x2={targetX} y2={targetY} 
-        stroke="black" strokeWidth="1.5" strokeOpacity="0.4" 
-      />
-    </svg>
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0 h-0 overflow-visible pointer-events-none">
+      <motion.div 
+        style={{ x: mValues.x, y: mValues.y }}
+        className="absolute w-[400px] h-[400px] flex items-center justify-center overflow-visible pointer-events-none"
+      >
+        <div className="absolute pointer-events-auto">
+          <img src={imgSrc} className={`${imgWidth} h-auto object-contain`} alt="" />
+        </div>
+        <div className="absolute z-50 top-64 pointer-events-auto">
+          <ModernLabel label={label} href={href} />
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
 export function Hero() {
+  const { containerRef, modules } = usePhysicsArena();
+
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#faff71] overflow-hidden border-b-4 border-black pb-12">
-      
-      {/* === 重力网格背景交互 === */}
-      <GravityGrid amplitude={24} radius={400} cellSize={40} color="#000" opacity={0.18} className="z-[1]" />
-      <div className="absolute inset-0 pointer-events-none opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMwMDAiLz4KPC9zdmc+')] mix-blend-overlay z-[2]" />
-
-      {/* === 核心布局容器 === */}
-      <div className="relative w-full max-w-[1280px] h-[750px] md:h-[800px] mt-16 md:mt-24 z-10 pointer-events-none">
-        
-        {/* === 居中大标题 === */}
-        <div className="absolute left-1/2 top-[18%] lg:top-[22%] -translate-x-1/2 text-center w-full px-4 pointer-events-auto z-30">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="inline-flex items-center gap-3 mb-4 lg:mb-6">
-              <span className="font-['VT323'] text-2xl tracking-widest uppercase text-black/60">U.TOP LAB</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]" />
-              <span className="font-['VT323'] text-2xl tracking-widest uppercase text-black/60">UF</span>
-            </div>
-            
-            <h1 className="font-['VT323'] text-5xl md:text-6xl lg:text-[6.5rem] text-black uppercase leading-[0.85] tracking-tight select-none">
-              Urban Technology,<br />
-              <span className="text-4xl md:text-5xl lg:text-[5.5rem]">Observation & Practice</span>
-            </h1>
-          </motion.div>
-        </div>
-
-        {/* 🌟 核心重构：引入图片半径 imgRadius，自动计算边缘起点 */}
-
-        {/* === 模块 1: Interaction (VR头显) === */}
-        <FloatingModule className="left-[2%] lg:left-[5%] top-[8%] w-[320px] h-[200px] hidden md:block" delay={0} duration={3.5} amplitude={10}>
-          {/* 半径约 70px，刚好位于 VR 头显的黑框边缘 */}
-          <ConnectLine imgX={232} imgY={88} targetX={25} targetY={176} imgRadius={70} />
-          <img src={img1} alt="VR Headset" className="absolute top-0 right-0 w-44 object-contain drop-shadow-xl z-10 pointer-events-none" />
-          <ModernLabel label="Interaction" href="/highlights/vr" className="bottom-0 left-0" />
-        </FloatingModule>
-
-        {/* === 模块 2: Intelligence (像素机器人) === */}
-        <FloatingModule className="left-[5%] lg:left-[8%] bottom-[8%] w-[260px] h-[240px] hidden md:block" delay={0.8} duration={4} amplitude={14}>
-          {/* 半径约 55px，位于方形机器人边角 */}
-          <ConnectLine imgX={120} imgY={168} targetX={57} targetY={24} imgRadius={55} />
-          <ModernLabel label="Intelligence" href="/highlights/ai" className="top-0 left-8" />
-          <img src={img4} alt="Intelligence AI" className="absolute bottom-0 left-12 w-36 object-contain drop-shadow-xl z-10 pointer-events-none" />
-        </FloatingModule>
-
-        {/* === 模块 3: Collaboration (像素小人) === */}
-        <FloatingModule className="right-[5%] lg:right-[8%] bottom-[6%] w-[300px] h-[240px] hidden md:block" delay={1.5} duration={3.8} amplitude={12}>
-          {/* 半径约 65px，避开小人的身体 */}
-          <ConnectLine imgX={164} imgY={152} targetX={57} targetY={24} imgRadius={65} />
-          <ModernLabel label="Collaboration" href="/highlights/hci" className="top-0 left-8" />
-          <img src={img3} alt="Collaboration" className="absolute bottom-0 right-12 w-44 object-contain drop-shadow-xl z-10 pointer-events-none" />
-        </FloatingModule>
-
-        {/* === 模块 4: Health (智能眼镜) === */}
-        <FloatingModule className="right-[2%] lg:right-[5%] top-[10%] w-[320px] h-[220px] hidden md:block" delay={0.4} duration={3.2} amplitude={11}>
-          {/* 半径约 85px，适配眼镜更长的形状 */}
-          <ConnectLine imgX={208} imgY={136} targetX={73} y2={24} targetY={24} imgRadius={85} />
-          <ModernLabel label="Health" href="/highlights/urban" className="top-0 left-12" />
-          <img src={img2} alt="Urban Sensing" className="absolute bottom-0 right-0 w-56 object-contain drop-shadow-xl z-10 pointer-events-none" />
-        </FloatingModule>
-
-        {/* === 移动端降级展示 (Mobile Fallback) === */}
-        <div className="absolute top-[40%] w-full md:hidden flex flex-wrap justify-center gap-10 px-4 z-20 pointer-events-auto">
-          <div className="flex flex-col items-center gap-4 relative">
-            <img src={img1} alt="Interaction" className="w-32 h-auto" />
-            <ModernLabel label="Interaction" href="/highlights/vr" className="static" />
-          </div>
-          <div className="flex flex-col items-center gap-4 relative">
-            <img src={img2} alt="Health" className="w-40 h-auto" />
-            <ModernLabel label="Health" href="/highlights/urban" className="static" />
-          </div>
-        </div>
-
+    <section ref={containerRef} className="relative w-full min-h-screen flex items-center justify-center bg-[#faff71] border-b-4 border-black overflow-hidden z-10">
+      <div className="absolute inset-0 z-0">
+        <GravityGrid amplitude={25} radius={500} cellSize={40} color="#000" opacity={0.18} />
       </div>
 
-      {/* === 底部滚动字幕 === */}
-      <div className="absolute bottom-0 left-0 right-0 h-12 bg-black flex items-center overflow-hidden border-t-4 border-white pointer-events-none z-30">
+      <div className="relative z-50 text-center pointer-events-auto px-4 select-none">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[120%] -z-10 bg-[#faff71] rounded-full blur-[60px] opacity-60 pointer-events-none" />
+
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}>
+          <div className="flex items-center justify-center gap-4 mb-8 opacity-40">
+            <span className="font-['VT323'] text-2xl tracking-[0.4em]">U.TOP LAB</span>
+            <div className="h-1 w-12 bg-black" />
+            <span className="font-['VT323'] text-2xl tracking-[0.4em]">EST. 2026</span>
+          </div>
+          
+          <h1 className="font-['VT323'] text-6xl md:text-8xl lg:text-[7.5rem] text-black uppercase leading-[0.8] tracking-tighter">
+            Urban Technology,<br />
+            <span className="text-black drop-shadow-[5px_5px_0_rgba(255,122,0,1)]">
+              Observation & Practice
+            </span>
+          </h1>
+          
+          <p className="mt-12 font-mono text-sm md:text-base text-black/90 max-w-2xl mx-auto uppercase leading-relaxed bg-[#faff71]/30 backdrop-blur-[1px] px-6 py-3 border-l-4 border-[#FF7A00] shadow-sm">
+              Decoding future urban ecosystems through biosensing and multi-modal interaction.
+          </p>
+        </motion.div>
+      </div>
+
+      <div className="absolute inset-0 pointer-events-none z-40">
+        <PhysicsModulePresenter mValues={modules[0]} label="Interaction" href="/highlights/vr" imgSrc={img1} imgWidth="w-52" />
+        <PhysicsModulePresenter mValues={modules[1]} label="Collaboration" href="https://forms.gle/fRuKyLcMGgsBJ4Fn9" imgSrc={img3} imgWidth="w-64" />
+        <PhysicsModulePresenter mValues={modules[2]} label="Intelligence" href="/highlights/agent" imgSrc={img4} imgWidth="w-48" />
+        <PhysicsModulePresenter mValues={modules[3]} label="Health" href="/highlights/urban" imgSrc={img2} imgWidth="w-72" />
+      </div>
+
+      <div className="absolute bottom-0 w-full h-14 bg-black border-t-2 border-white flex items-center overflow-hidden z-[60] pointer-events-none">
         <motion.div 
-          className="flex gap-8 whitespace-nowrap text-[#E2F16B] font-['VT323'] text-2xl uppercase tracking-widest"
-          animate={{ x: "-50%" }}
-          transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+          animate={{ x: [0, -1800] }} 
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          className="flex gap-16 whitespace-nowrap text-[#faff71] font-['VT323'] text-3xl uppercase tracking-widest italic"
         >
-           {[...Array(20)].map((_, i) => (
-             <span key={i} className="mx-8">Urban Sensing /// Urban HCI /// Urban AI /// Observation & Practice</span>
-           ))}
+          {[...Array(10)].map((_, i) => (
+            <span key={i} className="flex items-center gap-12">
+              <span>Station Active: Human-City Interface</span>
+              <span className="text-[#FF7A00]">{">>>"} Processing Data_0{i}</span>
+              <span className="opacity-30">///</span>
+            </span>
+          ))}
         </motion.div>
       </div>
     </section>

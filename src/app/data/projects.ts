@@ -1,6 +1,8 @@
 /**
  * Centralized project data used by both OurWork listing & ProjectDetail pages.
  */
+import { avatarIsaiah } from "../assets";
+
 export interface ProjectData {
   id: number;
   slug: string;
@@ -16,11 +18,8 @@ export interface ProjectData {
   team: string[];
 }
 
-/**
- * 🌟 新增：团队成员的数据结构定义
- */
 export interface TeamMember {
-  id: string; // url slug
+  id: string;
   name: string;
   role: string;
   title: string;
@@ -33,372 +32,256 @@ export interface TeamMember {
   website?: string;
   education?: string[];
   publications?: { title: string; venue: string; year: string }[];
-  projects?: string[]; // 关联到 ProjectData 的 slug
+  projects?: string[];
 }
 
+// 🌟 新增：为 Highlight 详情页量身定制的富文本数据结构
+export interface HighlightData {
+  id: string;
+  title: string;
+  heroImage: string;
+  tags: string[];
+  overview: string[]; // 多段落概览
+  focusPoints: string[]; // 研究焦点列表
+  relatedProjects: string[]; // 关联的 Project slug，用于生成跳转卡片
+  publications: { citation: string; link?: string }[]; // 论文
+  conferences: string[]; // 会议
+  mediaLink?: { label: string; url: string }; // 视频或Demo链接
+}
+
+// ==========================================
+// 1. PROJECTS (保持不变)
+// ==========================================
 export const projects: ProjectData[] = [
   {
     id: 1,
-    slug: "neural-feedback-loop",
-    title: "Neural Feedback Loop",
-    desc: "Using AI to optimize urban grid layouts.",
-    heroImage:
-      "https://images.unsplash.com/photo-1562544887-593f89e2d21b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXVyYWwlMjBuZXR3b3JrJTIwZGF0YSUyMHZpc3VhbGl6YXRpb24lMjBkYXJrfGVufDF8fHx8MTc3MjEzNzU0M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    gallery: [],
-    tags: ["AI", "Neural Networks", "Urban Grid"],
-    year: "2025",
-    status: "ACTIVE",
-    overview:
-      "This project explores how neural feedback mechanisms can be leveraged to dynamically optimize urban grid infrastructure. By feeding real-time sensor data into deep learning models, we create adaptive systems that respond to changing urban conditions.",
+    slug: "cool-project-heat-stress",
+    title: "The 'COOL' Project",
+    desc: "Integrating Mobile Sensing and Environmental Simulation for Heat Stress Mitigation.",
+    heroImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    gallery: [], tags: ["Urban Sensing", "Heat Stress", "Simulation"], year: "2025", status: "ACTIVE",
+    overview: "The Climate-Optimized Outdoor Living (COOL) project focuses on understanding and mitigating urban heat stress. By integrating mobile sensing data with advanced environmental simulations, we assess how adaptive urban design can improve thermal comfort in outdoor spaces.",
     sections: [
-      {
-        heading: "Methodology",
-        body: "We deploy a distributed sensor network across key urban nodes, collecting data on traffic flow, energy consumption, and pedestrian density. This data is processed through our custom transformer architecture that identifies optimization patterns invisible to traditional analysis.",
-      },
-      {
-        heading: "Key Findings",
-        body: "Our neural feedback system achieved a 34% improvement in grid efficiency during peak hours. The adaptive routing algorithm reduced average commute times by 12 minutes in the test district, while simultaneously lowering energy consumption by 18%.",
-      },
-      {
-        heading: "Future Directions",
-        body: "We are expanding the sensor network to cover three additional urban districts. The next phase integrates predictive weather modeling to pre-optimize grid configurations before demand spikes occur.",
-      },
+      { heading: "Methodology", body: "We deploy portable environmental sensors alongside physiological monitors to capture the co-occurrence of heat and human stress in real urban settings. This allows us to move beyond static climate maps and understand heat exposure at the human scale." },
+      { heading: "Collaborators", body: "Collaborate with: Dr. Jun Wang (Assistant Professor, Urban and Regional Planning, FAU) and Dr. Yohan Kim (Assistant Professor, School of Architecture, UF)." }
     ],
-    team: ["Dr. Zhang Wei", "Sarah Chen", "Marcus Liu"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Jun Wang (FAU)", "Dr. Yohan Kim (UF)"],
   },
   {
     id: 2,
-    slug: "urban-grid-optimization",
-    title: "Urban Grid Optimization",
-    desc: "Analyzing traffic flow patterns in real-time.",
-    heroImage:
-      "https://images.unsplash.com/photo-1513013389593-d6aef47d5b5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbWFydCUyMGNpdHklMjBhZXJpYWwlMjBuaWdodCUyMGdyaWR8ZW58MXx8fHwxNzcyMTM3NTQ0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    gallery: [],
-    tags: ["Traffic Analysis", "Real-time", "Optimization"],
-    year: "2024",
-    status: "COMPLETED",
-    overview:
-      "A comprehensive study of urban traffic flow using computer vision and edge computing. Our system processes thousands of video feeds in real-time to build a living map of city movement patterns.",
+    slug: "virtual-therapy-urban-stress",
+    title: "Virtual Therapy to Urban Stress",
+    desc: "Exploring visual elements in mitigating urban stress via Body Sensing and VR.",
+    heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    gallery: [], tags: ["Urban VR", "EEG/EDA", "Biosensing"], year: "2025", status: "ACTIVE",
+    overview: "This project integrates the use of virtual reality (VR) scenes with physiological data collected from Emotiv (EEG) and Empatica (EDA) biosensors. We aim to understand individuals’ responses to greenery as a potential therapeutic in relation to urban stress.",
     sections: [
-      {
-        heading: "System Architecture",
-        body: "The platform uses a mesh of edge computing nodes positioned at major intersections. Each node runs lightweight YOLO-based detection models, pushing aggregated flow vectors to our central analysis cluster every 500ms.",
-      },
-      {
-        heading: "Results",
-        body: "We mapped over 2.4 million unique vehicle trajectories across a 6-month period. The resulting flow models revealed 47 previously unknown bottleneck patterns that were subsequently resolved through signal timing adjustments.",
-      },
-      {
-        heading: "Impact",
-        body: "Traffic congestion in the pilot area decreased by 23%. Emergency vehicle response times improved by an average of 4.2 minutes. The system is now being considered for city-wide deployment.",
-      },
+      { heading: "Collaborators", body: "Collaborate with: Dr. Prince Amegbor (NYU), Dr. H. Shellae Versey (Fordham University), Anton Rozhkov (CUSP, NYU Tandon)." },
     ],
-    team: ["Prof. Li Ming", "Alex Rivera", "Yuki Tanaka"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Dr. H. Shellae Versey (Fordham)", "Anton Rozhkov (NYU)", "Isaiah Garnett", "Ruolin Wu", "Shu (Aspen) Yang"],
   },
   {
     id: 3,
-    slug: "smart-city-interfaces",
-    title: "Smart City Interfaces",
-    desc: "HCI principles applied to public infrastructure.",
-    heroImage:
-      "https://images.unsplash.com/photo-1575388902449-6bca946ad549?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwZGFzaGJvYXJkJTIwaW50ZXJmYWNlJTIwaG9sb2dyYW18ZW58MXx8fHwxNzcyMTM3NTQ0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    gallery: [],
-    tags: ["HCI", "Public Design", "Interaction"],
-    year: "2025",
-    status: "ACTIVE",
-    overview:
-      "Redesigning how citizens interact with smart city infrastructure through human-centered design principles. We create intuitive interfaces that bridge the gap between complex urban systems and everyday users.",
+    slug: "citywe-collaborative-agent",
+    title: "CityWe: Urban Design Agent",
+    desc: "Collaborative Urban Design Agent for Multi-Users.",
+    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    gallery: [], tags: ["Urban Agent", "HCI", "Co-design"], year: "2025", status: "PROTOTYPE",
+    overview: "CityWe is an AI-assisted, location-based visual tool designed to support collaboration among diverse stakeholders during the early stages of urban design. It enables anyone to interact with and modify street environments.",
     sections: [
-      {
-        heading: "Design Philosophy",
-        body: "Our approach centers on 'invisible computing' — technology that serves without demanding attention. We conducted 200+ user interviews to understand how people naturally navigate urban environments and designed interfaces that align with those mental models.",
-      },
-      {
-        heading: "Prototypes",
-        body: "We developed three prototype systems: an ambient light-based wayfinding system, a gesture-controlled public information kiosk, and a haptic feedback crosswalk for visually impaired pedestrians.",
-      },
-      {
-        heading: "User Testing",
-        body: "Initial user testing showed 89% task completion rates across all demographics, including elderly users and children. The haptic crosswalk system received particular praise from accessibility advocates.",
-      },
+      { heading: "Platform Features", body: "By translating complex planning jargon into intuitive visual modifications, CityWe makes it easier for the public to communicate ideas, preferences, and design intentions directly with planners and decision-makers." },
     ],
-    team: ["Dr. Kim Soo-Jin", "Emma Watson", "Raj Patel"],
+    team: ["Dr. Zhaoxi Zhang", "Tamir Mendel", "Ruolin Wu"],
   },
   {
     id: 4,
-    slug: "data-visualization",
-    title: "Data Visualization",
-    desc: "Visualizing complex datasets for city planning.",
-    heroImage:
-      "https://images.unsplash.com/photo-1623292854034-b3c1ab8233be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXRhJTIwY2VudGVyJTIwc2VydmVyJTIwcm9vbSUyMG5lb258ZW58MXx8fHwxNzcyMTM3NTQ1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    gallery: [],
-    tags: ["Data Viz", "3D Mapping", "Planning"],
-    year: "2025",
-    status: "IN PROGRESS",
-    overview:
-      "Creating immersive 3D data visualization tools that transform raw urban datasets into actionable insights for city planners and policymakers.",
+    slug: "soundscape-llm-mapping",
+    title: "LLM Soundscape Mapping",
+    desc: "Detecting and Mapping Soundscapes using Large Language Models.",
+    heroImage: "https://images.unsplash.com/photo-1508739773402-3ea1af4c6bb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    gallery: [], tags: ["Urban Sensing", "LLM", "Spatial Analysis"], year: "2026", status: "ACTIVE",
+    overview: "This project utilizes Large Language Models (LLMs) and spatial analysis to categorize sources and intensities of urban sound, evaluating the noise pollution landscape in New York City.",
     sections: [
-      {
-        heading: "Technology Stack",
-        body: "We built a WebGL-based rendering engine capable of displaying millions of data points in real-time. The system supports temporal scrubbing, allowing planners to visualize how urban patterns evolve over hours, days, and seasons.",
-      },
-      {
-        heading: "Case Study: District 7",
-        body: "Applied our visualization tools to District 7's redevelopment plan. The 3D heatmaps revealed that the proposed park location would serve 40% fewer residents than an alternative site just 200 meters north.",
-      },
-      {
-        heading: "Open Source",
-        body: "We are releasing the core rendering engine as open-source software. The goal is to democratize urban data visualization so that communities worldwide can participate in planning decisions.",
-      },
+      { heading: "Collaborators", body: "Collaborate with: Dr. Prince Amegbor (Assistant Professor of Global and Environmental Health, NYU)." },
     ],
-    team: ["Dr. Wang Fei", "Jordan Blake", "Nina Kowalski"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "F. Shi"],
   },
   {
     id: 5,
-    slug: "sustainable-energy",
-    title: "Sustainable Energy",
-    desc: "Optimizing energy consumption in smart buildings.",
-    heroImage:
-      "https://images.unsplash.com/photo-1763114613273-ec505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2xhciUyMHBhbmVsJTIwc3VzdGFpbmFibGUlMjBlbmVyZ3klMjByb29mdG9wfGVufDF8fHx8MTc3MjEzNzU0NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    gallery: [],
-    tags: ["Energy", "Sustainability", "IoT"],
-    year: "2024",
-    status: "COMPLETED",
-    overview:
-      "Developing intelligent building management systems that minimize energy waste through predictive modeling and IoT sensor networks.",
+    slug: "ghana-climate-risk-agent",
+    title: "Ghana Climate Risk Agent",
+    desc: "AI Agent Empowered with Community Data for Urban Air Pollution.",
+    heroImage: "https://images.unsplash.com/photo-1611270418597-a6cbf224e7eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    gallery: [], tags: ["Urban Agent", "Global Health", "Climate"], year: "2025", status: "ACTIVE",
+    overview: "An AI agent system designed for urban air pollution and climate risk management in Ghana. The system is empowered by ground-level community data to provide localized, actionable environmental insights.",
     sections: [
-      {
-        heading: "Sensor Network",
-        body: "Each building in our pilot program was equipped with 50-80 IoT sensors monitoring temperature, humidity, light levels, occupancy, and air quality. The mesh network operates on ultra-low-power protocols with 99.7% uptime.",
-      },
-      {
-        heading: "AI-Driven Optimization",
-        body: "Our reinforcement learning model controls HVAC systems, lighting, and window shading in real-time. It learned building-specific patterns within two weeks, achieving energy savings of 27% compared to traditional scheduled systems.",
-      },
-      {
-        heading: "Scalability",
-        body: "The system has been successfully deployed in 12 buildings across 3 cities. We are now partnering with commercial real estate firms to scale to 200+ buildings by end of 2026.",
-      },
+      { heading: "Collaborators", body: "Collaborate with: Dr. Reginald Quansah (University of Ghana), Dr. Xiao Huang (Emory University), and Dr. Prince Amegbor (NYU)." },
     ],
-    team: ["Prof. Chen Hao", "Lisa Park", "Ahmed Hassan"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Reginald Quansah (Ghana)", "Dr. Xiao Huang (Emory)", "Dr. Prince Amegbor (NYU)"],
   },
   {
     id: 6,
-    slug: "community-engagement",
-    title: "Community Engagement",
-    desc: "Tools for citizen participation in urban design.",
-    heroImage:
-      "https://images.unsplash.com/photo-1726831662513-48fb5f72c6f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjB3b3Jrc2hvcCUyMGRpZ2l0YWwlMjBjb2xsYWJvcmF0aW9ufGVufDF8fHx8MTc3MjEzNzU0Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    gallery: [],
-    tags: ["Community", "Participatory Design", "Digital Tools"],
-    year: "2025",
-    status: "ACTIVE",
-    overview:
-      "Building digital platforms that empower citizens to actively participate in urban planning and community design processes.",
+    slug: "inclusive-greenspace-vr",
+    title: "Inclusive Greenspace Emotion",
+    desc: "Sensitivity-Inclusive Approaches to Understand Emotional Responses.",
+    heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    gallery: [], tags: ["Urban VR", "Landscape", "Emotion"], year: "2025", status: "ACTIVE",
+    overview: "A VR-based study quantifying how specific urban features, such as greenery, contribute to high-quality environments and shape psychological perceptions like safety and preference across diverse populations.",
     sections: [
-      {
-        heading: "Platform Design",
-        body: "Our platform combines social networking features with spatial planning tools. Residents can annotate maps, propose changes, vote on designs, and track the implementation of community-approved projects.",
-      },
-      {
-        heading: "Engagement Metrics",
-        body: "In the first six months, the platform attracted 15,000 active users who submitted over 3,400 proposals. The most popular feature was the AR preview tool that lets users visualize proposed changes in their actual neighborhood.",
-      },
-      {
-        heading: "Policy Integration",
-        body: "Three local governments have formally integrated our platform into their planning approval processes. Community proposals that receive sufficient support now automatically enter the official review pipeline.",
-      },
+      { heading: "Collaborators", body: "Collaborate with: Dr. Jiayang Li (Assistant Professor, Landscape Architecture, UF) and Dr. Xiaoya Zhang (Assistant Professor, UF)." },
     ],
-    team: ["Dr. Maria Santos", "David Kim", "Sophie Turner"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Jiayang Li (UF)", "Dr. Xiaoya Zhang (UF)"],
   },
 ];
 
+// ==========================================
+// 2. NEWS (保持不变)
+// ==========================================
 export const newsDetailData = [
   {
-    id: 1,
-    title: "New Paper on Urban Exposure & Health Published",
-    date: "2026-02-20",
-    author: "U.TOP Research",
-    heroImage:
-      "https://images.unsplash.com/photo-1574519618668-c34001efde43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnB1bmslMjBuZW9uJTIwY2l0eXNjYXBlfGVufDF8fHx8MTc3MTc5NTY4N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["Publication", "Health", "Urban Exposure"],
-    content: [
-      "Our latest research published in Environment & Planning B explores the relationship between urban spatial exposure and mental health outcomes using wearable sensors and mobile data from 2,400 participants.",
-      "We quantified daily exposure to green space, noise, and air quality across three neighborhoods. The findings reveal significant correlations between spatial design and self-reported wellbeing, offering new evidence for health-centered urban planning.",
-      "This work advances the U.TOP Lab mission of evidence-based urban design by providing quantitative tools for measuring how spatial environments affect human health at population scale.",
-    ],
+    id: 1, title: "Latest Publication: VR Study on Flood Risk Response", date: "2025-01-15", author: "U.TOP Research",
+    heroImage: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["Publication", "VR", "Disaster Risk"],
+    content: ["Our latest research, 'Using virtual reality to study human response to flood risk across controlled experiments', has been officially published in the International Journal of Disaster Risk Reduction (IJDRR, Vol. 132)."]
   },
   {
-    id: 2,
-    title: "AI for Citizen Science Toolkit — Demo Released",
-    date: "2026-02-15",
-    author: "U.TOP Lab",
-    heroImage:
-      "https://images.unsplash.com/photo-1585051256362-eb56bf4d5ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwdGVjaG5vbG9neSUyMGNpcmN1aXQlMjBib2FyZHxlbnwxfHx8fDE3NzE3OTU2ODR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["Tools", "AI", "Citizen Science"],
-    content: [
-      "We've released a public demo of our AI-powered citizen science toolkit, designed to enable communities to actively participate in urban environmental monitoring without requiring technical expertise.",
-      "The platform uses conversational AI to guide non-expert users through data collection tasks including air quality sampling, noise level mapping, and pedestrian flow observation. Early testing with community groups in Gainesville showed 89% task completion rates.",
-      "This tool represents our commitment to democratizing urban intelligence and turning complex sensing technology into accessible public resources.",
-    ],
+    id: 2, title: "Tools Release: AI for Citizen Science & CityWe Demo", date: "2025-11-20", author: "U.TOP Lab",
+    heroImage: "https://images.unsplash.com/photo-1585051256362-eb56bf4d5ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["Tools", "AI", "Citizen Science"],
+    content: ["We are excited to release the demo video for 'CityWe', our Collaborative Urban Design Agent for Multi-Users."]
   },
   {
-    id: 3,
-    title: "Urban VR Planning User Study — Recruiting Now",
-    date: "2026-02-10",
-    author: "U.TOP HCI Team",
-    heroImage:
-      "https://images.unsplash.com/photo-1759078634211-cbe4201f26fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwZXhwbyUyMGZ1dHVyaXN0aWMlMjBldmVudHxlbnwxfHx8fDE3NzE3OTU2ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["User Study", "VR", "Recruiting"],
-    content: [
-      "We are currently recruiting participants for our immersive VR urban planning user study. Participants will experience proposed neighborhood changes in virtual reality and provide feedback through our interactive evaluation system.",
-      "The study is open to all residents aged 18+ and sessions last approximately 45 minutes at our lab in Gainesville. Participants receive a $25 gift card as compensation.",
-      "This research is part of our Pillar 2 work on Urban HCI & Immersive Systems, exploring how VR can make urban planning more participatory and human-centered.",
-    ],
+    id: 3, title: "On-going User Test: VR & Body Sensing for Urban Stress", date: "2025-12-15", author: "U.TOP HCI Team",
+    heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["User Study", "VR", "Biosensing"],
+    content: ["We are currently conducting the USI-P13 study: 'Virtual Therapy to Urban Stress'."]
   },
 ];
 
-export const highlightDetailData = [
+// ==========================================
+// 3. HIGHLIGHTS (🌟 重构：极高还原你的文本内容)
+// ==========================================
+export const highlightDetailData: HighlightData[] = [
   {
     id: "urban",
     title: "Urban Sensing",
-    heroImage:
-      "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1cmJhbiUyMHNlbnNpbmclMjBJb1QlMjBzdHJlZXRsaWdodCUyMHNlbnNvcnxlbnwxfHx8fDE3NzIxMzc1NDd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["IoT", "Sensors", "Data Collection"],
-    overview:
-      "Our Urban Sensing research focuses on deploying intelligent sensor networks throughout city environments to capture real-time data on air quality, noise levels, pedestrian flow, and infrastructure health.",
-    sections: [
-      {
-        heading: "Research Focus",
-        body: "We develop low-power, high-accuracy sensor modules that can be embedded into existing urban infrastructure — street lamps, benches, bus stops — without requiring new construction. Each sensor node communicates via mesh networking protocols.",
-      },
-      {
-        heading: "Current Projects",
-        body: "Our flagship deployment covers a 12-block area with 340 sensor nodes. The network generates over 2TB of environmental data monthly, feeding into our predictive models for urban planning.",
-      },
+    heroImage: "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    tags: ["Wearables", "Biosensors", "Micro-scale"],
+    mediaLink: { label: "View Segmentation Demo", url: "https://drive.google.com/file/d/1BezaJk4ysxAJuZMremnxHbG0UJYp0KDT/view?usp=sharing" },
+    overview: [
+      "Urban Sensing uses wearable and portable sensors to understand how people experience the city at the micro scale—streets, parks, plazas, and everyday routes. Our goal is to measure what happens in real places, linking environmental conditions (e.g., noise, heat, air quality, and light) with human stress signals captured by biosensors (e.g., heart rate patterns, skin conductance, and skin temperature). By grounding sensing in everyday mobility and public space use, we move beyond citywide averages and bring urban health evidence to the level where design and planning decisions happen.",
+      "Urban Sensing is how we “listen” to the city in everyday life. We measure minute by minute, place by place, to understand where stress builds up, what environmental stressors are happening at the same time, and which urban features support recovery and well-being."
     ],
+    focusPoints: [
+      "Co-occurrence of environmental stressors: measuring how noise, heat, air pollution, and other exposures overlap in real urban settings.",
+      "Health effects of urban features: linking street and public-space design elements (e.g., greenery, shade, traffic conditions, spatial form) to stress and comfort outcomes.",
+      "AI for sensing data: using machine learning to clean, align, and interpret multi-sensor streams, and to help generalize local findings to wider city contexts."
+    ],
+    relatedProjects: ["cool-project-heat-stress", "soundscape-llm-mapping"],
+    publications: [
+      { citation: "Zhang, Z.*, Mˇechurov., K., Resch, B., Amegbor, P., and Sabel, C. E. (2023). Assessing the association between overcrowding and human physiological stress response in different urban contexts: a case study in Salzburg, Austria. International Journal of Health Geographics, 22(1), 15.", link: "https://doi.org/10.1186/s12942-023-00334-7" },
+      { citation: "Zhang, Z.*, Amegbor, P. M., Sigsgaard, T., and Sabel, C. E. (2022). Assessing the association between urban features and human physiological stress response using wearable sensors in different urban contexts. Health and Place, 78, 102924.", link: "https://doi.org/10.1016/j.healthplace.2022.102924" },
+      { citation: "Zhang, Z.*, Amegbor, P. M., and Sabel, C. E. (2022). The feasibility of integrating wearable cameras and health trackers for measuring personal exposure to urban features: a pilot study in Roskilde, Denmark. International Journal of E-Planning Research (IJEPR), 11(1), 1-21.", link: "http://doi.org/10.4018/IJEPR.313181" },
+      { citation: "Zhang, Z., Long, Y., Chen, L., and Chen, C. (2021). Assessing personal exposure to urban greenery using wearable cameras and machine learning. Cities, 109.", link: "https://doi.org/10.1016/j.cities.2020.103006" },
+      { citation: "Zhang, Z.*, Amegbor, P. M., and Sabel, C. E. (2021). Assessing the Current Integration of Multiple Personalised Wearable Sensors for Environment and Health Monitoring. Sensors (Basel), 21(22).", link: "https://doi.org/10.3390/s21227693" }
+    ],
+    conferences: [
+      "Shi, F. (Student), Zhang, Z.*, and Amegbor, P. (2026, April). Categorizing Sources and Intensities of Sound and Evaluating Noise in New York City Using Large Language Model. International Conference on Urban Affairs (ICUA), Chicago, IL.",
+      "Yang. X. (Student), Zhang.X., Rozhkov, A., Zhang, Z., Amegbor, P. M., \"Sensor-Based Micro-Level Observations on Stress Spatial Distribution: A Case Study of Accra\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025.",
+      "Zhang. X. (Student), Yang.X., Rozhkov, A., Amegbor, P. M., Zhang, Z., \"Sensor-based Observation of Urban Stress in New York City\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025."
+    ]
   },
   {
     id: "vr",
-    title: "Virtual Reality",
-    heroImage:
-      "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcmVhbGl0eSUyMGhlYWRzZXQlMjBjeWJlcnB1bmt8ZW58MXx8fHwxNzcyMTM3NTQ2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["VR", "Immersive", "Simulation"],
-    overview:
-      "Our Virtual Reality division creates immersive urban simulation environments that allow planners, architects, and citizens to experience proposed changes before they are built.",
-    sections: [
-      {
-        heading: "Technology",
-        body: "We use photogrammetry and LiDAR scanning to create centimeter-accurate digital twins of urban environments. These are rendered in real-time using our custom VR engine optimized for architectural visualization.",
-      },
-      {
-        heading: "Applications",
-        body: "VR simulations have been used in 8 municipal planning reviews, allowing council members to 'walk through' proposed developments. Public VR stations have been installed in 3 community centers for citizen feedback sessions.",
-      },
+    title: "Urban VR",
+    heroImage: "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    tags: ["Immersive", "EEG/EDA", "Digital Twins"],
+    overview: [
+      "Urban VR uses immersive technologies, 3D modelling and digitalization to improve our understanding of how people experience, evaluate and respond to urban spaces. Our aim is to study human–environment interaction in systematically designed and controlled virtual settings, enabling us to test how specific urban features influence human responses, behavioral patterns, and decision-making processes. By integrating VR with wearable devices such as EEG headsets, EDA watches, and eye tracking technology, we can capture cognitive, emotional, and attentional responses in real time as participants interact with simulated urban environments. This enables us to translate urban environments into interactive digital worlds and provide experimental evidence in spaces where design and planning issues can be examined more directly.",
+      "Urban VR enables us to 'test' the city through immersive digital environments. By using VR alongside 3D modelling technologies, we can create realistic yet controllable urban scenarios. This enables us to isolate design variables, simulate environmental conditions and observe how people perceive and act in different settings. This helps us to understand not only which environments people prefer, but also how they behave within them and how they respond to environmental cues. It also helps us to understand how design influences choice and experience."
     ],
+    focusPoints: [
+      "Controlled VR-based experiments: quantifying how urban features (e.g. greenery) contribute to high-quality environments and shape psychological perceptions, such as safety and preference.",
+      "Human behavior and decision-making in virtual environments: reveal the behavioral mechanisms in everyday experience in cities through using immersive digital environments."
+    ],
+    relatedProjects: ["virtual-therapy-urban-stress", "inclusive-greenspace-vr"],
+    publications: [
+      { citation: "Zhang, Z. *, Li, Q., Sun, Q., and Ceferino, L. (2025). Using virtual reality to study human response to flood risk across controlled experiments. International Journal of Disaster Risk Reduction, 105956.", link: "https://doi.org/10.1016/j.ijdrr.2025.105956" }
+    ],
+    conferences: [
+      "Wu, R. (Student), Yang, S. (Student), Garnett, I. (Student), Versey, H.S. (Student), Rozhkov A., Amegbor, P. M. and Zhang, Z.* (PI), Physiological and Psychological Response to Context-specific Greenery: An Immersive Experiment Using Virtual Reality and Multimodal Measurement. The 2026 American Association of Geographers Annual Meeting. San Francisco, USA, March 17-21, 2026."
+    ]
   },
   {
-    id: "hci",
-    title: "Human-Computer Interaction",
-    heroImage:
-      "https://images.unsplash.com/photo-1575388902449-6bca946ad549?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwZGFzaGJvYXJkJTIwaW50ZXJmYWNlJTIwaG9sb2dyYW18ZW58MXx8fHwxNzcyMTM3NTQ0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["HCI", "UX Research", "Accessibility"],
-    overview:
-      "Our HCI research investigates how people interact with urban technology systems and develops design frameworks that ensure these systems are intuitive, accessible, and equitable.",
-    sections: [
-      {
-        heading: "Research Areas",
-        body: "We study gesture-based interaction for public displays, voice interfaces for urban navigation, and haptic feedback systems for accessibility. Our lab has published 12 papers on inclusive urban interface design.",
-      },
-      {
-        heading: "Design Guidelines",
-        body: "We've developed the 'Urban Interface Design Framework' (UIDF), a set of 40+ guidelines for creating public-facing technology that works for all demographics, abilities, and contexts.",
-      },
+    id: "agent",
+    title: "Urban Agent",
+    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    tags: ["AI Chatbot", "Co-Design", "Participatory"],
+    overview: [
+      "Urban Agent uses AI, city science, and interactive digital systems to understand and support how people participate in shaping urban change. Our goal is to empower communities and other urban stakeholders by creating responsive tools that connect scientific evidence, expert knowledge, and lived experience. By making urban information more accessible, interactive, and actionable, we support more inclusive, collaborative, and evidence-informed urban design.",
+      "Urban Agent is how we make city science more responsive to people. We develop novel methodologies, conversational agents, generative and collaborative design tools that help communities, planners, designers, and decision-makers communicate across different forms of knowledge and expertise. In this way, we aim to make co-design more practical and scalable—supporting collective knowledge production, strengthening stakeholder dialogue, and bringing community narratives into planning and design processes."
     ],
-  },
-  {
-    id: "ai",
-    title: "Artificial Intelligence",
-    heroImage:
-      "https://images.unsplash.com/photo-1562544887-593f89e2d21b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXVyYWwlMjBuZXR3b3JrJTIwZGF0YSUyMHZpc3VhbGl6YXRpb24lMjBkYXJrfGVufDF8fHx8MTc3MjEzNzU0M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["Machine Learning", "Deep Learning", "Prediction"],
-    overview:
-      "Our AI research applies cutting-edge machine learning techniques to urban challenges — from predicting infrastructure failures to optimizing resource allocation across city systems.",
-    sections: [
-      {
-        heading: "Core Models",
-        body: "We maintain a suite of pre-trained models for urban analysis: traffic prediction (98.2% accuracy), air quality forecasting (96.1%), and infrastructure degradation detection (94.7%). All models are updated monthly with fresh data.",
-      },
-      {
-        heading: "Ethics & Governance",
-        body: "Every AI system we develop undergoes rigorous bias testing and fairness auditing. We publish transparency reports for all deployed models and maintain an independent ethics review board.",
-      },
+    focusPoints: [
+      "AI for participatory planning and design: using AI agents and interactive systems to support communication, engagement, and co-design among communities, planners, designers, and other stakeholders.",
+      "AI for collaborative design: building tools that help people visualize ideas, generate design options, solve conflicts and contribute local knowledge and narratives to the shaping of neighborhoods, public spaces, and urban futures."
     ],
+    relatedProjects: ["citywe-collaborative-agent", "ghana-climate-risk-agent"],
+    publications: [
+      { citation: "Li, J., Zhang, Z., Mendel, T., & Yabe, T. (2026). Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction (arXiv:2601.23095). arXiv.", link: "https://doi.org/10.48550/arXiv.2601.23095" },
+      { citation: "Zhang, Zhaoxi and Mendel, Tamir and Yin, Wen and Raipat, Vaidehi and Yabe, Takahiro, Human-Chatbot Conversations About Urban Park Experiences: A Case Study from Washington Square Park in New York City.", link: "http://dx.doi.org/10.2139/ssrn.5378600" }
+    ],
+    conferences: [
+      "Zhang, Z.*, Wu, R., Ren, F. and Mendel.T., A Multi-User and Multi-Agent Approach to Community Engagement. The 2026 American Association of Geographers Annual Meeting. San Francisco, USA, March 17-21, 2026.",
+      "Turaga,S. (Student), Zhang, Z.*, Mendel.T., and Yabe.T. (2026, April). ConResSim: An Interactive Tool for Conflict Detection and Analysis in Community Engagement [Conference abstract]. International Conference on Urban Affairs (ICUA), Chicago, IL.",
+      "Zhang, Z.*, Mendel, T.+, Raipat V. (2025) and Yabe, T., Smart Conversations in the City: AI Chatbots for Urban Management—A Case Study in NYC. The 2026 ACSP Annual Conference. Pittsburgh, PA, USA, October 8-10, 2026."
+    ]
   },
 ];
 
-/**
- * 🌟 新增：U.TOP 实验室的团队成员数据
- */
+// ==========================================
+// 4. TEAM (保持不变)
+// ==========================================
 export const teamMembers: TeamMember[] = [
   {
     id: "zhaoxi-zhang",
     name: "Dr. Zhaoxi Zhang",
     role: "Lab Director",
-    title: "Assistant Professor of Urban Technology",
+    title: "Assistant Professor of Urban Technology, UF",
     category: "faculty",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw0fHxyZXNlYXJjaGVyJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzcyMjI5MTIwfDA&ixlib=rb-4.1.0&q=80&w=400",
+    avatar: "", 
     bio: "Dr. Zhang leads the U.TOP Lab, focusing on the intersection of urban science, physiological computing, and virtual reality.",
-    fullBio: "Dr. Zhaoxi Zhang's research pioneers the use of multimodal sensing (EEG/EDA) within immersive VR environments to decode human physiological responses to complex urban spaces. He holds a Ph.D. in Urban Planning and directs multiple NSF-funded projects aiming to create evidence-based, neuro-inclusive design guidelines for future cities.",
-    research: ["VR/AR", "Physiological Computing", "Urban Design"],
+    fullBio: "Dr. Zhaoxi Zhang's research pioneers the use of multimodal sensing (EEG/EDA) within immersive VR environments to decode human physiological responses to complex urban spaces. He holds a Ph.D. in Urban Planning and directs multiple projects aiming to create evidence-based, neuro-inclusive design guidelines for future cities.",
+    research: ["Urban Sensing", "VR/AR", "Physiological Computing", "Urban Agent"],
     email: "z.zhang@ufl.edu",
     website: "https://zhaoxizhang.com",
-    education: [
-      // "Ph.D. in Urban Planning, New York University",
-      // "M.S. in Computer Science, Columbia University"
-    ],
     publications: [
-      {
-        title: "Using virtual reality to study human response to flood risk across controlled experiments",
-        venue: "International Journal of Disaster Risk Reduction",
-        year: "2026"
-      }
+      { title: "Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction", venue: "arXiv", year: "2026" },
+      { title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" },
+      { title: "ConResSim: An Interactive Tool for Conflict Detection and Analysis in Community Engagement", venue: "ICUA", year: "2026" },
+      { title: "Smart Conversations in the City: AI Chatbots for Urban Management—A Case Study in NYC", venue: "ACSP Annual Conference", year: "2026" },
+      { title: "Human-Chatbot Conversations About Urban Park Experiences: A Case Study from Washington Square Park in NYC", venue: "SSRN", year: "2025" },
+      { title: "Using virtual reality to study human response to flood risk across controlled experiments", venue: "International Journal of Disaster Risk Reduction", year: "2025" },
+      { title: "Assessing the association between urban features and human physiological stress response using wearable sensors", venue: "Health and Place", year: "2022" }
     ],
-    projects: ["neural-feedback-loop", "smart-city-interfaces"]
+    projects: ["cool-project-heat-stress", "virtual-therapy-urban-stress", "citywe-collaborative-agent", "ghana-climate-risk-agent"]
   },
   {
-    id: "isaiah-garnett",
-    name: "Isaiah Garnett",
-    role: "Graduate Researcher",
-    title: "M.S. Student in CUSP",
-    category: "master",
-    avatar: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
-    bio: "Isaiah specializes in Human-Computer Interaction, specifically designing seamless interfaces for smart city infrastructure.",
-    research: ["HCI", "Accessibility", "Public Design"],
-    email: "ig907@nyu.edu",
-    projects: ["smart-city-interfaces", "community-engagement"]
+    id: "isaiah-garnett", 
+    name: "Isaiah Garnett", 
+    role: "Graduate Researcher", 
+    title: "M.S. Student in Urban Data Science", // 👈 更新了 title
+    category: "master", 
+    avatar: avatarIsaiah, 
+    // 👇 更新了 bio，使其与提供的信息完全一致
+    bio: "Isaiah's research sits at the intersection of urban environments and human physiology. As part of the biosensing project, he works on processing and analyzing EDA and BVP signals to examine how people respond to different urban settings in immersive VR environments.", 
+    // 👇 将 "His broader interests..." 放入 fullBio，供详情页展示
+    fullBio: "Isaiah's research sits at the intersection of urban environments and human physiology. As part of the biosensing project, he works on processing and analyzing EDA and BVP signals to examine how people respond to different urban settings in immersive VR environments. His broader interests include urban data science, mobility analytics, and applying machine learning to real-world city challenges.",
+    // 👇 更新了研究方向标签
+    research: ["Urban Informatics", "Biosensing", "Data Science"], 
+    projects: ["virtual-therapy-urban-stress"]
   },
   {
-    id: "ruolin-wu",
-    name: "Ruolin Wu",
-    role: "Graduate Researcher",
-    title: "M.S. Student in CUSP",
-    category: "master",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxMHx8cG9ydHJhaXR8ZW58MXx8fHwxNzcyMjI5MTI0fDA&ixlib=rb-4.1.0&q=80&w=400",
-    bio: "Ruolin leads the data processing pipelines for our biosensing experiments, focusing on EEG signal cleaning and analysis.",
-    research: ["Data Analytics", "Biosensing", "Machine Learning"],
-    projects: ["neural-feedback-loop", "data-visualization"]
+    id: "ruolin-wu", name: "Ruolin Wu", role: "Graduate Researcher", title: "USI-P13 Project Member", category: "master", avatar: "", bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", research: ["Data Analytics", "Community Engagement", "VR"],
+    publications: [{ title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }], projects: ["virtual-therapy-urban-stress", "citywe-collaborative-agent"]
   },
   {
-    id: "shu-aspen-yang",
-    name: "Shu (Aspen) Yang",
-    role: "Graduate Researcher",
-    title: "M.S. Student in CUSP",
-    category: "master",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdHxlbnwxfHx8fDE3NzIyMjkxMjR8MA&ixlib=rb-4.1.0&q=80&w=400",
-    bio: "Aspen focuses on developing the VR engine and Generative AI pipelines that power our immersive urban simulations.",
-    research: ["VR Engineering", "Generative AI", "Computer Vision"],
-    email: "sy4254@nyu.edu",
-    projects: ["urban-grid-optimization", "data-visualization"]
+    id: "shu-aspen-yang", name: "Shu (Aspen) Yang", role: "Graduate Researcher", title: "USI-P13 Project Member", category: "master", avatar: "", bio: "Aspen focuses on developing the VR environments and processing 360° panoramic video data for urban simulations.", research: ["VR Engineering", "Spatial Analysis", "Computer Vision"], projects: ["virtual-therapy-urban-stress"]
   }
 ];

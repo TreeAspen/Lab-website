@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
+// 👇 更新了旧名称 (Chatbot -> Agent) 
 const workAreas = [
   {
     id: "sensing",
@@ -22,10 +23,10 @@ const workAreas = [
       "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcmVhbGl0eSUyMGhlYWRzZXQlMjBjeWJlcnB1bmt8ZW58MXx8fHwxNzcyMTM3NTQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
   },
   {
-    id: "chatbot",
-    title: "Urban Chatbot",
+    id: "agent", // 👈 Chatbot 改为 agent
+    title: "Urban Agent", // 👈 统一名称
     desc: "AI agents and conversational systems bridging complex urban data with citizens' daily lives.",
-    href: "/highlights/ai",
+    href: "/highlights/agent",
     color: "#E2F16B",
     heroImage:
       "https://images.unsplash.com/photo-1562544887-593f89e2d21b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXVyYWwlMjBuZXR3b3JrJTIwZGF0YSUyMHZpc3VhbGl6YXRpb24lMjBkYXJrfGVufDF8fHx8MTc3MjEzNzU0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
@@ -50,7 +51,8 @@ export function OurWork() {
         <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest text-[#f0f0f0]">
           Our Work
         </h2>
-        <p className="font-mono text-sm uppercase text-gray-400 mt-2">
+        {/* 👇 使用 font-mono */}
+        <p className="font-mono text-sm md:text-base uppercase text-gray-400 mt-2 tracking-wide">
           Three pillars of urban technology research
         </p>
       </div>
@@ -81,10 +83,11 @@ export function OurWork() {
                 </div>
               </div>
               <div className="p-5 flex-1 flex flex-col">
-                <h3 className="font-['VT323'] text-2xl mb-2 text-white group-hover:text-[#E2F16B] transition-colors uppercase tracking-wider">
+                <h3 className="font-['VT323'] text-2xl md:text-3xl mb-2 text-white group-hover:text-[#E2F16B] transition-colors uppercase tracking-wider">
                   {work.title}
                 </h3>
-                <p className="font-mono text-xs text-gray-400 leading-relaxed flex-1">
+                {/* 👇 使用 font-mono */}
+                <p className="font-mono text-sm text-gray-400 leading-relaxed flex-1">
                   {work.desc}
                 </p>
                 <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center text-xs font-mono uppercase text-gray-500">
