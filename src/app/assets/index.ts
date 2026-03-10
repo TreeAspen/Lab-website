@@ -1,6 +1,14 @@
+/**
+ * Centralized Asset Registry
+ * ===========================
+ */
+
 // ─── 核心品牌与成员照片 ─────────────────────────────────────
 import labLogo from "../../assets/lab_logo.png";
 import avatarIsaiah from "../../assets/Isaiah_Garnett.jpg";
+import avatarRuolin from "../../assets/Ruolin_Wu.jpg"; 
+import avatarShu from "../../assets/Shu_Yang.jpg";     
+import avatarSteven from "../../assets/Steven Shi.jpg"; 
 
 // ─── 原有的 Hero & Highlights 资源 ──────────────────────────
 import heroModel1 from "../../assets/bf2bbc386da37f36888e2dc21afb70b3a90d7d2c.png";
@@ -35,6 +43,27 @@ export const newsImages: Record<number, string> = {
 
 // ─── 统一导出 ──────────────────────────────────────────────
 export { 
-  labLogo, avatarIsaiah, heroModel1, heroModel2, heroModel3, heroModel4, highlightsVR, newsFeature, extraGeneralImg,
-  logoEmory, logoFAU, logoFSU, logoFudan, logoGhana, logoNYUCUSP, logoNYUGPH, logoNYUTandon, logoSouthCarolina, logoBerkeley, logoUF
+  labLogo,
+  avatarIsaiah,
+  avatarRuolin,
+  avatarShu,
+  avatarSteven,
+  heroModel1, 
+  heroModel2,
+  heroModel3, 
+  heroModel4, 
+  highlightsVR, 
+  newsFeature,
+  extraGeneralImg,
+  logoEmory,
+  logoFAU,
+  logoFSU,
+  logoFudan,
+  logoGhana,
+  logoNYUCUSP,
+  logoNYUGPH,
+  logoNYUTandon,
+  logoSouthCarolina,
+  logoBerkeley,
+  logoUF
 };

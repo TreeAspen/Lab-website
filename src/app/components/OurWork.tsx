@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-// 👇 更新了旧名称 (Chatbot -> Agent) 
+// 👇 更新了旧名称 (Chatbot -> Agent)，并替换了 Urban Sensing 的图片
 const workAreas = [
   {
     id: "sensing",
@@ -10,8 +10,9 @@ const workAreas = [
     desc: "Sensor-based measurements capturing urban life — mobile data, wearables, computer vision, and environmental monitoring.",
     href: "/highlights/urban",
     color: "#E2F16B",
+    // 🌟 替换为一张具有赛博朋克/城市数据监测风格的网络占位图
     heroImage:
-      "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1cmJhbiUyMHNlbnNpbmclMjBJb1QlMjBzdHJlZXRsaWdodCUyMHNlbnNvcnxlbnwxfHx8fDE3NzIxMzc1NDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
   },
   {
     id: "vr",
@@ -23,8 +24,8 @@ const workAreas = [
       "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcmVhbGl0eSUyMGhlYWRzZXQlMjBjeWJlcnB1bmt8ZW58MXx8fHwxNzcyMTM3NTQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
   },
   {
-    id: "agent", // 👈 Chatbot 改为 agent
-    title: "Urban Agent", // 👈 统一名称
+    id: "agent", 
+    title: "Urban Agent", 
     desc: "AI agents and conversational systems bridging complex urban data with citizens' daily lives.",
     href: "/highlights/agent",
     color: "#E2F16B",
@@ -44,14 +45,12 @@ export function OurWork() {
         }}
       />
       
-      <div className="absolute top-10 left-10 w-32 h-32 border-2 border-white/20 rounded-full border-dashed animate-spin-slow pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-48 h-48 border border-white/10 rotate-45 pointer-events-none" />
+      {/* 🌟 删除了此处的两个 absolute 装饰元素 */}
       
       <div className="relative z-10 max-w-6xl mx-auto text-center mb-16">
         <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest text-[#f0f0f0]">
           Our Work
         </h2>
-        {/* 👇 使用 font-mono */}
         <p className="font-mono text-sm md:text-base uppercase text-gray-400 mt-2 tracking-wide">
           Three pillars of urban technology research
         </p>
@@ -86,7 +85,6 @@ export function OurWork() {
                 <h3 className="font-['VT323'] text-2xl md:text-3xl mb-2 text-white group-hover:text-[#E2F16B] transition-colors uppercase tracking-wider">
                   {work.title}
                 </h3>
-                {/* 👇 使用 font-mono */}
                 <p className="font-mono text-sm text-gray-400 leading-relaxed flex-1">
                   {work.desc}
                 </p>

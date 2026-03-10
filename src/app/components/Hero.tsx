@@ -13,8 +13,8 @@ import { Link } from "react-router-dom";
  * 1. 物理引擎参数配置
  */
 const PHYSICS_CONFIG = {
-  vTarget: 1.0,   // 🌟 目标恒定速度
-  damping: 1,     // 🌟 能量无损耗
+  vTarget: 1.5,   // 保持 1.5 的较快移速
+  damping: 1,     // 能量无损耗
   repulsion: 1.0  // 完全弹性碰撞系数
 };
 
@@ -23,6 +23,7 @@ const PHYSICS_CONFIG = {
  */
 function ModernLabel({ label, href }: { label: string; href: string }) {
   const isExternal = href.startsWith('http');
+  // 🌟 这里保持不变，确保按键大小不随图片放大
   const baseClasses = "group flex items-center h-12 bg-[#1C1C13] rounded-full pl-2 pr-8 hover:bg-[#FF7A00] transition-all duration-300 border-2 border-black z-30 pointer-events-auto";
   const content = (
     <>
@@ -48,12 +49,12 @@ function ModernLabel({ label, href }: { label: string; href: string }) {
 function usePhysicsArena() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // 🌟 初始化速度向量，确保初始速率为 1 (vx^2 + vy^2 = 1)
   const modulesRef = useRef([
-    { id: 0, x: useMotionValue(0), y: useMotionValue(0), vx: -0.707, vy: -0.707, radius: 100 },
-    { id: 1, x: useMotionValue(0), y: useMotionValue(0), vx: 0.707, vy: -0.707, radius: 120 },
-    { id: 2, x: useMotionValue(0), y: useMotionValue(0), vx: -0.707, vy: 0.707, radius: 90 },
-    { id: 3, x: useMotionValue(0), y: useMotionValue(0), vx: 0.707, vy: 0.707, radius: 140 },
+    // 🌟 修改：碰撞半径同步放大 1.5 倍 (100 -> 150, 120 -> 180, 90 -> 135, 140 -> 210)
+    { id: 0, x: useMotionValue(0), y: useMotionValue(0), vx: -0.707, vy: -0.707, radius: 150 }, 
+    { id: 1, x: useMotionValue(0), y: useMotionValue(0), vx: 0.707, vy: -0.707, radius: 180 },  
+    { id: 2, x: useMotionValue(0), y: useMotionValue(0), vx: -0.707, vy: 0.707, radius: 135 },  
+    { id: 3, x: useMotionValue(0), y: useMotionValue(0), vx: 0.707, vy: 0.707, radius: 210 },   
   ]);
 
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
@@ -62,10 +63,13 @@ function usePhysicsArena() {
     const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener("resize", handleResize);
     const m = modulesRef.current;
+    
+    // 初始化出生点，让它们一开始在屏幕内出现
     m[0].x.set(-dimensions.width * 0.25); m[0].y.set(-dimensions.height * 0.25);
     m[1].x.set(dimensions.width * 0.25);  m[1].y.set(-dimensions.height * 0.25);
     m[2].x.set(-dimensions.width * 0.25); m[2].y.set(dimensions.height * 0.25);
     m[3].x.set(dimensions.width * 0.25);  m[3].y.set(dimensions.height * 0.25);
+    
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -74,7 +78,10 @@ function usePhysicsArena() {
     
     const timeFactor = delta / 16; 
     const modules = modulesRef.current;
+    
+    // X轴边界（左右屏幕边缘）
     const boundaryX = dimensions.width / 2;
+    // Y轴基础边界（屏幕中心到上下边缘的距离）
     const boundaryY = dimensions.height / 2;
 
     // --- 第一步：物体间碰撞 ---
@@ -103,7 +110,6 @@ function usePhysicsArena() {
           
           if (velAlongNormal < 0) {
             const jImpulse = -2 * velAlongNormal;
-            // 🌟 移除 pushBack，仅交换动量
             m1.vx -= jImpulse * nx * 0.5;
             m1.vy -= jImpulse * ny * 0.5;
             m2.vx += jImpulse * nx * 0.5;
@@ -115,7 +121,6 @@ function usePhysicsArena() {
 
     // --- 第二步：更新与速度校准 ---
     modules.forEach(m => {
-      // 🌟 强制保持速度为 1 (速率校准)
       const currentSpeed = Math.sqrt(m.vx * m.vx + m.vy * m.vy);
       if (currentSpeed !== 0) {
         m.vx = (m.vx / currentSpeed) * PHYSICS_CONFIG.vTarget;
@@ -125,17 +130,23 @@ function usePhysicsArena() {
       let nextX = m.x.get() + m.vx * timeFactor;
       let nextY = m.y.get() + m.vy * timeFactor;
 
-      // 边界碰撞
+      // X 轴边界碰撞 (保持左右不出屏幕)
       if (nextX > boundaryX - m.radius) {
         m.vx = -Math.abs(m.vx); nextX = boundaryX - m.radius;
       } else if (nextX < -boundaryX + m.radius) {
         m.vx = Math.abs(m.vx); nextX = -boundaryX + m.radius;
       }
       
-      if (nextY > boundaryY - m.radius - 80) {
-        m.vy = -Math.abs(m.vy); nextY = boundaryY - m.radius - 80;
-      } else if (nextY < -boundaryY + m.radius) {
-        m.vy = Math.abs(m.vy); nextY = -boundaryY + m.radius;
+      // Y轴活动范围，保持天花板向上延伸 30%
+      const floorBoundary = boundaryY - m.radius - 80; 
+      
+      const extraHeight = dimensions.height * 0.30;
+      const ceilingBoundary = -boundaryY - extraHeight + m.radius; 
+
+      if (nextY > floorBoundary) {
+        m.vy = -Math.abs(m.vy); nextY = floorBoundary; 
+      } else if (nextY < ceilingBoundary) {
+        m.vy = Math.abs(m.vy); nextY = ceilingBoundary; 
       }
 
       m.x.set(nextX);
@@ -154,8 +165,10 @@ function PhysicsModulePresenter({ imgSrc, label, href, imgWidth = "w-48", mValue
         className="absolute w-[400px] h-[400px] flex items-center justify-center overflow-visible pointer-events-none"
       >
         <div className="absolute pointer-events-auto">
+          {/* 🌟 图片大小将通过 props 传递的值被放大 1.5 倍 */}
           <img src={imgSrc} className={`${imgWidth} h-auto object-contain`} alt="" />
         </div>
+        {/* 🌟 按键组件单独定位，其内部 h-12 样式保持不变 */}
         <div className="absolute z-50 top-64 pointer-events-auto">
           <ModernLabel label={label} href={href} />
         </div>
@@ -169,11 +182,13 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className="relative w-full min-h-screen flex items-center justify-center bg-[#faff71] border-b-4 border-black overflow-hidden z-10">
-      <div className="absolute inset-0 z-0">
+      
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <GravityGrid amplitude={25} radius={500} cellSize={40} color="#000" opacity={0.18} />
       </div>
 
-      <div className="relative z-50 text-center pointer-events-auto px-4 select-none">
+      {/* 中心文字层：pointer-events-none 允许点击穿透，被遮挡的按键也处于可点击状态 */}
+      <div className="relative z-50 text-center pointer-events-none px-4 select-none">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[120%] -z-10 bg-[#faff71] rounded-full blur-[60px] opacity-60 pointer-events-none" />
 
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}>
@@ -196,11 +211,16 @@ export function Hero() {
         </motion.div>
       </div>
 
+      {/* 🌟 修改：图像大小放大到原先的 1.5 倍 (Tailwind w-XX 换算为 pixel 计算后放大) */}
       <div className="absolute inset-0 pointer-events-none z-40">
-        <PhysicsModulePresenter mValues={modules[0]} label="Interaction" href="/highlights/vr" imgSrc={img1} imgWidth="w-52" />
-        <PhysicsModulePresenter mValues={modules[1]} label="Collaboration" href="https://forms.gle/fRuKyLcMGgsBJ4Fn9" imgSrc={img3} imgWidth="w-64" />
-        <PhysicsModulePresenter mValues={modules[2]} label="Intelligence" href="/highlights/agent" imgSrc={img4} imgWidth="w-48" />
-        <PhysicsModulePresenter mValues={modules[3]} label="Health" href="/highlights/urban" imgSrc={img2} imgWidth="w-72" />
+        {/* w-52 (208px) -> w-[312px] */}
+        <PhysicsModulePresenter mValues={modules[0]} label="Interaction" href="/highlights/vr" imgSrc={img1} imgWidth="w-[312px]" />
+        {/* w-64 (256px) -> w-[384px] */}
+        <PhysicsModulePresenter mValues={modules[1]} label="Collaboration" href="https://forms.gle/fRuKyLcMGgsBJ4Fn9" imgSrc={img3} imgWidth="w-[384px]" />
+        {/* w-48 (192px) -> w-[288px] */}
+        <PhysicsModulePresenter mValues={modules[2]} label="Intelligence" href="/highlights/agent" imgSrc={img4} imgWidth="w-[288px]" />
+        {/* w-72 (288px) -> w-[432px] */}
+        <PhysicsModulePresenter mValues={modules[3]} label="Health" href="/highlights/urban" imgSrc={img2} imgWidth="w-[432px]" />
       </div>
 
       <div className="absolute bottom-0 w-full h-14 bg-black border-t-2 border-white flex items-center overflow-hidden z-[60] pointer-events-none">

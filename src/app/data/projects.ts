@@ -1,7 +1,7 @@
 /**
  * Centralized project data used by both OurWork listing & ProjectDetail pages.
  */
-import { avatarIsaiah } from "../assets";
+import { avatarIsaiah, avatarRuolin, avatarShu, avatarSteven } from "../assets";
 
 export interface ProjectData {
   id: number;
@@ -35,22 +35,21 @@ export interface TeamMember {
   projects?: string[];
 }
 
-// 🌟 新增：为 Highlight 详情页量身定制的富文本数据结构
 export interface HighlightData {
   id: string;
   title: string;
   heroImage: string;
   tags: string[];
-  overview: string[]; // 多段落概览
-  focusPoints: string[]; // 研究焦点列表
-  relatedProjects: string[]; // 关联的 Project slug，用于生成跳转卡片
-  publications: { citation: string; link?: string }[]; // 论文
-  conferences: string[]; // 会议
-  mediaLink?: { label: string; url: string }; // 视频或Demo链接
+  overview: string[];
+  focusPoints: string[];
+  relatedProjects: string[];
+  publications: { citation: string; link?: string }[];
+  conferences: string[];
+  mediaLink?: { label: string; url: string };
 }
 
 // ==========================================
-// 1. PROJECTS (保持不变)
+// 1. PROJECTS
 // ==========================================
 export const projects: ProjectData[] = [
   {
@@ -104,7 +103,7 @@ export const projects: ProjectData[] = [
     sections: [
       { heading: "Collaborators", body: "Collaborate with: Dr. Prince Amegbor (Assistant Professor of Global and Environmental Health, NYU)." },
     ],
-    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "F. Shi"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Steven Shi"], // 👈 更新为 Steven Shi
   },
   {
     id: 5,
@@ -135,7 +134,7 @@ export const projects: ProjectData[] = [
 ];
 
 // ==========================================
-// 2. NEWS (保持不变)
+// 2. NEWS
 // ==========================================
 export const newsDetailData = [
   {
@@ -156,7 +155,7 @@ export const newsDetailData = [
 ];
 
 // ==========================================
-// 3. HIGHLIGHTS (🌟 重构：极高还原你的文本内容)
+// 3. HIGHLIGHTS
 // ==========================================
 export const highlightDetailData: HighlightData[] = [
   {
@@ -183,7 +182,7 @@ export const highlightDetailData: HighlightData[] = [
       { citation: "Zhang, Z.*, Amegbor, P. M., and Sabel, C. E. (2021). Assessing the Current Integration of Multiple Personalised Wearable Sensors for Environment and Health Monitoring. Sensors (Basel), 21(22).", link: "https://doi.org/10.3390/s21227693" }
     ],
     conferences: [
-      "Shi, F. (Student), Zhang, Z.*, and Amegbor, P. (2026, April). Categorizing Sources and Intensities of Sound and Evaluating Noise in New York City Using Large Language Model. International Conference on Urban Affairs (ICUA), Chicago, IL.",
+      "Shi, Steven (Student), Zhang, Z.*, and Amegbor, P. (2026, April). Categorizing Sources and Intensities of Sound and Evaluating Noise in New York City Using Large Language Model. International Conference on Urban Affairs (ICUA), Chicago, IL.", // 👈 统一名字
       "Yang. X. (Student), Zhang.X., Rozhkov, A., Zhang, Z., Amegbor, P. M., \"Sensor-Based Micro-Level Observations on Stress Spatial Distribution: A Case Study of Accra\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025.",
       "Zhang. X. (Student), Yang.X., Rozhkov, A., Amegbor, P. M., Zhang, Z., \"Sensor-based Observation of Urban Stress in New York City\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025."
     ]
@@ -236,7 +235,7 @@ export const highlightDetailData: HighlightData[] = [
 ];
 
 // ==========================================
-// 4. TEAM (保持不变)
+// 4. TEAM
 // ==========================================
 export const teamMembers: TeamMember[] = [
   {
@@ -266,22 +265,47 @@ export const teamMembers: TeamMember[] = [
     id: "isaiah-garnett", 
     name: "Isaiah Garnett", 
     role: "Graduate Researcher", 
-    title: "M.S. Student in Urban Data Science", // 👈 更新了 title
+    title: "M.S. Student in Urban Data Science",
     category: "master", 
     avatar: avatarIsaiah, 
-    // 👇 更新了 bio，使其与提供的信息完全一致
     bio: "Isaiah's research sits at the intersection of urban environments and human physiology. As part of the biosensing project, he works on processing and analyzing EDA and BVP signals to examine how people respond to different urban settings in immersive VR environments.", 
-    // 👇 将 "His broader interests..." 放入 fullBio，供详情页展示
     fullBio: "Isaiah's research sits at the intersection of urban environments and human physiology. As part of the biosensing project, he works on processing and analyzing EDA and BVP signals to examine how people respond to different urban settings in immersive VR environments. His broader interests include urban data science, mobility analytics, and applying machine learning to real-world city challenges.",
-    // 👇 更新了研究方向标签
     research: ["Urban Informatics", "Biosensing", "Data Science"], 
     projects: ["virtual-therapy-urban-stress"]
   },
   {
-    id: "ruolin-wu", name: "Ruolin Wu", role: "Graduate Researcher", title: "USI-P13 Project Member", category: "master", avatar: "", bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", research: ["Data Analytics", "Community Engagement", "VR"],
-    publications: [{ title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }], projects: ["virtual-therapy-urban-stress", "citywe-collaborative-agent"]
+    id: "ruolin-wu", 
+    name: "Ruolin Wu", 
+    role: "Graduate Researcher", 
+    title: "USI-P13 Project Member", 
+    category: "master", 
+    avatar: avatarRuolin, // 👈 注入照片
+    bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", 
+    research: ["Data Analytics", "Community Engagement", "VR"],
+    publications: [{ title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }], 
+    projects: ["virtual-therapy-urban-stress", "citywe-collaborative-agent"]
   },
   {
-    id: "shu-aspen-yang", name: "Shu (Aspen) Yang", role: "Graduate Researcher", title: "USI-P13 Project Member", category: "master", avatar: "", bio: "Aspen focuses on developing the VR environments and processing 360° panoramic video data for urban simulations.", research: ["VR Engineering", "Spatial Analysis", "Computer Vision"], projects: ["virtual-therapy-urban-stress"]
+    id: "shu-aspen-yang", 
+    name: "Shu (Aspen) Yang", 
+    role: "Graduate Researcher", 
+    title: "USI-P13 Project Member", 
+    category: "master", 
+    avatar: avatarShu, // 👈 注入照片
+    bio: "Aspen focuses on developing the VR environments and processing 360° panoramic video data for urban simulations.", 
+    research: ["VR Engineering", "Spatial Analysis", "Computer Vision"], 
+    projects: ["virtual-therapy-urban-stress"]
+  },
+  {
+    id: "steven-shi", // 👈 新增 Steven Shi 的完整档案
+    name: "Steven Shi",
+    role: "Graduate Researcher",
+    title: "Project Member",
+    category: "master",
+    avatar: avatarSteven, 
+    bio: "Steven explores the potential of using LLMs to classify urban sound environments and support research on noise exposure and its implications for health.",
+    fullBio: "The project Steven is currently working on is 'Detecting and Mapping of Soundscape using Large Language Model in New York City'. Urban noise is a common environmental exposure in cities and has been associated with various physical and mental health outcomes. As urban populations grow, understanding how people are exposed to different sources of noise in everyday environments has become increasingly important for environmental public health research. Traditional methods of assessing noise exposure often rely on sound meters or location-based estimates, which can be time-consuming and may not fully capture the complexity of real-world sound environments. Recent advances in generative artificial intelligence, particularly Large Language Models (LLMs), offer new possibilities for analyzing audio data and classifying noise sources more efficiently. This study explores the potential of using LLMs to classify urban sound environments and support research on noise exposure and its implications for health and well-being.",
+    research: ["LLM", "Urban Sensing", "Soundscape"],
+    projects: ["soundscape-llm-mapping"]
   }
 ];
