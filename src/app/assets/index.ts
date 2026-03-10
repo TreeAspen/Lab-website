@@ -9,6 +9,7 @@ import avatarIsaiah from "../../assets/Isaiah_Garnett.jpg";
 import avatarRuolin from "../../assets/Ruolin_Wu.jpg"; 
 import avatarShu from "../../assets/Shu_Yang.jpg";     
 import avatarSteven from "../../assets/Steven Shi.jpg"; 
+import avatarVincent from "../../assets/Vincent Cao.png";
 
 // ─── 原有的 Hero & Highlights 资源 ──────────────────────────
 import heroModel1 from "../../assets/bf2bbc386da37f36888e2dc21afb70b3a90d7d2c.png";
@@ -34,6 +35,8 @@ import logoSouthCarolina from "../../assets/South Carolina.svg";
 import logoBerkeley from "../../assets/UC Berkeley.png";
 import logoUF from "../../assets/UF.webp";
 
+import videoSegmentation from "../../assets/Segmentation.mp4";
+
 // ─── 外部图片 (Unsplash) ────────────────────────────────────
 export const newsImages: Record<number, string> = {
   1: "https://images.unsplash.com/photo-1574519618668-c34001efde43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnB1bmslMjBuZW9uJTIwY2l0eXNjYXBlfGVufDF8fHx8MTc3MTc5NTY4N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -48,6 +51,7 @@ export {
   avatarRuolin,
   avatarShu,
   avatarSteven,
+  avatarVincent,
   heroModel1, 
   heroModel2,
   heroModel3, 
@@ -65,5 +69,6 @@ export {
   logoNYUTandon,
   logoSouthCarolina,
   logoBerkeley,
-  logoUF
+  logoUF,
+  videoSegmentation,
 };

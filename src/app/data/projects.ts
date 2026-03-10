@@ -1,7 +1,8 @@
 /**
  * Centralized project data used by both OurWork listing & ProjectDetail pages.
  */
-import { avatarIsaiah, avatarRuolin, avatarShu, avatarSteven } from "../assets";
+// 🌟 核心修改 1：在这里导入 videoSegmentation
+import { avatarIsaiah, avatarRuolin, avatarShu, avatarSteven, videoSegmentation,avatarVincent } from "../assets";
 
 export interface ProjectData {
   id: number;
@@ -35,10 +36,12 @@ export interface TeamMember {
   projects?: string[];
 }
 
+// 🌟 核心修改 2：允许 HighlightData 接收视频字段
 export interface HighlightData {
   id: string;
   title: string;
   heroImage: string;
+  heroVideo?: string; // 👈 允许传入视频
   tags: string[];
   overview: string[];
   focusPoints: string[];
@@ -103,7 +106,7 @@ export const projects: ProjectData[] = [
     sections: [
       { heading: "Collaborators", body: "Collaborate with: Dr. Prince Amegbor (Assistant Professor of Global and Environmental Health, NYU)." },
     ],
-    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Steven Shi"], // 👈 更新为 Steven Shi
+    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Steven Shi"],
   },
   {
     id: 5,
@@ -162,6 +165,8 @@ export const highlightDetailData: HighlightData[] = [
     id: "urban",
     title: "Urban Sensing",
     heroImage: "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    // 🌟 核心修改 3：把导入的视频变量塞给 Urban Sensing！
+    heroVideo: videoSegmentation, 
     tags: ["Wearables", "Biosensors", "Micro-scale"],
     mediaLink: { label: "View Segmentation Demo", url: "https://drive.google.com/file/d/1BezaJk4ysxAJuZMremnxHbG0UJYp0KDT/view?usp=sharing" },
     overview: [
@@ -182,7 +187,7 @@ export const highlightDetailData: HighlightData[] = [
       { citation: "Zhang, Z.*, Amegbor, P. M., and Sabel, C. E. (2021). Assessing the Current Integration of Multiple Personalised Wearable Sensors for Environment and Health Monitoring. Sensors (Basel), 21(22).", link: "https://doi.org/10.3390/s21227693" }
     ],
     conferences: [
-      "Shi, Steven (Student), Zhang, Z.*, and Amegbor, P. (2026, April). Categorizing Sources and Intensities of Sound and Evaluating Noise in New York City Using Large Language Model. International Conference on Urban Affairs (ICUA), Chicago, IL.", // 👈 统一名字
+      "Shi, Steven (Student), Zhang, Z.*, and Amegbor, P. (2026, April). Categorizing Sources and Intensities of Sound and Evaluating Noise in New York City Using Large Language Model. International Conference on Urban Affairs (ICUA), Chicago, IL.",
       "Yang. X. (Student), Zhang.X., Rozhkov, A., Zhang, Z., Amegbor, P. M., \"Sensor-Based Micro-Level Observations on Stress Spatial Distribution: A Case Study of Accra\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025.",
       "Zhang. X. (Student), Yang.X., Rozhkov, A., Amegbor, P. M., Zhang, Z., \"Sensor-based Observation of Urban Stress in New York City\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025."
     ]
@@ -279,7 +284,7 @@ export const teamMembers: TeamMember[] = [
     role: "Graduate Researcher", 
     title: "USI-P13 Project Member", 
     category: "master", 
-    avatar: avatarRuolin, // 👈 注入照片
+    avatar: avatarRuolin,
     bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", 
     research: ["Data Analytics", "Community Engagement", "VR"],
     publications: [{ title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }], 
@@ -291,13 +296,13 @@ export const teamMembers: TeamMember[] = [
     role: "Graduate Researcher", 
     title: "USI-P13 Project Member", 
     category: "master", 
-    avatar: avatarShu, // 👈 注入照片
+    avatar: avatarShu,
     bio: "Aspen focuses on developing the VR environments and processing 360° panoramic video data for urban simulations.", 
     research: ["VR Engineering", "Spatial Analysis", "Computer Vision"], 
     projects: ["virtual-therapy-urban-stress"]
   },
   {
-    id: "steven-shi", // 👈 新增 Steven Shi 的完整档案
+    id: "steven-shi", 
     name: "Steven Shi",
     role: "Graduate Researcher",
     title: "Project Member",
@@ -306,6 +311,18 @@ export const teamMembers: TeamMember[] = [
     bio: "Steven explores the potential of using LLMs to classify urban sound environments and support research on noise exposure and its implications for health.",
     fullBio: "The project Steven is currently working on is 'Detecting and Mapping of Soundscape using Large Language Model in New York City'. Urban noise is a common environmental exposure in cities and has been associated with various physical and mental health outcomes. As urban populations grow, understanding how people are exposed to different sources of noise in everyday environments has become increasingly important for environmental public health research. Traditional methods of assessing noise exposure often rely on sound meters or location-based estimates, which can be time-consuming and may not fully capture the complexity of real-world sound environments. Recent advances in generative artificial intelligence, particularly Large Language Models (LLMs), offer new possibilities for analyzing audio data and classifying noise sources more efficiently. This study explores the potential of using LLMs to classify urban sound environments and support research on noise exposure and its implications for health and well-being.",
     research: ["LLM", "Urban Sensing", "Soundscape"],
+    projects: ["soundscape-llm-mapping"]
+  },
+  {
+    id: "vincent-cao", 
+    name: "Vincent (Fanghua) Cao",
+    role: "Graduate Researcher",
+    title: "ECE Master’s Student",
+    category: "master", // 🌟 确保 category 是 "master"
+    avatar: avatarVincent, 
+    bio: "Vincent holds a technical background in V2X systems and LLM Fine-Tuning.",
+    fullBio: "Vincent (Fanghua) Cao is an ECE Master’s student...",
+    research: ["LLM Fine-Tuning", "V2X Systems", "Multimodal AI"],
     projects: ["soundscape-llm-mapping"]
   }
 ];

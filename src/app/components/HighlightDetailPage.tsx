@@ -35,8 +35,26 @@ export function HighlightDetailPage() {
 
       {/* ─── Hero Header ─── */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
-        <div className="relative h-64 md:h-80 lg:h-[400px] border-2 border-white/20 rounded-xl overflow-hidden mb-8">
-          <img src={data.heroImage} alt={data.title} className="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
+        <div className="relative h-64 md:h-80 lg:h-[400px] border-2 border-white/20 rounded-xl overflow-hidden mb-8 bg-[#111]">
+          
+          {/* 🌟 核心渲染区：如果数据里有视频就播视频，否则播图片 */}
+          {data.heroVideo ? (
+            <video 
+              src={data.heroVideo} 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              className="w-full h-full object-cover opacity-60" 
+            />
+          ) : (
+            <img 
+              src={data.heroImage} 
+              alt={data.title} 
+              className="w-full h-full object-cover opacity-60 mix-blend-luminosity" 
+            />
+          )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
           <div className="absolute bottom-6 left-6 right-6">
             <h1 className="font-['VT323'] text-5xl md:text-7xl uppercase tracking-wider text-[#E2F16B] drop-shadow-lg">
@@ -99,7 +117,6 @@ export function HighlightDetailPage() {
             {linkedProjects.map((proj) => (
               <Link key={proj.slug} to={`/projects/${proj.slug}`} className="group bg-[#0a0a0a] border border-white/20 rounded-xl overflow-hidden hover:border-[#FF7A00]/80 transition-all flex flex-col h-full">
                 <div className="p-6 flex-1 flex flex-col">
-                  {/* 使用更优雅的 ArrowUpRight 替换 >> */}
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-['VT323'] text-2xl uppercase text-[#faff71] group-hover:text-[#FF7A00] transition-colors line-clamp-2">
                       <ArrowUpRight className="inline-block w-5 h-5 mr-2 mb-1 opacity-50 group-hover:opacity-100 transition-opacity" />

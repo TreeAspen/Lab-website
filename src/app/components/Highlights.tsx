@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight } from "lucide-react";
-import { highlightsVR as imgVR } from "../assets";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+// 🌟 1. 同时导入视频和静态图片变量
+import { videoSegmentation, highlightsVR as imgVR } from "../assets"; 
 
-// 👇 更新了 Pillar 名称和文案
+// 🌟 2. 这是 Highlights 专用的 pillars 数据数组
 const pillars = [
   {
     id: "urban",
@@ -15,26 +16,31 @@ const pillars = [
     focus:
       "Our work specifically focuses on urban exposure, quantifying how things like environmental stress and spatial design affect our mental and physical health.",
     tags: ["IoT", "Wearables", "Computer Vision", "Exposure"],
+    // 🌟 这里直接使用视频变量
+    video: videoSegmentation,
   },
   {
-    id: "vr", // 👈 改为 vr，对应路由
-    label: "Immersive — Urban VR", // 👈 更新名称
+    id: "vr",
+    label: "Immersive — Urban VR",
     num: "Pillar 2",
     summary:
       "If sensing is about measuring, the next step is making that data legible and actionable. We develop urban VR systems — integrating immersive reality, photogrammetry, and 3D interfaces — that allow people to literally step into future urban realities.",
     focus:
       "By turning complex \"what-if\" scenarios into playful, interactive experiences, we move beyond dry planning toward a more human-centered process.",
     tags: ["VR", "Photogrammetry", "3D", "Interaction"],
+    // 🌟 这里使用导入的 VR 图片变量
+    image: imgVR,
   },
   {
-    id: "agent", // 👈 改为 agent，对应路由
-    label: "Responsive — Urban Agent", // 👈 更新名称
+    id: "agent",
+    label: "Responsive — Urban Agent",
     num: "Pillar 3",
     summary:
       "If sensing measures the city and VR lets us see it, our final pillar is about making the city respond. We build AI agents and conversational systems to bridge complex urban data with the daily lives of citizens.",
     focus:
       "Our urban systems are not merely efficient — they are traceable, intuitive, and deeply responsive to human needs.",
     tags: ["AI Agents", "Co-Design", "NLP", "Responsive"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
   },
 ];
 
@@ -96,11 +102,23 @@ export function Highlights() {
                 className="bg-[#fcfcea] text-black p-6 rounded-lg border-2 border-white relative"
               >
                 <div className="bg-[#eef093] h-64 md:h-80 w-full mb-6 relative overflow-hidden rounded-md border-2 border-black">
-                   <img 
-                      src={imgVR} 
-                      alt={active.label}
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                   />
+                   {/* 🌟 条件渲染区：有视频播视频，没视频播图片 */}
+                   {active.video ? (
+                     <video 
+                        src={active.video} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                     />
+                   ) : (
+                     <img 
+                        src={active.image} 
+                        alt={active.label}
+                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                     />
+                   )}
                 </div>
 
                 {/* Tags */}
@@ -122,7 +140,6 @@ export function Highlights() {
                   {active.focus}
                 </p>
 
-                {/* 👇 核心修改：添加了 underline underline-offset-4 decoration-2 */}
                 <Link 
                   to={`/highlights/${activeTab}`}
                   className="inline-flex items-center gap-2 font-mono uppercase underline underline-offset-4 decoration-2 hover:text-[#FF7A00] hover:decoration-[#FF7A00] transition-colors group"

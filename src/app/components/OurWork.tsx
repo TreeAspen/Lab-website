@@ -1,8 +1,9 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+// 🌟 1. 导入视频变量
+import { videoSegmentation } from "../assets"; 
 
-// 👇 更新了旧名称 (Chatbot -> Agent)，并替换了 Urban Sensing 的图片
 const workAreas = [
   {
     id: "sensing",
@@ -10,9 +11,8 @@ const workAreas = [
     desc: "Sensor-based measurements capturing urban life — mobile data, wearables, computer vision, and environmental monitoring.",
     href: "/highlights/urban",
     color: "#E2F16B",
-    // 🌟 替换为一张具有赛博朋克/城市数据监测风格的网络占位图
-    heroImage:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    // 🌟 2. 直接使用变量，不要加引号！
+    heroVideo: videoSegmentation,
   },
   {
     id: "vr",
@@ -45,8 +45,6 @@ export function OurWork() {
         }}
       />
       
-      {/* 🌟 删除了此处的两个 absolute 装饰元素 */}
-      
       <div className="relative z-10 max-w-6xl mx-auto text-center mb-16">
         <h2 className="font-['VT323'] text-5xl md:text-6xl uppercase tracking-widest text-[#f0f0f0]">
           Our Work
@@ -67,12 +65,27 @@ export function OurWork() {
               whileHover={{ scale: 1.02 }}
               className="bg-[#2a2a2a] border-2 border-white/20 rounded-xl overflow-hidden transition-all duration-300 group cursor-pointer h-full flex flex-col"
             >
-              <div className="aspect-[4/3] relative overflow-hidden">
-                <img 
-                  src={work.heroImage} 
-                  alt={work.title} 
-                  className="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-500"
-                />
+              <div className="aspect-[4/3] relative overflow-hidden bg-black flex items-center justify-center">
+                
+                {/* 🌟 3. 条件渲染：如果有 heroVideo 就渲染视频，否则渲染图片 */}
+                {work.heroVideo ? (
+                  <video 
+                    src={work.heroVideo} 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline 
+                    // 🌟 4. 去掉了 mix-blend-screen，确保视频在黑色背景下不会隐形
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                  />
+                ) : (
+                  <img 
+                    src={work.heroImage} 
+                    alt={work.title} 
+                    className="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-500"
+                  />
+                )}
+                
                 <div className="absolute inset-0 opacity-30 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_25%,rgba(255,255,255,0.1)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.1)_75%,rgba(255,255,255,0.1)_100%)] bg-[length:20px_20px]" />
                 <div 
                   className="absolute top-4 left-4 px-3 py-1 font-['VT323'] text-lg uppercase tracking-wider text-black"

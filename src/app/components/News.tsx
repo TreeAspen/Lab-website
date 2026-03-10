@@ -23,7 +23,7 @@ const newsItems = [
     id: 3,
     title: "On-going User Test: VR & Body Sensing for Urban Stress",
     desc: "We are transitioning into the full data collection phase for our immersive VR study exploring how urban visual elements mitigate stress. ",
-    detail: "Using VR headsets paired with EEG and EDA biosensors, participants explore 360° panoramic scenes of New York City[cite: 11, 14]. We measure physiological responses across different urban typologies—such as traffic corridors and waterfronts—where the Green View Index (GVI) has been normalized using Generative AI. Sessions include setup, baseline measurements, and four 3-minute VR exposures to help us develop data-driven urban design guidelines."
+    detail: "Using VR headsets paired with EEG and EDA biosensors, participants explore 360° panoramic scenes of New York City. We measure physiological responses across different urban typologies—such as traffic corridors and waterfronts—where the Green View Index (GVI) has been normalized using Generative AI. Sessions include setup, baseline measurements, and four 3-minute VR exposures to help us develop data-driven urban design guidelines."
   }
 ];
 

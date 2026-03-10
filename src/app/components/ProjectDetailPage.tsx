@@ -51,13 +51,26 @@ export function ProjectDetailPage() {
         className="max-w-6xl mx-auto px-4 md:px-8"
       >
         <div className="relative rounded-2xl overflow-hidden border-4 border-black">
-          {/* Image */}
-          <div className="relative h-[300px] md:h-[450px] overflow-hidden">
-            <img
-              src={project.heroImage}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
+          {/* 🌟 核心修改区：Image / Video 智能切换 */}
+          <div className="relative h-[300px] md:h-[450px] overflow-hidden bg-black">
+            {/* @ts-ignore - 兼容未来可能添加的 heroVideo 字段 */}
+            {project.heroVideo ? (
+              <video
+                src={(project as any).heroVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover opacity-80"
+              />
+            ) : (
+              <img
+                src={project.heroImage}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            )}
+            
             {/* Scanline overlay */}
             <div
               className="absolute inset-0 pointer-events-none opacity-[0.06]"
@@ -150,8 +163,9 @@ export function ProjectDetailPage() {
           <motion.div
             key={i}
             initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 + i * 0.15 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className={`relative flex flex-col ${
               i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
             } gap-6 items-stretch`}
@@ -167,7 +181,7 @@ export function ProjectDetailPage() {
             </div>
 
             {/* Content card */}
-            <div className="flex-1 bg-white border-2 border-black rounded-xl p-6 md:p-8 transition-all">
+            <div className="flex-1 bg-white border-2 border-black rounded-xl p-6 md:p-8 transition-all hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <h3 className="font-['VT323'] text-2xl md:text-3xl uppercase tracking-wider mb-4 flex items-center gap-2">
                 <span className="text-[#FF7A00] text-lg">{">"}</span>
                 {section.heading}
@@ -187,12 +201,14 @@ export function ProjectDetailPage() {
                 </div>
               )}
 
-              {/* Image drop zone hint */}
-              <div className="mt-6 border-2 border-dashed border-black/20 rounded-lg p-4 text-center">
-                <p className="font-mono text-xs text-gray-400 uppercase">
-                  [ Image / Media Placeholder — Replace with your content ]
-                </p>
-              </div>
+              {/* Image drop zone hint (Only shows if no image is present) */}
+              {!section.image && (
+                <div className="mt-6 border-2 border-dashed border-black/20 rounded-lg p-4 text-center">
+                  <p className="font-mono text-xs text-gray-400 uppercase">
+                    [ Image / Media Placeholder — Replace with your content ]
+                  </p>
+                </div>
+              )}
             </div>
           </motion.div>
         ))}
@@ -201,12 +217,14 @@ export function ProjectDetailPage() {
       {/* ─── Team Section ──────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.7 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
         className="max-w-6xl mx-auto px-4 md:px-8 mt-12"
       >
         <div className="bg-black text-white rounded-xl p-6 md:p-8 border-2 border-white/20">
           <h3 className="font-['VT323'] text-2xl uppercase tracking-wider mb-6 flex items-center gap-3">
+            <span className="text-[#FF7A00]">{">"}</span>
             <Users className="w-5 h-5 text-[#E2F16B]" />
             Research Team
           </h3>
@@ -214,10 +232,11 @@ export function ProjectDetailPage() {
             {project.team.map((member, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 bg-white/10 border border-white/20 rounded-full px-5 py-2"
+                className="flex items-center gap-3 bg-white/10 border border-white/20 rounded-full px-5 py-2 hover:bg-white/20 transition-colors cursor-default"
               >
-                <div className="w-8 h-8 rounded-full bg-[#FF7A00] border border-white/30 flex items-center justify-center font-['VT323'] text-sm text-black">
+                <div className="w-8 h-8 rounded-full bg-[#FF7A00] border border-white/30 flex items-center justify-center font-['VT323'] text-sm text-black shadow-[0_0_10px_rgba(255,122,0,0.5)]">
                   {member
+                    .replace("Dr. ", "")
                     .split(" ")
                     .map((n) => n[0])
                     .join("")}
@@ -235,39 +254,39 @@ export function ProjectDetailPage() {
           {prevProject ? (
             <Link
               to={`/projects/${prevProject.slug}`}
-              className="group flex items-center gap-3 bg-white border-2 border-black rounded-xl px-6 py-4 transition-all"
+              className="group flex items-center gap-3 bg-white border-2 border-black rounded-xl px-6 py-4 transition-all hover:bg-black hover:text-[#faff71] w-full md:w-auto"
             >
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               <div>
-                <p className="font-mono text-xs text-gray-500 uppercase">
+                <p className="font-mono text-xs text-gray-500 uppercase group-hover:text-gray-400">
                   Previous
                 </p>
-                <p className="font-['VT323'] text-xl uppercase">
+                <p className="font-['VT323'] text-xl uppercase line-clamp-1">
                   {prevProject.title}
                 </p>
               </div>
             </Link>
           ) : (
-            <div />
+            <div className="hidden md:block w-full md:w-auto" />
           )}
 
           {nextProject ? (
             <Link
               to={`/projects/${nextProject.slug}`}
-              className="group flex items-center gap-3 bg-white border-2 border-black rounded-xl px-6 py-4 transition-all text-right"
+              className="group flex items-center justify-end gap-3 bg-white border-2 border-black rounded-xl px-6 py-4 transition-all hover:bg-black hover:text-[#faff71] w-full md:w-auto text-right"
             >
               <div>
-                <p className="font-mono text-xs text-gray-500 uppercase">
+                <p className="font-mono text-xs text-gray-500 uppercase group-hover:text-gray-400">
                   Next
                 </p>
-                <p className="font-['VT323'] text-xl uppercase">
+                <p className="font-['VT323'] text-xl uppercase line-clamp-1">
                   {nextProject.title}
                 </p>
               </div>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           ) : (
-            <div />
+            <div className="hidden md:block w-full md:w-auto" />
           )}
         </div>
       </div>
