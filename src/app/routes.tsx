@@ -1,4 +1,4 @@
-import { createHashRouter, Outlet, Link } from "react-router-dom";
+import { createHashRouter, Outlet } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Brief } from "./components/Brief";
@@ -12,21 +12,16 @@ import { ProjectDetailPage } from "./components/ProjectDetailPage";
 import { NewsDetailPage } from "./components/NewsDetailPage";
 import { HighlightDetailPage } from "./components/HighlightDetailPage";
 import { TeamPage } from "./components/TeamPage";
+// 👇 这个导入和下面数组里的组件是一一对应的
 import { TeamMemberDetailPage } from "./components/TeamMemberDetailPage";
 
-// 👇 新增：导入滚动到顶部的监听组件
 import { ScrollToTop } from "./components/ScrollToTop";
+import { Link } from "react-router-dom";
 
-/**
- * 布局组件：全局脚手架
- */
 function Layout() {
   return (
-    /* 👇 核心修改 1：全局应用 font-mono，实现打字机/代码终端质感 */
     <div className="min-h-screen bg-[#F4F4EB] font-mono text-black selection:bg-[#FF7A00] selection:text-white">
-      
       <ScrollToTop />
-      
       <Header />
       <main>
         <Outlet />
@@ -36,9 +31,6 @@ function Layout() {
   );
 }
 
-/**
- * 首页组件：组件顺序：Hero -> Brief -> Highlights -> News -> ...
- */
 function HomePage() {
   return (
     <>
@@ -53,9 +45,6 @@ function HomePage() {
   );
 }
 
-/**
- * 路由定义：Hash 模式是 GitHub Pages 的终极避雷针
- */
 export const router = createHashRouter([
   {
     path: "/",
@@ -85,7 +74,6 @@ export const router = createHashRouter([
         path: "team/:id",
         Component: TeamMemberDetailPage
       },
-      /* 404 页面：硬核赛博设计风格 */
       { 
         path: "*", 
         Component: () => (
