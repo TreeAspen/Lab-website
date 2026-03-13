@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Workflow - Interactive Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --surface: rgba(14, 14, 14, 0.9);
+      --surface-hover: rgba(23, 23, 23, 0.95);
+      --accent: #ffd400;
+      --accent-soft: rgba(255, 212, 0, 0.2);
+      --text: #fff;
+      --text-muted: #d8d8d8;
+      --border: rgba(255, 255, 255, 0.24);
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: #000;
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+      z-index: -1;
+    }
+
+    .container {
+      width: min(96vw, 1720px);
+      aspect-ratio: auto;
+      min-height: auto;
+      padding: 1.3rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #050505;
+      position: relative;
+      overflow: visible;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.72);
+    }
+
+    .container::after {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(255, 212, 0, 0.2);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    .flow-wrapper { position: relative; z-index: 1; height: auto; }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.72fr 0.92fr;
+      grid-template-rows: auto auto auto;
+      gap: 1.35rem;
+      height: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.95rem 1rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: visible;
+      align-self: start;
+      animation: rise 580ms var(--delay, 0ms) ease both;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 42%);
+      pointer-events: none;
+    }
+
+    .step::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, rgba(255, 212, 0, 0.95), rgba(255, 212, 0, 0.22));
+    }
+
+    .step:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .step:focus-visible {
+      outline: none;
+      box-shadow: var(--shadow), 0 0 0 2px var(--accent);
+    }
+
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 0.44rem;
+      margin-bottom: 0.52rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      font-size: 0.98rem;
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 212, 0, 0.7);
+      background: rgba(255, 212, 0, 0.14);
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .step-detail { font-size: 0.81rem; line-height: 1.4; color: var(--text); }
+    .step-detail p { margin: 0 0 0.45rem; }
+
+    ul.bullet-list { padding-left: 1.1rem; margin: 0.28rem 0 0; }
+    ul.bullet-list li { margin-bottom: 0.28rem; }
+
+    .step-1 { grid-column: 1; grid-row: 1 / 4; --delay: 60ms; }
+    .step-2 { grid-column: 2; grid-row: 1; --delay: 120ms; }
+    .step-3 { grid-column: 2; grid-row: 2; --delay: 180ms; }
+    .step-4 { grid-column: 2; grid-row: 3; --delay: 220ms; }
+    .step-5 { grid-column: 3; grid-row: 1; --delay: 260ms; }
+    .step-6 { grid-column: 3; grid-row: 2; --delay: 300ms; }
+    .step-7 { grid-column: 3; grid-row: 3; --delay: 340ms; }
+
+    .step-1 {
+      padding: 1.12rem 1.14rem;
+      overflow: hidden;
+      align-self: stretch;
+    }
+
+    .step-1 .step-title {
+      margin-bottom: 0.66rem;
+      font-size: 1.02rem;
+    }
+
+    .step-1 .step-num {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.96rem;
+    }
+
+    .step-1 .step-detail {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      height: auto;
+      display: block;
+    }
+
+    .step-1 .bullet-list {
+      display: block;
+    }
+
+    .step-1 ul.bullet-list li {
+      margin-bottom: 0.2rem;
+    }
+
+    .step-1 ul.bullet-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-1 .route-item {
+      margin-top: 0;
+    }
+
+    .step-1 .route-visual-box {
+      margin-bottom: 0;
+    }
+
+    .step-1 .route-map-svg {
+      height: 74px;
+    }
+
+    .sensor-visual-box,
+    .morph-visual-box,
+    .route-visual-box,
+    .video-slot {
+      margin-top: 0.36rem;
+      border: 1.5px dashed rgba(255, 212, 0, 0.55);
+      border-radius: 10px;
+      padding: 0.36rem;
+      background: rgba(255, 212, 0, 0.04);
+    }
+
+    .sensor-icon-grid,
+    .morph-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.42rem;
+    }
+
+    .sensor-icon-tile,
+    .morph-tile {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 0.28rem 0.2rem;
+      background: rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .sensor-icon-tile svg {
+      width: 30px;
+      height: 30px;
+      display: block;
+      margin: 0 auto 0.18rem;
+      stroke: #ffd400;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .morph-tile svg {
+      width: 42px;
+      height: 28px;
+      display: block;
+      margin: 0 auto 0.18rem;
+      stroke: #ffd400;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .sensor-icon-tile span,
+    .morph-tile span {
+      display: block;
+      font-size: 0.64rem;
+      line-height: 1.2;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .route-map-svg {
+      width: 100%;
+      height: 64px;
+      display: block;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .route-map-svg .grid-line { stroke: rgba(255, 255, 255, 0.16); stroke-width: 1; }
+    .route-map-svg .route-line {
+      stroke: #ffd400;
+      stroke-width: 2.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 4 3;
+    }
+    .route-map-svg .route-node { fill: #111; stroke: #ffd400; stroke-width: 1.8; }
+    .route-map-svg text {
+      fill: #fff;
+      font-size: 7px;
+      font-weight: 700;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .video-frame {
+      width: 100%;
+      aspect-ratio: 7 / 4;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255, 212, 0, 0.08), rgba(255, 212, 0, 0.03)), rgba(0, 0, 0, 0.52);
+      display: grid;
+      place-items: center;
+      color: #ffd400;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .step-3 {
+      overflow: visible;
+      margin-top: 0;
+      align-self: stretch;
+      min-height: auto;
+      padding: 1.02rem 1.04rem;
+    }
+
+    .step-3 .step-detail {
+      font-size: 0.77rem;
+      line-height: 1.31;
+    }
+
+    .step-3 .step-detail p {
+      margin-bottom: 0.3rem;
+    }
+
+    .step-3 .video-slot {
+      margin-top: 0.25rem;
+      padding: 0.28rem;
+    }
+
+    .step-3 .video-frame {
+      width: 68%;
+      max-width: 205px;
+      margin: 0 auto;
+      font-size: 0.62rem;
+    }
+
+    .step-3 ul.bullet-list {
+      margin-top: 0.22rem;
+      padding-left: 0.95rem;
+    }
+
+    .step-3 ul.bullet-list li {
+      margin-bottom: 0.15rem;
+    }
+
+    .step-2 {
+      padding: 0.72rem 0.9rem;
+      align-self: stretch;
+      min-height: auto;
+    }
+
+    .step-2 .step-title {
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .step-2 .step-num {
+      width: 1.9rem;
+      height: 1.9rem;
+      font-size: 0.88rem;
+    }
+
+    .step-2 .step-detail {
+      font-size: 0.74rem;
+      line-height: 1.28;
+    }
+
+    .step-2 .step-detail p {
+      margin-bottom: 0.14rem;
+    }
+
+    .step-4 {
+      width: 100%;
+      justify-self: stretch;
+      margin-top: 0;
+      align-self: stretch;
+    }
+
+    .pipeline-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; margin-top: 0.45rem; }
+    .pipeline-box {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.42rem 0.62rem;
+      font-size: 0.76rem;
+    }
+    .pipeline-label { font-size: 0.68rem; color: var(--accent); margin-bottom: 0.12rem; }
+    .pipeline-arrow { color: var(--text-muted); font-size: 0.75rem; }
+
+    .state-badges { display: flex; gap: 0.42rem; flex-wrap: wrap; }
+    .state-badge {
+      padding: 0.22rem 0.56rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+    .state-badge.baseline { background: #2a2a2a; color: #fff; border: 1px solid rgba(255, 255, 255, 0.25); }
+    .state-badge.stressful { background: #ffd400; color: #000; }
+    .state-badge.relaxed { background: #fff; color: #000; }
+
+    .step-5,
+    .step-6,
+    .step-7 {
+      padding: 0.88rem 0.9rem;
+      min-height: auto;
+      overflow: visible;
+      align-self: stretch;
+    }
+
+    .step-5 .step-title,
+    .step-6 .step-title,
+    .step-7 .step-title {
+      font-size: 0.9rem;
+      margin-bottom: 0.42rem;
+    }
+
+    .step-5 .step-num,
+    .step-6 .step-num,
+    .step-7 .step-num {
+      width: 1.95rem;
+      height: 1.95rem;
+      font-size: 0.9rem;
+    }
+
+    .step-5 .step-detail,
+    .step-6 .step-detail,
+    .step-7 .step-detail {
+      font-size: 0.76rem;
+      line-height: 1.34;
+    }
+
+    .flow-arrows {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: visible;
+    }
+
+    .flow-arrows svg { width: 100%; height: 100%; }
+
+    .flow-path {
+      fill: none;
+      stroke: rgba(255, 212, 0, 0.82);
+      stroke-width: 2.2;
+      stroke-dasharray: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 5px rgba(255, 212, 0, 0.5));
+    }
+
+    .arrow-label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: rgba(7, 17, 28, 0.9);
+      border: 1px solid rgba(255, 212, 0, 0.3);
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .container { width: 96vw; min-height: auto; padding: 0.9rem; }
+      .flow-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
+      .step-1,.step-2,.step-3,.step-4,.step-5,.step-6,.step-7 { grid-column: 1 !important; grid-row: auto !important; }
+      .flow-arrows { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="flow-wrapper">
+      <div class="flow-grid">
+        <div class="step step-1" data-step="1" tabindex="0">
+          <div class="step-title"><span class="step-num">1</span> Experimental Design</div>
+          <div class="step-detail">
+            <p>Design a field-based sensing study to capture how people experience urban spaces.</p>
+            <ul class="bullet-list">
+              <li>Sensor choice: select wearable and portable sensors (e.g., sound meter, air pollutant sensor, heat sensor) based on target exposures and outcomes (e.g., physiology, environment, mobility).
+                <div class="sensor-visual-box" aria-label="Sensor types">
+                  <div class="sensor-icon-grid">
+                    <div class="sensor-icon-tile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3.5" width="8" height="17" rx="3"></rect><circle cx="12" cy="8.5" r="1.6"></circle><path d="M10 13h4"></path><path d="M10 16h4"></path></svg>
+                      <span>Health Tracker</span>
+                    </div>
+                    <div class="sensor-icon-tile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="3.5" width="11" height="17" rx="2.3"></rect><circle cx="12" cy="16.2" r="0.8"></circle><path d="M12 7.2c1.7 0 3 1.3 3 2.9 0 2.1-3 5.1-3 5.1s-3-3-3-5.1c0-1.6 1.3-2.9 3-2.9z"></path><circle cx="12" cy="10.1" r="0.8"></circle></svg>
+                      <span>Phone GPS</span>
+                    </div>
+                    <div class="sensor-icon-tile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h8"></path><path d="M8 12h5"></path><circle cx="16.5" cy="14.8" r="1.2"></circle></svg>
+                      <span>Portable Device</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>Site selection: choose representative urban sites (e.g., streets, parks, plazas) aligned with the research question.
+                <div class="morph-visual-box" aria-label="Urban morphology examples">
+                  <div class="morph-grid">
+                    <div class="morph-tile">
+                      <svg viewBox="0 0 42 28" aria-hidden="true"><rect x="2.5" y="4" width="10" height="14" rx="1.5"></rect><rect x="29.5" y="6" width="10" height="12" rx="1.5"></rect><path d="M14 20c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path><path d="M3 23h36"></path></svg>
+                      <span>River Corridor</span>
+                    </div>
+                    <div class="morph-tile">
+                      <svg viewBox="0 0 42 28" aria-hidden="true"><rect x="3" y="9" width="9" height="10" rx="1.4"></rect><circle cx="22" cy="12" r="4.2"></circle><path d="M22 16v4"></path><rect x="30" y="8" width="9" height="11" rx="1.4"></rect><path d="M3 23h36"></path></svg>
+                      <span>Green Street</span>
+                    </div>
+                    <div class="morph-tile">
+                      <svg viewBox="0 0 42 28" aria-hidden="true"><rect x="2.5" y="6" width="8.5" height="14" rx="1.2"></rect><rect x="12.5" y="4" width="8.5" height="16" rx="1.2"></rect><rect x="22.5" y="7" width="8.5" height="13" rx="1.2"></rect><rect x="32.5" y="5" width="7" height="15" rx="1.2"></rect><path d="M2.5 23h37"></path></svg>
+                      <span>Dense Built</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="route-item">Route planning: define routes and sampling protocols (duration, indoor/outdoor segments, time windows, sampling rate).
+                <div class="route-visual-box" aria-label="Route planning map">
+                  <svg class="route-map-svg" viewBox="0 0 240 90" aria-hidden="true">
+                    <path class="grid-line" d="M10 15h220M10 35h220M10 55h220M10 75h220"></path>
+                    <path class="grid-line" d="M30 8v74M75 8v74M120 8v74M165 8v74M210 8v74"></path>
+                    <path class="route-line" d="M30 68 L78 58 L126 30 L192 40"></path>
+                    <circle class="route-node" cx="30" cy="68" r="5"></circle>
+                    <circle class="route-node" cx="78" cy="58" r="5"></circle>
+                    <circle class="route-node" cx="126" cy="30" r="5"></circle>
+                    <text x="26.5" y="70.5">A</text><text x="74.5" y="60.5">B</text><text x="122.5" y="32.5">C</text><text x="188.5" y="42.5">D</text>
+                  </svg>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step step-2" data-step="2" tabindex="0">
+          <div class="step-title"><span class="step-num">2</span> Data Collection</div>
+          <div class="step-detail">
+            <p>Collect synchronized field data following approved and standardized procedures.</p>
+            <p>After IRB approval, we recruit participants for on-site sensing sessions and collect synchronized streams (wearable signals, environmental exposure, GPS, and optional imagery).</p>
+          </div>
+        </div>
+
+        <div class="step step-3" data-step="3" tabindex="0">
+          <div class="step-title"><span class="step-num">3</span> Urban Feature Extraction (Image/Visual Sensing)</div>
+          <div class="step-detail">
+            <p>Translate street-level imagery into measurable urban features.</p>
+            <div class="video-slot" aria-label="Video slot 7 by 4"><div class="video-frame">7:4 Video Area</div></div>
+            <ul class="bullet-list">
+              <li>Computer vision for feature detection: detect and quantify micro-scale visual features, including greenery, sky openness, street enclosure, building/road presence, crowding, and visual complexity.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step step-7" data-step="7" tabindex="0">
+          <div class="step-title"><span class="step-num">7</span> Analysis & Visualization</div>
+          <div class="step-detail">
+            <p>Turn sensing into spatial evidence for design and planning.</p>
+            <ul class="bullet-list">
+              <li>Map hotspots and compare sites.</li>
+              <li>Test links between urban features and responses.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step step-5" data-step="5" tabindex="0">
+          <div class="step-title"><span class="step-num">5</span> Environment & GPS Data Cleaning</div>
+          <div class="step-detail">
+            <p>Timestamp alignment across environment, mobility, and other sensor channels and control the data quality.</p>
+          </div>
+        </div>
+
+        <div class="step step-4" data-step="4" tabindex="0">
+          <div class="step-title"><span class="step-num">4</span> Health/Response Labeling</div>
+          <div class="step-detail">
+            <p>Derive interpretable response states from wearable signals (optional).</p>
+            <ul class="bullet-list"><li>Compute physiological features and generate response indicators (e.g., stress vs. baseline/recovery).</li></ul>
+            <div class="pipeline-row">
+              <div class="pipeline-box">Training set: WESAD (wrist-only) · Models: MLP, SVC, XGB</div>
+              <span class="pipeline-arrow">→</span>
+              <div><div class="pipeline-label">Model Training</div><div class="pipeline-box">ACC, EDA, BVP, TEMP</div></div>
+              <span class="pipeline-arrow">→</span>
+              <div><div class="pipeline-label">Model Prediction</div><div class="state-badges"><span class="state-badge baseline">Baseline</span><span class="state-badge stressful">Stressful</span><span class="state-badge relaxed">Relaxed</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step step-6" data-step="6" tabindex="0">
+          <div class="step-title"><span class="step-num">6</span> Data Fusion</div>
+          <div class="step-detail">
+            <p>Integrate environmental, mobility, and imagery-derived features into a single linked dataset by aligning records in time and space (e.g., fixed-interval resampling).</p>
+            <ul class="bullet-list"><li>Link by time and location, e.g., fixed-interval resampling.</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-arrows" aria-hidden="true">
+        <svg id="flowSvg" viewBox="0 0 10 10" preserveAspectRatio="none">
+          <defs><marker id="arrowhead" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto"><polygon points="0 0, 12 5, 0 10" fill="#ffd400" /></marker></defs>
+          <g id="flowPaths"></g>
+        </svg>
+        <span class="arrow-label" id="resampleLabel">Resample</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.step').forEach(step => {
+      step.addEventListener('click', () => step.focus({ preventScroll: true }));
+    });
+
+    function point(rect, side) {
+      if (side === 'left') return { x: rect.left, y: rect.top + rect.height / 2 };
+      if (side === 'right') return { x: rect.right, y: rect.top + rect.height / 2 };
+      if (side === 'top') return { x: rect.left + rect.width / 2, y: rect.top };
+      return { x: rect.left + rect.width / 2, y: rect.bottom };
+    }
+
+    function toLocal(p, base) {
+      return { x: p.x - base.left, y: p.y - base.top };
+    }
+
+    function drawFlow() {
+      const wrapper = document.querySelector('.flow-wrapper');
+      const svg = document.getElementById('flowSvg');
+      const pathLayer = document.getElementById('flowPaths');
+      const label = document.getElementById('resampleLabel');
+      if (!wrapper || !svg || !pathLayer || !label) return;
+
+      const r = wrapper.getBoundingClientRect();
+      svg.setAttribute('viewBox', `0 0 ${Math.max(r.width, 1)} ${Math.max(r.height, 1)}`);
+      pathLayer.innerHTML = '';
+
+      const getStep = (n) => document.querySelector(`.step[data-step=\"${n}\"]`)?.getBoundingClientRect();
+      const s1 = getStep(1), s2 = getStep(2), s3 = getStep(3), s4 = getStep(4), s5 = getStep(5), s6 = getStep(6), s7 = getStep(7);
+      if (!s1 || !s2 || !s3 || !s4 || !s5 || !s6 || !s7) return;
+
+      const addPath = (d) => {
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('class', 'flow-path');
+        p.setAttribute('d', d);
+        p.setAttribute('marker-end', 'url(#arrowhead)');
+        pathLayer.appendChild(p);
+      };
+
+      const addOrthHV = (start, end) => {
+        const midX = (start.x + end.x) / 2;
+        addPath(`M ${start.x} ${start.y} L ${midX} ${start.y} L ${midX} ${end.y} L ${end.x} ${end.y}`);
+      };
+
+      const p12s = toLocal(point(s1, 'right'), r), p12e = toLocal(point(s2, 'left'), r);
+      addOrthHV(p12s, p12e);
+
+      const p23s = toLocal(point(s2, 'bottom'), r), p23e = toLocal(point(s3, 'top'), r);
+      addPath(`M ${p23s.x} ${p23s.y} L ${p23e.x} ${p23e.y}`);
+
+      const p34s = toLocal(point(s3, 'bottom'), r), p34e = toLocal(point(s4, 'top'), r);
+      addPath(`M ${p34s.x} ${p34s.y} L ${p34e.x} ${p34e.y}`);
+
+      const p45s = toLocal(point(s4, 'right'), r), p45e = toLocal(point(s5, 'left'), r);
+      addOrthHV(p45s, p45e);
+
+      const p56s = toLocal(point(s5, 'bottom'), r), p56e = toLocal(point(s6, 'top'), r);
+      addPath(`M ${p56s.x} ${p56s.y} L ${p56e.x} ${p56e.y}`);
+
+      const p67s = toLocal(point(s6, 'bottom'), r), p67e = toLocal(point(s7, 'top'), r);
+      addPath(`M ${p67s.x} ${p67s.y} L ${p67e.x} ${p67e.y}`);
+
+      const midX = (p56s.x + p56e.x) / 2;
+      const midY = (p56s.y + p56e.y) / 2;
+      label.style.left = `${midX}px`;
+      label.style.top = `${midY}px`;
+    }
+
+    window.addEventListener('load', drawFlow);
+    window.addEventListener('resize', drawFlow);
+  </script>
+</body>
+</html>
