@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-// 🌟 1. 导入视频变量
-import { videoSegmentation } from "../assets"; 
+// 🌟 1. 导入所有相关的视频变量
+import { videoSegmentation, videoStretched, videoUrbanAI } from "../assets"; 
 
 const workAreas = [
   {
@@ -11,7 +11,7 @@ const workAreas = [
     desc: "Sensor-based measurements capturing urban life — mobile data, wearables, computer vision, and environmental monitoring.",
     href: "/highlights/urban",
     color: "#E2F16B",
-    // 🌟 2. 直接使用变量，不要加引号！
+    // 🌟 Urban Sensing 的视频
     heroVideo: videoSegmentation,
   },
   {
@@ -20,8 +20,8 @@ const workAreas = [
     desc: "Immersive VR, photogrammetry, and 3D interfaces for urban planning and participatory design.",
     href: "/highlights/vr",
     color: "#FF7A00",
-    heroImage:
-      "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcmVhbGl0eSUyMGhlYWRzZXQlMjBjeWJlcnB1bmt8ZW58MXx8fHwxNzcyMTM3NTQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    // 🌟 2. 替换图片，使用 VR 的视频
+    heroVideo: videoStretched,
   },
   {
     id: "agent", 
@@ -29,8 +29,8 @@ const workAreas = [
     desc: "AI agents and conversational systems bridging complex urban data with citizens' daily lives.",
     href: "/highlights/agent",
     color: "#E2F16B",
-    heroImage:
-      "https://images.unsplash.com/photo-1562544887-593f89e2d21b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXVyYWwlMjBuZXR3b3JrJTIwZGF0YSUyMHZpc3VhbGl6YXRpb24lMjBkYXJrfGVufDF8fHx8MTc3MjEzNzU0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    // 🌟 3. 替换图片，使用 AI/Agent 的视频
+    heroVideo: videoUrbanAI,
   },
 ];
 
@@ -67,7 +67,7 @@ export function OurWork() {
             >
               <div className="aspect-[4/3] relative overflow-hidden bg-black flex items-center justify-center">
                 
-                {/* 🌟 3. 条件渲染：如果有 heroVideo 就渲染视频，否则渲染图片 */}
+                {/* 条件渲染：如果有 heroVideo 就渲染视频，否则渲染图片 */}
                 {work.heroVideo ? (
                   <video 
                     src={work.heroVideo} 
@@ -75,7 +75,6 @@ export function OurWork() {
                     loop 
                     muted 
                     playsInline 
-                    // 🌟 4. 去掉了 mix-blend-screen，确保视频在黑色背景下不会隐形
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                   />
                 ) : (

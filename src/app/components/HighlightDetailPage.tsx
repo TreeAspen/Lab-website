@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowLeft, Target, FolderOpen, FileText, Presentation, ExternalLink, PlayCircle, ArrowUpRight } from "lucide-react";
-import { highlightDetailData, projects, type HighlightData } from "../data/projects";
+import { ArrowLeft, Target, FolderOpen, FileText, Presentation, ExternalLink, PlayCircle, Users } from "lucide-react";
+// 注意：请确保你的 HighlightData 类型定义中包含 aspectRatio?: string
+import { highlightDetailData, projects, teamMembers, type HighlightData } from "../data/projects";
 
 export function HighlightDetailPage() {
   const { id } = useParams();
@@ -20,8 +21,11 @@ export function HighlightDetailPage() {
     );
   }
 
-  // 匹配并拉取所有关联的子项目数据 (渲染一排跳转卡片)
+  // 提取子项目
   const linkedProjects = projects.filter(p => data.relatedProjects.includes(p.slug));
+  
+  // 动态从所有子项目中提取所有去重的人员名单
+  const uniqueTeamNames = Array.from(new Set(linkedProjects.flatMap(p => p.team)));
 
   return (
     <div className="bg-black text-white min-h-screen pt-20 pb-24">
@@ -36,23 +40,10 @@ export function HighlightDetailPage() {
       {/* ─── Hero Header ─── */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
         <div className="relative h-64 md:h-80 lg:h-[400px] border-2 border-white/20 rounded-xl overflow-hidden mb-8 bg-[#111]">
-          
-          {/* 🌟 核心渲染区：如果数据里有视频就播视频，否则播图片 */}
           {data.heroVideo ? (
-            <video 
-              src={data.heroVideo} 
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
-              className="w-full h-full object-cover opacity-60" 
-            />
+            <video src={data.heroVideo} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-60" />
           ) : (
-            <img 
-              src={data.heroImage} 
-              alt={data.title} 
-              className="w-full h-full object-cover opacity-60 mix-blend-luminosity" 
-            />
+            <img src={data.heroImage} alt={data.title} className="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
           )}
 
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
@@ -77,23 +68,36 @@ export function HighlightDetailPage() {
           ))}
         </div>
 
-        {/* Media/Video Link */}
-        {data.mediaLink && (
+        {/* ─── HTML 展示窗口：支持自适应比例 ─── */}
+        {data.embedHtml ? (
+          <div 
+            className="mt-8 w-full border-2 border-[#E2F16B] rounded-xl overflow-hidden bg-white/5 relative group"
+            style={{ aspectRatio: data.aspectRatio || "9 / 8" }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center -z-10 text-[#E2F16B] font-mono text-sm uppercase">
+                Loading Interactive Demo...
+            </div>
+            <iframe 
+              src={data.embedHtml} 
+              title="Interactive Demo" 
+              scrolling="no" 
+              className="w-full h-full border-none relative z-10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            />
+          </div>
+        ) : data.mediaLink ? (
           <div className="mt-6">
             <a href={data.mediaLink.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#FF7A00] text-black px-6 py-2 font-mono text-sm font-bold hover:bg-[#E2F16B] transition-colors">
-              <PlayCircle className="w-4 h-4" />
-              {data.mediaLink.label}
+              <PlayCircle className="w-4 h-4" /> {data.mediaLink.label}
             </a>
           </div>
-        )}
+        ) : null}
       </motion.div>
 
       {/* ─── Focus Areas ─── */}
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
         <div className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-xl border-l-4 border-l-[#E2F16B]">
           <h2 className="flex items-center gap-3 font-['VT323'] text-3xl uppercase text-white mb-6">
-            <Target className="w-6 h-6 text-[#E2F16B]" />
-            Research Focus
+            <Target className="w-6 h-6 text-[#E2F16B]" /> Research Focus
           </h2>
           <ul className="space-y-4 font-mono text-sm text-gray-300">
             {data.focusPoints.map((point, idx) => (
@@ -106,21 +110,19 @@ export function HighlightDetailPage() {
         </div>
       </motion.div>
 
-      {/* ─── Related Projects (Jump Cards) ─── */}
+      {/* ─── Current Projects ─── */}
       {linkedProjects.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
           <h2 className="flex items-center gap-3 font-['VT323'] text-3xl uppercase text-white mb-6">
-            <FolderOpen className="w-6 h-6 text-[#FF7A00]" />
-            Current Projects
+            <FolderOpen className="w-6 h-6 text-[#FF7A00]" /> Current Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {linkedProjects.map((proj) => (
-              <Link key={proj.slug} to={`/projects/${proj.slug}`} className="group bg-[#0a0a0a] border border-white/20 rounded-xl overflow-hidden hover:border-[#FF7A00]/80 transition-all flex flex-col h-full">
+              <div key={proj.slug} className="bg-[#0a0a0a] border border-white/20 rounded-xl overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="font-['VT323'] text-2xl uppercase text-[#faff71] group-hover:text-[#FF7A00] transition-colors line-clamp-2">
-                      <ArrowUpRight className="inline-block w-5 h-5 mr-2 mb-1 opacity-50 group-hover:opacity-100 transition-opacity" />
-                      {proj.title}
+                    <h3 className="font-['VT323'] text-2xl uppercase text-[#faff71] line-clamp-2">
+                      <span className="text-[#FF7A00] mr-2">{"//"}</span>{proj.title}
                     </h3>
                   </div>
                   <p className="font-mono text-sm text-gray-400 leading-relaxed mb-6 flex-1">
@@ -132,8 +134,48 @@ export function HighlightDetailPage() {
                      ))}
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* ─── Associated Researchers ─── */}
+      {uniqueTeamNames.length > 0 && (
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
+          <h2 className="flex items-center gap-3 font-['VT323'] text-3xl uppercase text-white mb-6">
+            <Users className="w-6 h-6 text-[#faff71]" /> Associated Researchers
+          </h2>
+          <div className="flex flex-wrap gap-4">
+            {uniqueTeamNames.map((name) => {
+              const memberObj = teamMembers.find(m => m.name === name);
+              const initials = name.replace("Dr. ", "").split(" ").map((n) => n[0]).join("").substring(0,2);
+
+              if (memberObj) {
+                return (
+                  <Link key={name} to={`/team/${memberObj.id}`} className="group flex items-center gap-3 bg-white/5 border border-white/20 rounded-full pr-5 p-1 hover:bg-[#FF7A00]/20 hover:border-[#FF7A00] transition-all cursor-pointer">
+                    {memberObj.avatar ? (
+                       // 🌟 此处移除了 grayscale 类，保持彩色 🌟
+                       <img src={memberObj.avatar} alt={name} className="w-8 h-8 rounded-full object-cover" />
+                    ) : (
+                       <div className="w-8 h-8 rounded-full bg-[#E2F16B] flex items-center justify-center font-['VT323'] text-sm text-black">
+                         {initials}
+                       </div>
+                    )}
+                    <span className="font-mono text-sm text-gray-300 group-hover:text-white transition-colors">{name}</span>
+                  </Link>
+                );
+              } else {
+                return (
+                  <div key={name} className="flex items-center gap-3 bg-black/50 border border-white/10 rounded-full pr-5 p-1 cursor-default opacity-70">
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-['VT323'] text-sm text-white">
+                      {initials}
+                    </div>
+                    <span className="font-mono text-sm text-gray-400">{name}</span>
+                  </div>
+                );
+              }
+            })}
           </div>
         </motion.div>
       )}
@@ -142,8 +184,7 @@ export function HighlightDetailPage() {
       {data.publications && data.publications.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto px-4 md:px-8 mb-12">
           <h2 className="flex items-center gap-3 font-['VT323'] text-3xl uppercase text-white mb-6">
-            <FileText className="w-6 h-6 text-[#E2F16B]" />
-            Selected Publications
+            <FileText className="w-6 h-6 text-[#E2F16B]" /> Selected Publications
           </h2>
           <div className="space-y-4">
             {data.publications.map((pub, idx) => (
@@ -169,8 +210,7 @@ export function HighlightDetailPage() {
       {data.conferences && data.conferences.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto px-4 md:px-8">
           <h2 className="flex items-center gap-3 font-['VT323'] text-3xl uppercase text-white mb-6">
-            <Presentation className="w-6 h-6 text-[#FF7A00]" />
-            Selected Conferences
+            <Presentation className="w-6 h-6 text-[#FF7A00]" /> Selected Conferences
           </h2>
           <div className="space-y-4">
             {data.conferences.map((conf, idx) => (

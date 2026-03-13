@@ -1,8 +1,18 @@
 /**
  * Centralized project data used by both OurWork listing & ProjectDetail pages.
  */
-// 🌟 核心修改 1：在这里导入 videoSegmentation
-import { avatarIsaiah, avatarRuolin, avatarShu, avatarSteven, videoSegmentation,avatarVincent } from "../assets";
+import { 
+  avatarIsaiah, 
+  avatarRuolin, 
+  avatarShu, 
+  avatarSteven, 
+  avatarVincent, 
+  avatarZhaoxi,
+  videoSegmentation, // 用于 Sensing
+  videoStretched,    // 用于 VR
+  videoUrbanAI,      // 用于 Agent/AI
+  htmlUrbanSensor 
+} from "../assets";
 
 export interface ProjectData {
   id: number;
@@ -10,6 +20,8 @@ export interface ProjectData {
   title: string;
   desc: string;
   heroImage: string;
+  heroVideo?: string; 
+  embedHtml?: string; 
   gallery: string[];
   tags: string[];
   year: string;
@@ -36,12 +48,12 @@ export interface TeamMember {
   projects?: string[];
 }
 
-// 🌟 核心修改 2：允许 HighlightData 接收视频字段
 export interface HighlightData {
   id: string;
   title: string;
   heroImage: string;
-  heroVideo?: string; // 👈 允许传入视频
+  heroVideo?: string; 
+  embedHtml?: string; 
   tags: string[];
   overview: string[];
   focusPoints: string[];
@@ -61,6 +73,7 @@ export const projects: ProjectData[] = [
     title: "The 'COOL' Project",
     desc: "Integrating Mobile Sensing and Environmental Simulation for Heat Stress Mitigation.",
     heroImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoSegmentation, // 🌟 Sensing 类视频
     gallery: [], tags: ["Urban Sensing", "Heat Stress", "Simulation"], year: "2025", status: "ACTIVE",
     overview: "The Climate-Optimized Outdoor Living (COOL) project focuses on understanding and mitigating urban heat stress. By integrating mobile sensing data with advanced environmental simulations, we assess how adaptive urban design can improve thermal comfort in outdoor spaces.",
     sections: [
@@ -75,6 +88,7 @@ export const projects: ProjectData[] = [
     title: "Virtual Therapy to Urban Stress",
     desc: "Exploring visual elements in mitigating urban stress via Body Sensing and VR.",
     heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoStretched, // 🌟 VR 类视频
     gallery: [], tags: ["Urban VR", "EEG/EDA", "Biosensing"], year: "2025", status: "ACTIVE",
     overview: "This project integrates the use of virtual reality (VR) scenes with physiological data collected from Emotiv (EEG) and Empatica (EDA) biosensors. We aim to understand individuals’ responses to greenery as a potential therapeutic in relation to urban stress.",
     sections: [
@@ -88,6 +102,7 @@ export const projects: ProjectData[] = [
     title: "CityWe: Urban Design Agent",
     desc: "Collaborative Urban Design Agent for Multi-Users.",
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
     gallery: [], tags: ["Urban Agent", "HCI", "Co-design"], year: "2025", status: "PROTOTYPE",
     overview: "CityWe is an AI-assisted, location-based visual tool designed to support collaboration among diverse stakeholders during the early stages of urban design. It enables anyone to interact with and modify street environments.",
     sections: [
@@ -101,12 +116,14 @@ export const projects: ProjectData[] = [
     title: "LLM Soundscape Mapping",
     desc: "Detecting and Mapping Soundscapes using Large Language Models.",
     heroImage: "https://images.unsplash.com/photo-1508739773402-3ea1af4c6bb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
     gallery: [], tags: ["Urban Sensing", "LLM", "Spatial Analysis"], year: "2026", status: "ACTIVE",
     overview: "This project utilizes Large Language Models (LLMs) and spatial analysis to categorize sources and intensities of urban sound, evaluating the noise pollution landscape in New York City.",
     sections: [
+      { heading: "Diagnostic Framework", body: "Developing a diagnostic framework for urban soundscape analysis in NYC. By fine-tuning multimodal models and integrating geospatial metadata like land-use types, the work aims to move beyond simple classification to provide context-aware noise source identification." },
       { heading: "Collaborators", body: "Collaborate with: Dr. Prince Amegbor (Assistant Professor of Global and Environmental Health, NYU)." },
     ],
-    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Steven Shi"],
+    team: ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Steven Shi", "Vincent (Fanghua) Cao"],
   },
   {
     id: 5,
@@ -114,6 +131,7 @@ export const projects: ProjectData[] = [
     title: "Ghana Climate Risk Agent",
     desc: "AI Agent Empowered with Community Data for Urban Air Pollution.",
     heroImage: "https://images.unsplash.com/photo-1611270418597-a6cbf224e7eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
     gallery: [], tags: ["Urban Agent", "Global Health", "Climate"], year: "2025", status: "ACTIVE",
     overview: "An AI agent system designed for urban air pollution and climate risk management in Ghana. The system is empowered by ground-level community data to provide localized, actionable environmental insights.",
     sections: [
@@ -127,6 +145,7 @@ export const projects: ProjectData[] = [
     title: "Inclusive Greenspace Emotion",
     desc: "Sensitivity-Inclusive Approaches to Understand Emotional Responses.",
     heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoStretched, // 🌟 VR 类视频
     gallery: [], tags: ["Urban VR", "Landscape", "Emotion"], year: "2025", status: "ACTIVE",
     overview: "A VR-based study quantifying how specific urban features, such as greenery, contribute to high-quality environments and shape psychological perceptions like safety and preference across diverse populations.",
     sections: [
@@ -165,10 +184,9 @@ export const highlightDetailData: HighlightData[] = [
     id: "urban",
     title: "Urban Sensing",
     heroImage: "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    // 🌟 核心修改 3：把导入的视频变量塞给 Urban Sensing！
     heroVideo: videoSegmentation, 
+    embedHtml: htmlUrbanSensor, 
     tags: ["Wearables", "Biosensors", "Micro-scale"],
-    mediaLink: { label: "View Segmentation Demo", url: "https://drive.google.com/file/d/1BezaJk4ysxAJuZMremnxHbG0UJYp0KDT/view?usp=sharing" },
     overview: [
       "Urban Sensing uses wearable and portable sensors to understand how people experience the city at the micro scale—streets, parks, plazas, and everyday routes. Our goal is to measure what happens in real places, linking environmental conditions (e.g., noise, heat, air quality, and light) with human stress signals captured by biosensors (e.g., heart rate patterns, skin conductance, and skin temperature). By grounding sensing in everyday mobility and public space use, we move beyond citywide averages and bring urban health evidence to the level where design and planning decisions happen.",
       "Urban Sensing is how we “listen” to the city in everyday life. We measure minute by minute, place by place, to understand where stress builds up, what environmental stressors are happening at the same time, and which urban features support recovery and well-being."
@@ -196,6 +214,7 @@ export const highlightDetailData: HighlightData[] = [
     id: "vr",
     title: "Urban VR",
     heroImage: "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoStretched, 
     tags: ["Immersive", "EEG/EDA", "Digital Twins"],
     overview: [
       "Urban VR uses immersive technologies, 3D modelling and digitalization to improve our understanding of how people experience, evaluate and respond to urban spaces. Our aim is to study human–environment interaction in systematically designed and controlled virtual settings, enabling us to test how specific urban features influence human responses, behavioral patterns, and decision-making processes. By integrating VR with wearable devices such as EEG headsets, EDA watches, and eye tracking technology, we can capture cognitive, emotional, and attentional responses in real time as participants interact with simulated urban environments. This enables us to translate urban environments into interactive digital worlds and provide experimental evidence in spaces where design and planning issues can be examined more directly.",
@@ -217,6 +236,7 @@ export const highlightDetailData: HighlightData[] = [
     id: "agent",
     title: "Urban Agent",
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    heroVideo: videoUrbanAI, 
     tags: ["AI Chatbot", "Co-Design", "Participatory"],
     overview: [
       "Urban Agent uses AI, city science, and interactive digital systems to understand and support how people participate in shaping urban change. Our goal is to empower communities and other urban stakeholders by creating responsive tools that connect scientific evidence, expert knowledge, and lived experience. By making urban information more accessible, interactive, and actionable, we support more inclusive, collaborative, and evidence-informed urban design.",
@@ -249,7 +269,7 @@ export const teamMembers: TeamMember[] = [
     role: "Lab Director",
     title: "Assistant Professor of Urban Technology, UF",
     category: "faculty",
-    avatar: "", 
+    avatar: avatarZhaoxi, 
     bio: "Dr. Zhang leads the U.TOP Lab, focusing on the intersection of urban science, physiological computing, and virtual reality.",
     fullBio: "Dr. Zhaoxi Zhang's research pioneers the use of multimodal sensing (EEG/EDA) within immersive VR environments to decode human physiological responses to complex urban spaces. He holds a Ph.D. in Urban Planning and directs multiple projects aiming to create evidence-based, neuro-inclusive design guidelines for future cities.",
     research: ["Urban Sensing", "VR/AR", "Physiological Computing", "Urban Agent"],
@@ -318,10 +338,10 @@ export const teamMembers: TeamMember[] = [
     name: "Vincent (Fanghua) Cao",
     role: "Graduate Researcher",
     title: "ECE Master’s Student",
-    category: "master", // 🌟 确保 category 是 "master"
+    category: "master", 
     avatar: avatarVincent, 
     bio: "Vincent holds a technical background in V2X systems and LLM Fine-Tuning.",
-    fullBio: "Vincent (Fanghua) Cao is an ECE Master’s student...",
+    fullBio: "Vincent (Fanghua) Cao is an ECE Master’s student at the University of Florida, advised by Dr. Zhaoxi Zhang. He holds a technical background in V2X (Vehicle-to-Everything) systems and hardware integration, with extensive experience in the Supervised Fine-Tuning (SFT) and comprehensive evaluation of Large Language Models (LLMs). His research interests focus on using multimodal AI to analyze and diagnose complex urban environments.",
     research: ["LLM Fine-Tuning", "V2X Systems", "Multimodal AI"],
     projects: ["soundscape-llm-mapping"]
   }

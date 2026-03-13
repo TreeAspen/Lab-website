@@ -5,6 +5,7 @@
 
 // ─── 核心品牌与成员照片 ─────────────────────────────────────
 import labLogo from "../../assets/lab_logo.png";
+import avatarZhaoxi from "../../assets/Zhaoxi Zhang.jpg"; // 👈 新增：导师头像
 import avatarIsaiah from "../../assets/Isaiah_Garnett.jpg";
 import avatarRuolin from "../../assets/Ruolin_Wu.jpg"; 
 import avatarShu from "../../assets/Shu_Yang.jpg";     
@@ -22,10 +23,15 @@ import extraGeneralImg from "../../assets/c950c19e6f6dbbe70ea343f9deab02f7058e97
 import heroModel3 from "../../assets/collaboration.png";
 import heroModel4 from "../../assets/intelligence.png";
 
+// ─── 新闻与活动图片 ──────────────────────────────────────────
+import news1Img from "../../assets/News-1.jpg"; // 👈 新增
+import news2Img from "../../assets/News-2.png"; // 👈 新增
+
 // ─── 11 个高校 Logo ──────────────────────────────────────────
 import logoEmory from "../../assets/Emory.png";
 import logoFAU from "../../assets/FAU.png";
 import logoFSU from "../../assets/FSU.svg";
+import logoFordham from "../../assets/Fordham.png";
 import logoFudan from "../../assets/Fudan.webp";
 import logoGhana from "../../assets/Ghana.png";
 import logoNYUCUSP from "../../assets/NYU CUSP.png";
@@ -35,7 +41,11 @@ import logoSouthCarolina from "../../assets/South Carolina.svg";
 import logoBerkeley from "../../assets/UC Berkeley.png";
 import logoUF from "../../assets/UF.webp";
 
+// ─── 视频与交互资源 ──────────────────────────────────────────
 import videoSegmentation from "../../assets/Segmentation.mp4";
+import videoUrbanAI from "../../assets/UrbanAI.mp4";            // 👈 新增
+import videoStretched from "../../assets/VID_stretched_43 (2).mp4"; // 👈 新增
+import htmlUrbanSensor from "../../assets/UrbanSensorInteractive.html?url"; // 👈 新增 (加了?url以便正确打包)
 
 // ─── 外部图片 (Unsplash) ────────────────────────────────────
 export const newsImages: Record<number, string> = {
@@ -47,6 +57,7 @@ export const newsImages: Record<number, string> = {
 // ─── 统一导出 ──────────────────────────────────────────────
 export { 
   labLogo,
+  avatarZhaoxi,
   avatarIsaiah,
   avatarRuolin,
   avatarShu,
@@ -59,10 +70,13 @@ export {
   highlightsVR, 
   newsFeature,
   extraGeneralImg,
+  news1Img,
+  news2Img,
   logoEmory,
   logoFAU,
   logoFSU,
   logoFudan,
+  logoFordham,
   logoGhana,
   logoNYUCUSP,
   logoNYUGPH,
@@ -71,4 +85,7 @@ export {
   logoBerkeley,
   logoUF,
   videoSegmentation,
+  videoUrbanAI,
+  videoStretched,
+  htmlUrbanSensor,
 };

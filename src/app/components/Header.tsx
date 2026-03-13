@@ -1,14 +1,14 @@
-import { labLogo } from "../assets"; // 👈 确保这里导入了 Logo
+import { labLogo } from "../assets"; 
 import { ArrowRight, ChevronRight, ChevronDown, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
 const navItems = [
   {
     label: "Home",
     children: [
-      { label: "Brief", href: "/#brief", isExternal: false },
-      { label: "News", href: "/#news", isExternal: false },
+      { label: "Brief", href: "/#brief", isExternal: false, isAnchor: true },
+      { label: "News", href: "/#news", isExternal: false, isAnchor: true },
     ],
   },
   {
@@ -32,7 +32,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  // 处理点击外部区域关闭下拉菜单
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -43,10 +46,37 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // 🌟 核心修改：处理包含锚点 (#) 的路由跳转
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setOpenDropdown(null);
+    setMobileOpen(false);
+
+    const [path, hash] = href.split("#");
+    
+    // 如果当前不在首页，先跳转到首页
+    if (location.pathname !== path) {
+      navigate(path);
+      // 跳转后稍微延迟，等待页面渲染完毕再滚动
+      setTimeout(() => {
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      // 如果已经在首页了，直接平滑滚动
+      const target = document.getElementById(hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <header className="w-full fixed top-0 left-0 right-0 flex justify-between items-center px-6 md:px-8 py-5 z-50 pointer-events-none">
       
-      {/* 👇 左侧 Logo + 标题 */}
+      {/* 左侧 Logo + 标题 */}
       <Link to="/" className="flex items-center gap-3 pointer-events-auto select-none group">
         <img 
           src={labLogo} 
@@ -58,7 +88,7 @@ export function Header() {
         </span>
       </Link>
 
-      {/* 👇 中间导航菜单 */}
+      {/* 中间导航菜单 */}
       <nav ref={dropdownRef} className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-1 bg-black text-[#F4F4EB] rounded-full px-4 py-2 pointer-events-auto shadow-2xl">
         {navItems.map((item) => (
           <div key={item.label} className="relative">
@@ -73,24 +103,45 @@ export function Header() {
             {openDropdown === item.label && (
               <div className="absolute top-[calc(100%+15px)] left-0 bg-black p-6 min-w-[220px] rounded-2xl z-50">
                 <div className="flex flex-col gap-4">
-                  {item.children.map((child) => (
-                    child.isExternal ? (
-                      /* 外部链接使用 <a> 标签 */
-                      <a 
-                        key={child.label} 
-                        href={child.href} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center gap-3 transition-colors" 
-                        onClick={() => setOpenDropdown(null)}
-                      >
-                        <ChevronRight size={16} className="text-[#F4F4EB] group-hover:translate-x-1 transition-transform" />
-                        <span className="font-mono text-sm text-[#F4F4EB]/80 hover:text-white transition-colors">
-                          {child.label}
-                        </span>
-                      </a>
-                    ) : (
-                      /* 内部路由使用 <Link> */
+                  {item.children.map((child) => {
+                    // 外部链接
+                    if (child.isExternal) {
+                      return (
+                        <a 
+                          key={child.label} 
+                          href={child.href} 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center gap-3 transition-colors" 
+                          onClick={() => setOpenDropdown(null)}
+                        >
+                          <ChevronRight size={16} className="text-[#F4F4EB] group-hover:translate-x-1 transition-transform" />
+                          <span className="font-mono text-sm text-[#F4F4EB]/80 hover:text-white transition-colors">
+                            {child.label}
+                          </span>
+                        </a>
+                      );
+                    }
+                    
+                    // 🌟 锚点跳转链接 (Brief 和 News)
+                    if (child.isAnchor) {
+                      return (
+                        <a
+                          key={child.label}
+                          href={child.href}
+                          onClick={(e) => handleAnchorClick(e, child.href)}
+                          className="group flex items-center gap-3 transition-colors cursor-pointer"
+                        >
+                          <ChevronRight size={16} className="text-[#F4F4EB] group-hover:translate-x-1 transition-transform" />
+                          <span className="font-mono text-sm text-[#F4F4EB]/80 hover:text-white transition-colors">
+                            {child.label}
+                          </span>
+                        </a>
+                      );
+                    }
+
+                    // 普通的内部路由跳转
+                    return (
                       <Link 
                         key={child.label} 
                         to={child.href} 
@@ -102,8 +153,8 @@ export function Header() {
                           {child.label}
                         </span>
                       </Link>
-                    )
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -111,7 +162,7 @@ export function Header() {
         ))}
       </nav>
 
-      {/* 👇 右侧 Apply Now 按钮 (直接指向外部表单) */}
+      {/* 右侧 Apply Now 按钮 */}
       <a 
         href="https://forms.gle/fRuKyLcMGgsBJ4Fn9" 
         target="_blank"
@@ -124,7 +175,7 @@ export function Header() {
         <span className="font-['VT323'] text-lg uppercase tracking-wide text-black">Apply Now</span>
       </a>
 
-      {/* 👇 移动端菜单按钮 */}
+      {/* 移动端菜单按钮 */}
       <button className="pointer-events-auto md:hidden bg-black text-white p-2 rounded-lg" onClick={() => setMobileOpen(!mobileOpen)}>
         {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>

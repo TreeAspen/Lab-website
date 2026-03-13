@@ -2,10 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-// 🌟 1. 同时导入视频和静态图片变量
-import { videoSegmentation, highlightsVR as imgVR } from "../assets"; 
+// 🌟 1. 导入所有相关的视频变量
+import { videoSegmentation, videoStretched, videoUrbanAI } from "../assets"; 
 
-// 🌟 2. 这是 Highlights 专用的 pillars 数据数组
+// 🌟 2. Highlights 专用的 pillars 数据数组
 const pillars = [
   {
     id: "urban",
@@ -16,7 +16,7 @@ const pillars = [
     focus:
       "Our work specifically focuses on urban exposure, quantifying how things like environmental stress and spatial design affect our mental and physical health.",
     tags: ["IoT", "Wearables", "Computer Vision", "Exposure"],
-    // 🌟 这里直接使用视频变量
+    // 🌟 Sensing 的视频
     video: videoSegmentation,
   },
   {
@@ -28,8 +28,8 @@ const pillars = [
     focus:
       "By turning complex \"what-if\" scenarios into playful, interactive experiences, we move beyond dry planning toward a more human-centered process.",
     tags: ["VR", "Photogrammetry", "3D", "Interaction"],
-    // 🌟 这里使用导入的 VR 图片变量
-    image: imgVR,
+    // 🌟 VR 的视频
+    video: videoStretched,
   },
   {
     id: "agent",
@@ -40,7 +40,8 @@ const pillars = [
     focus:
       "Our urban systems are not merely efficient — they are traceable, intuitive, and deeply responsive to human needs.",
     tags: ["AI Agents", "Co-Design", "NLP", "Responsive"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    // 🌟 Agent 的视频
+    video: videoUrbanAI,
   },
 ];
 
@@ -102,7 +103,7 @@ export function Highlights() {
                 className="bg-[#fcfcea] text-black p-6 rounded-lg border-2 border-white relative"
               >
                 <div className="bg-[#eef093] h-64 md:h-80 w-full mb-6 relative overflow-hidden rounded-md border-2 border-black">
-                   {/* 🌟 条件渲染区：有视频播视频，没视频播图片 */}
+                   {/* 🌟 条件渲染区：如果有视频播放视频，没有则后备（虽然现在全都是视频了） */}
                    {active.video ? (
                      <video 
                         src={active.video} 
@@ -114,7 +115,7 @@ export function Highlights() {
                      />
                    ) : (
                      <img 
-                        src={active.image} 
+                        src={(active as any).image} 
                         alt={active.label}
                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                      />

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
-import { newsFeature as img3, newsImages } from "../assets";
+// 导入你的本地图片和视频变量
+import { newsFeature as img3, news1Img, news2Img, videoUrbanAI } from "../assets";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +11,7 @@ const newsItems = [
     title: "Latest Publication: VR Study on Flood Risk Response",
     desc: "Our latest research published in IJDRR leverages Virtual Reality to simulate urban floods, uncovering how human responses shift across different contexts.",
     detail: "The study reveals that people are significantly more sensitive to flood risks when in a car than on the street, especially at night. It also highlights how self-efficacy, warning sirens, and socioeconomic factors critically shape emergency evacuation behaviors.",
-    externalLink: "https://doi.org/10.1016/j.ijdrr.2025.105956", // 👈 指向官方 DOI 链接
+    externalLink: "https://doi.org/10.1016/j.ijdrr.2025.105956",
   },
   {
     id: 2,
@@ -19,7 +20,7 @@ const newsItems = [
     detail:
       "The platform uses conversational AI to guide non-expert users through environmental monitoring tasks. Early testing with community groups in Gainesville showed 89% task completion rates. Watch the demo video on our project page to see it in action.",
   },
-{
+  {
     id: 3,
     title: "On-going User Test: VR & Body Sensing for Urban Stress",
     desc: "We are transitioning into the full data collection phase for our immersive VR study exploring how urban visual elements mitigate stress. ",
@@ -27,8 +28,15 @@ const newsItems = [
   }
 ];
 
+// 🌟 核心修改：将 2 和 3 的映射互换
+const newsMedia: Record<number, { type: 'image' | 'video', src: string }> = {
+  1: { type: 'image', src: news1Img },
+  2: { type: 'video', src: videoUrbanAI }, // 👈 现在 2 对应 AI 演示视频
+  3: { type: 'image', src: news2Img }      // 👈 现在 3 对应 VR 测试图片
+};
+
 export function News() {
-  const [activeId, setActiveId] = useState<number | null>(1); // 👈 默认展开第一条新发表的论文
+  const [activeId, setActiveId] = useState<number | null>(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Raw motion values for mouse offset
@@ -121,7 +129,6 @@ export function News() {
                             }}
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-[#ff6b00] border-2 border-black rounded-full uppercase text-sm tracking-wider cursor-pointer transition-all duration-150 group hover:bg-[#E2F16B] hover:text-black"
                           >
-                            {/* 👇 核心逻辑：如果有外部链接，使用 a 标签；否则使用 React Router 的 Link */}
                             {item.externalLink ? (
                               <a 
                                 href={item.externalLink} 
@@ -153,7 +160,7 @@ export function News() {
           })}
         </div>
 
-        {/* Image Collage (保留你原有的超酷视差动画) */}
+        {/* Image Collage (带有动态视差悬浮效果区) */}
         <div
           ref={containerRef}
           onMouseMove={handleMouseMove}
@@ -173,7 +180,7 @@ export function News() {
           />
 
           <AnimatePresence mode="wait">
-            {activeId && (
+            {activeId && newsMedia[activeId] && (
               <motion.div
                 key={activeId}
                 initial={{ scale: 0.3, opacity: 0, y: 60 }}
@@ -196,16 +203,35 @@ export function News() {
                   </div>
                   <X className="w-3.5 h-3.5 opacity-50" />
                 </div>
+                
                 <div className="relative w-full aspect-[16/10] overflow-hidden">
-                  <motion.img
-                    key={`img-${activeId}`}
-                    src={newsImages[activeId]}
-                    alt={`News ${activeId}`}
-                    className="w-full h-full object-cover"
-                    initial={{ scale: 1.15 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                  />
+                  {/* 条件渲染：如果是视频则播放，如果是图片则显示图片 */}
+                  {newsMedia[activeId].type === 'video' ? (
+                    <motion.video
+                      key={`vid-${activeId}`}
+                      src={newsMedia[activeId].src}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                      initial={{ scale: 1.15 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                    />
+                  ) : (
+                    <motion.img
+                      key={`img-${activeId}`}
+                      src={newsMedia[activeId].src}
+                      alt={`News ${activeId}`}
+                      className="w-full h-full object-cover"
+                      initial={{ scale: 1.15 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                    />
+                  )}
+                  
+                  {/* 扫描线效果 */}
                   <div
                     className="absolute inset-0 pointer-events-none opacity-[0.04]"
                     style={{
