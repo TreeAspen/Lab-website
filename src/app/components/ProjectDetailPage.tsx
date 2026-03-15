@@ -51,12 +51,11 @@ export function ProjectDetailPage() {
         className="max-w-6xl mx-auto px-4 md:px-8"
       >
         <div className="relative rounded-2xl overflow-hidden border-4 border-black">
-          {/* 🌟 核心修改区：Image / Video 智能切换 */}
+          {/* Image / Video 智能切换 */}
           <div className="relative h-[300px] md:h-[450px] overflow-hidden bg-black">
-            {/* @ts-ignore - 兼容未来可能添加的 heroVideo 字段 */}
             {project.heroVideo ? (
               <video
-                src={(project as any).heroVideo}
+                src={project.heroVideo}
                 autoPlay
                 loop
                 muted
@@ -117,136 +116,135 @@ export function ProjectDetailPage() {
       </motion.div>
 
       {/* ─── Tags ──────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="max-w-6xl mx-auto px-4 md:px-8 mt-8"
-      >
-        <div className="flex gap-2 flex-wrap">
-          {project.tags.map((tag, i) => (
-            <span
-              key={i}
-              className="bg-[#E2F16B] border-2 border-black px-4 py-1.5 rounded-full font-['VT323'] text-base uppercase tracking-wider"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ─── Overview ──────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="max-w-6xl mx-auto px-4 md:px-8 mt-10"
-      >
-        <div className="bg-white border-4 border-black rounded-xl p-6 md:p-10 relative">
-          {/* Corner decoration */}
-          <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-[#FF7A00]" />
-          <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-[#FF7A00]" />
-
-          <h2 className="font-['VT323'] text-3xl md:text-4xl uppercase tracking-wider mb-1 flex items-center gap-3">
-            <span className="text-[#FF7A00]">///</span> Overview
-          </h2>
-          <div className="w-24 h-1 bg-[#E2F16B] mb-6" />
-          <p className="font-mono text-base leading-relaxed max-w-4xl">
-            {project.overview}
-          </p>
-        </div>
-      </motion.div>
-
-      {/* ─── Content Sections ──────────────────────── */}
-      <div className="max-w-6xl mx-auto px-4 md:px-8 mt-12 space-y-8">
-        {project.sections.map((section, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className={`relative flex flex-col ${
-              i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-            } gap-6 items-stretch`}
-          >
-            {/* Section number - decorative */}
-            <div className="hidden md:flex flex-col items-center justify-start pt-6 w-16 shrink-0">
-              <div className="w-12 h-12 bg-black text-[#E2F16B] rounded-full flex items-center justify-center font-['VT323'] text-2xl border-2 border-[#E2F16B]">
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              {i < project.sections.length - 1 && (
-                <div className="w-[2px] flex-1 bg-black/20 mt-2" />
-              )}
-            </div>
-
-            {/* Content card */}
-            <div className="flex-1 bg-white border-2 border-black rounded-xl p-6 md:p-8 transition-all hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h3 className="font-['VT323'] text-2xl md:text-3xl uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span className="text-[#FF7A00] text-lg">{">"}</span>
-                {section.heading}
-              </h3>
-              <p className="font-mono text-sm leading-relaxed text-gray-700">
-                {section.body}
-              </p>
-
-              {/* Placeholder for user to add images */}
-              {section.image && (
-                <div className="mt-6 rounded-lg overflow-hidden border-2 border-black">
-                  <img
-                    src={section.image}
-                    alt={section.heading}
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-              )}
-
-              {/* Image drop zone hint (Only shows if no image is present) */}
-              {!section.image && (
-                <div className="mt-6 border-2 border-dashed border-black/20 rounded-lg p-4 text-center">
-                  <p className="font-mono text-xs text-gray-400 uppercase">
-                    [ Image / Media Placeholder — Replace with your content ]
-                  </p>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* ─── Team Section ──────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="max-w-6xl mx-auto px-4 md:px-8 mt-12"
-      >
-        <div className="bg-black text-white rounded-xl p-6 md:p-8 border-2 border-white/20">
-          <h3 className="font-['VT323'] text-2xl uppercase tracking-wider mb-6 flex items-center gap-3">
-            <span className="text-[#FF7A00]">{">"}</span>
-            <Users className="w-5 h-5 text-[#E2F16B]" />
-            Research Team
-          </h3>
-          <div className="flex flex-wrap gap-4">
-            {project.team.map((member, i) => (
-              <div
+      {project.tags && project.tags.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-6xl mx-auto px-4 md:px-8 mt-8"
+        >
+          <div className="flex gap-2 flex-wrap">
+            {project.tags.map((tag, i) => (
+              <span
                 key={i}
-                className="flex items-center gap-3 bg-white/10 border border-white/20 rounded-full px-5 py-2 hover:bg-white/20 transition-colors cursor-default"
+                className="bg-[#E2F16B] border-2 border-black px-4 py-1.5 rounded-full font-['VT323'] text-base uppercase tracking-wider"
               >
-                <div className="w-8 h-8 rounded-full bg-[#FF7A00] border border-white/30 flex items-center justify-center font-['VT323'] text-sm text-black shadow-[0_0_10px_rgba(255,122,0,0.5)]">
-                  {member
-                    .replace("Dr. ", "")
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <span className="font-mono text-sm">{member}</span>
-              </div>
+                {tag}
+              </span>
             ))}
           </div>
+        </motion.div>
+      )}
+
+      {/* ─── Overview / 简介区块 ────────────────────────── */}
+      {project.overview && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="max-w-6xl mx-auto px-4 md:px-8 mt-10"
+        >
+          <div className="bg-white border-4 border-black rounded-xl p-6 md:p-10 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            {/* Corner decoration */}
+            <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-[#FF7A00]" />
+            <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-[#FF7A00]" />
+
+            <h2 className="font-['VT323'] text-3xl md:text-4xl uppercase tracking-wider mb-2 flex items-center gap-3">
+              <span className="text-[#FF7A00]">///</span> {project.title} Overview
+            </h2>
+            <div className="w-24 h-1 bg-[#E2F16B] mb-6" />
+            <p className="font-mono text-base md:text-lg leading-relaxed max-w-4xl text-gray-800">
+              {project.overview}
+            </p>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ─── Content Sections ──────────────────────── */}
+      {project.sections && project.sections.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 md:px-8 mt-12 space-y-8">
+          {project.sections.map((section, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className={`relative flex flex-col ${
+                i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              } gap-6 items-stretch`}
+            >
+              {/* Section number - decorative */}
+              <div className="hidden md:flex flex-col items-center justify-start pt-6 w-16 shrink-0">
+                <div className="w-12 h-12 bg-black text-[#E2F16B] rounded-full flex items-center justify-center font-['VT323'] text-2xl border-2 border-[#E2F16B]">
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+                {i < project.sections.length - 1 && (
+                  <div className="w-[2px] flex-1 bg-black/20 mt-2" />
+                )}
+              </div>
+
+              {/* Content card */}
+              <div className="flex-1 bg-white border-2 border-black rounded-xl p-6 md:p-8 transition-all hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <h3 className="font-['VT323'] text-2xl md:text-3xl uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <span className="text-[#FF7A00] text-lg">{">"}</span>
+                  {section.heading}
+                </h3>
+                <p className="font-mono text-sm leading-relaxed text-gray-700 whitespace-pre-wrap">
+                  {section.body}
+                </p>
+
+                {/* Placeholder for user to add images */}
+                {section.image && (
+                  <div className="mt-6 rounded-lg overflow-hidden border-2 border-black">
+                    <img
+                      src={section.image}
+                      alt={section.heading}
+                      className="w-full h-auto max-h-96 object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
+      )}
+
+      {/* ─── Team Section ──────────────────────────── */}
+      {project.team && project.team.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-6xl mx-auto px-4 md:px-8 mt-12"
+        >
+          <div className="bg-black text-white rounded-xl p-6 md:p-8 border-2 border-white/20 shadow-[4px_4px_0px_0px_#E2F16B]">
+            <h3 className="font-['VT323'] text-2xl uppercase tracking-wider mb-6 flex items-center gap-3">
+              <span className="text-[#FF7A00]">{">"}</span>
+              <Users className="w-5 h-5 text-[#E2F16B]" />
+              Research Team
+            </h3>
+            <div className="flex flex-wrap gap-4">
+              {project.team.map((member, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 bg-white/10 border border-white/20 rounded-full px-5 py-2 hover:bg-white/20 transition-colors cursor-default"
+                >
+                  <div className="w-8 h-8 rounded-full bg-[#FF7A00] border border-white/30 flex items-center justify-center font-['VT323'] text-sm text-black shadow-[0_0_10px_rgba(255,122,0,0.5)]">
+                    {member
+                      .replace("Dr. ", "")
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                  <span className="font-mono text-sm">{member}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* ─── Prev / Next Navigation ────────────────── */}
       <div className="max-w-6xl mx-auto px-4 md:px-8 mt-16 mb-20">

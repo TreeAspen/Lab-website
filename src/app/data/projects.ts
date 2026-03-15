@@ -8,7 +8,7 @@ import {
   avatarSteven, 
   avatarVincent, 
   avatarZhaoxi,
-  avatarXueliang, // 👈 新增导入 Xueliang 的照片
+  avatarXueliang,
   videoSegmentation, // 用于 Sensing
   videoStretched,    // 用于 VR
   videoUrbanAI,      // 用于 Agent/AI
@@ -166,14 +166,20 @@ export const newsDetailData = [
     content: ["Our latest research, 'Using virtual reality to study human response to flood risk across controlled experiments', has been officially published in the International Journal of Disaster Risk Reduction (IJDRR, Vol. 132)."]
   },
   {
-    id: 2, title: "Tools Release: AI for Citizen Science & CityWe Demo", date: "2025-11-20", author: "U.TOP Lab",
-    heroImage: "https://images.unsplash.com/photo-1585051256362-eb56bf4d5ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["Tools", "AI", "Citizen Science"],
-    content: ["We are excited to release the demo video for 'CityWe', our Collaborative Urban Design Agent for Multi-Users."]
+    id: 2, title: "Tools Release: CoDesignAI Collaborative Platform", date: "2025-11-20", author: "U.TOP Lab",
+    heroImage: "https://images.unsplash.com/photo-1585051256362-eb56bf4d5ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["Tools", "AI", "Co-Design"],
+    content: [
+      "CoDesignAI is a web-based collaborative platform that uses multi-agent AI to support participatory urban design.",
+      "The system integrates conversational AI with Google Maps and Street View to help multiple users explore real-world urban contexts, discuss ideas, and generate visual design concepts together. By enabling iterative discussion and AI-assisted visualization, CoDesignAI aims to make early-stage urban design more open, collaborative, and accessible to diverse participants."
+    ]
   },
   {
-    id: 3, title: "On-going User Test: VR & Body Sensing for Urban Stress", date: "2025-12-15", author: "U.TOP HCI Team",
+    id: 3, title: "On-going User Test: Virtual Therapy to Urban Stress", date: "2025-12-15", author: "U.TOP HCI Team",
     heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["User Study", "VR", "Biosensing"],
-    content: ["We are currently conducting the USI-P13 study: 'Virtual Therapy to Urban Stress'."]
+    content: [
+      "Virtual Therapy to Urban Stress is an immersive research project that uses Virtual Reality (VR) and multimodal physiological sensors to evaluate how context-specific urban greenery impacts human stress and well-being.",
+      "The study integrates AI-modified 360° visual stimuli with EEG, EDA, and psychological surveys to track real-time cognitive and physiological responses across diverse urban settings, such as parks, waterfronts, and traffic corridors. By bridging neuroscience and urban design, the project aims to provide evidence-based guidelines for effective green space planning and validate VR as an accessible therapeutic tool for public health."
+    ]
   },
 ];
 
@@ -287,7 +293,6 @@ export const teamMembers: TeamMember[] = [
     ],
     projects: ["cool-project-heat-stress", "virtual-therapy-urban-stress", "CoDesignAI-collaborative-agent", "ghana-climate-risk-agent"]
   },
-  // 🌟 新增的 Xueliang Yang 团队成员信息
   {
     id: "xueliang-yang",
     name: "Xueliang Yang",

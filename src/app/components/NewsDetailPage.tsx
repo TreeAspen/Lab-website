@@ -3,14 +3,14 @@ import { motion } from "motion/react";
 import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import { newsDetailData } from "../data/projects";
 
-// 🌟 1. 导入与首页一致的本地图片和视频变量
-import { news1Img, news2Img, videoUrbanAI } from "../assets";
+// 🌟 导入同样的资源文件
+import { news1Img, vrVideo, vrPoster } from "../assets";
 
-// 🌟 2. 保持与 News.tsx 完全一致的媒体映射表
+// 🌟 保持映射同步
 const newsMedia: Record<number, { type: 'image' | 'video', src: string }> = {
   1: { type: 'image', src: news1Img },
-  2: { type: 'video', src: videoUrbanAI }, 
-  3: { type: 'image', src: news2Img }      
+  2: { type: 'video', src: vrVideo },
+  3: { type: 'image', src: vrPoster }
 };
 
 export function NewsDetailPage() {
@@ -36,7 +36,7 @@ export function NewsDetailPage() {
     );
   }
 
-  // 🌟 获取当前新闻对应的媒体配置，如果没有则回退到数据库里的默认 heroImage
+  // 当前新闻对应的媒体
   const currentMedia = newsMedia[newsId] || { type: 'image', src: news.heroImage };
 
   return (
@@ -52,7 +52,7 @@ export function NewsDetailPage() {
         </Link>
       </div>
 
-      {/* ─── Hero Image (Terminal Window Style) ────── */}
+      {/* ─── Hero Image (顶部装饰) ────── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -60,7 +60,6 @@ export function NewsDetailPage() {
         className="max-w-4xl mx-auto px-4 md:px-8"
       >
         <div className="rounded-xl overflow-hidden border-4 border-black">
-          {/* Window title bar */}
           <div className="bg-black px-4 py-2.5 flex items-center justify-between border-b-2 border-white/20">
             <div className="flex items-center gap-2">
               <div className="flex gap-1.5">
@@ -72,36 +71,17 @@ export function NewsDetailPage() {
                 NEWS_{String(news.id).padStart(3, "0")}.dat
               </span>
             </div>
-            <span className="font-mono text-white/40 text-xs">
-              {news.date}
-            </span>
+            <span className="font-mono text-white/40 text-xs">{news.date}</span>
           </div>
 
-          {/* 🌟 3. 核心修改：条件渲染 Hero 区域的图片或视频 */}
-          <div className="relative h-[250px] md:h-[400px] overflow-hidden">
+          <div className="relative h-[200px] md:h-[300px] overflow-hidden bg-black">
+             {/* 顶部 Hero 仅作为背景装饰，保持一定的暗度 */}
             {currentMedia.type === 'video' ? (
-              <video
-                src={currentMedia.src}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
+              <video src={currentMedia.src} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-50" />
             ) : (
-              <img
-                src={currentMedia.src}
-                alt={news.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={currentMedia.src} alt={news.title} className="w-full h-full object-cover opacity-50" />
             )}
-            <div
-              className="absolute inset-0 pointer-events-none opacity-[0.05]"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 3px)",
-              }}
-            />
+            <div className="absolute inset-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: "repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 3px)" }} />
           </div>
         </div>
       </motion.div>
@@ -113,79 +93,80 @@ export function NewsDetailPage() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="max-w-4xl mx-auto px-4 md:px-8 mt-10"
       >
-        {/* Tags */}
         <div className="flex gap-2 flex-wrap mb-6">
           {news.tags.map((tag, i) => (
-            <span
-              key={i}
-              className="bg-[#E2F16B] border-2 border-black px-4 py-1 rounded-full font-['VT323'] text-base uppercase tracking-wider"
-            >
+            <span key={i} className="bg-[#E2F16B] border-2 border-black px-4 py-1 rounded-full font-['VT323'] text-base uppercase tracking-wider">
               <Tag className="w-3 h-3 inline mr-1" />
               {tag}
             </span>
           ))}
         </div>
 
-        {/* Title */}
         <h1 className="font-['VT323'] text-4xl md:text-5xl lg:text-6xl uppercase leading-[0.95] mb-6">
           {news.title}
         </h1>
 
-        {/* Meta info */}
         <div className="flex items-center gap-6 mb-10 pb-6 border-b-4 border-black">
           <div className="flex items-center gap-2 font-mono text-sm text-gray-600">
-            <Clock className="w-4 h-4" />
-            {news.date}
+            <Clock className="w-4 h-4" /> {news.date}
           </div>
           <div className="flex items-center gap-2 font-mono text-sm text-gray-600">
-            <User className="w-4 h-4" />
-            {news.author}
+            <User className="w-4 h-4" /> {news.author}
           </div>
         </div>
 
-        {/* Content Blocks */}
-        <div className="space-y-6 mb-8">
+        {/* 文字内容 */}
+        <div className="space-y-6 mb-10">
           {news.content.map((paragraph, i) => (
-            <motion.p
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-              className="font-mono text-base leading-relaxed"
-            >
+            <p key={i} className="font-mono text-base leading-relaxed text-gray-800">
               {paragraph}
-            </motion.p>
+            </p>
           ))}
         </div>
 
-        {/* Inline image placeholder */}
-        <div className="my-10 rounded-xl overflow-hidden border-4 border-black">
-          <div className="bg-[#eef093] p-12 text-center">
-            <div className="border-2 border-dashed border-black/30 rounded-lg p-8">
-              <p className="font-['VT323'] text-2xl text-black/40 uppercase">
-                [ Insert Additional Image Here ]
-              </p>
-              <p className="font-mono text-xs text-black/30 mt-2">
-                Recommended: 1200 x 600px — PNG or JPG
-              </p>
+        {/* 🌟 核心修改区：直接在正文中嵌入图像/视频展示 🌟 */}
+        <div className="my-12 rounded-2xl overflow-hidden border-4 border-black bg-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          {currentMedia.type === 'video' ? (
+            <div className="flex flex-col">
+              <video 
+                src={currentMedia.src} 
+                controls 
+                autoPlay 
+                loop 
+                muted 
+                className="w-full h-auto"
+              />
+              <div className="bg-black p-3 text-center border-t border-white/10">
+                <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
+                  Live_Project_Demonstration.mp4
+                </span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col">
+              <img 
+                src={currentMedia.src} 
+                alt="Project Feature" 
+                className="w-full h-auto"
+              />
+              <div className="bg-black p-3 text-center border-t border-white/10">
+                <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
+                  Technical_Visual_Asset.png
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Additional text placeholder */}
-        <div className="bg-white border-2 border-black rounded-xl p-6 md:p-8 mb-8">
+        <div className="bg-white border-2 border-black rounded-xl p-6 md:p-8 mb-20">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-1 h-8 bg-[#FF7A00]" />
-            <h3 className="font-['VT323'] text-2xl uppercase tracking-wider">
-              Related Notes
-            </h3>
+            <h3 className="font-['VT323'] text-2xl uppercase tracking-wider">Research Notes</h3>
           </div>
-          <div className="border-2 border-dashed border-black/20 rounded-lg p-6 text-center">
-            <p className="font-mono text-xs text-gray-400 uppercase">
-              [ Additional content block — Add quotes, callouts, or related
-              links ]
-            </p>
-          </div>
+          <p className="font-mono text-sm text-gray-600">
+            This asset serves as critical evidence for the ongoing research within the U.TOP Lab. 
+            For further technical specifications or collaboration inquiries, please reach out via our team contact links.
+          </p>
         </div>
       </motion.article>
 
@@ -198,40 +179,19 @@ export function NewsDetailPage() {
           {newsDetailData
             .filter((n) => n.id !== news.id)
             .map((item) => {
-              // 🌟 4. 同步应用到推荐新闻卡片的媒体封面
               const itemMedia = newsMedia[item.id] || { type: 'image', src: item.heroImage };
-              
               return (
-                <Link
-                  key={item.id}
-                  to={`/news/${item.id}`}
-                  className="group bg-white border-2 border-black rounded-xl overflow-hidden transition-all"
-                >
-                  <div className="h-32 overflow-hidden">
+                <Link key={item.id} to={`/news/${item.id}`} className="group bg-white border-2 border-black rounded-xl overflow-hidden transition-all">
+                  <div className="h-32 overflow-hidden bg-black">
                     {itemMedia.type === 'video' ? (
-                      <video
-                        src={itemMedia.src}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <video src={itemMedia.src} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <img
-                        src={itemMedia.src}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <img src={itemMedia.src} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
                     )}
                   </div>
                   <div className="p-4">
-                    <p className="font-mono text-xs text-gray-500 mb-1">
-                      {item.date}
-                    </p>
-                    <h4 className="font-['VT323'] text-xl uppercase group-hover:text-[#FF7A00] transition-colors">
-                      {item.title}
-                    </h4>
+                    <p className="font-mono text-xs text-gray-500 mb-1">{item.date}</p>
+                    <h4 className="font-['VT323'] text-xl uppercase group-hover:text-[#FF7A00] transition-colors">{item.title}</h4>
                   </div>
                 </Link>
               );
