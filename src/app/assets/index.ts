@@ -11,6 +11,7 @@ import avatarRuolin from "../../assets/Ruolin_Wu.jpg";
 import avatarShu from "../../assets/Shu_Yang.jpg";     
 import avatarSteven from "../../assets/Steven Shi.jpg"; 
 import avatarVincent from "../../assets/Vincent Cao.png";
+import avatarXueliang from "../../assets/Xueliang Yang.jpg";
 
 // ─── 原有的 Hero & Highlights 资源 ──────────────────────────
 import heroModel1 from "../../assets/bf2bbc386da37f36888e2dc21afb70b3a90d7d2c.png";
@@ -24,7 +25,7 @@ import heroModel3 from "../../assets/collaboration.png";
 import heroModel4 from "../../assets/intelligence.png";
 
 // ─── 新闻与活动图片 ──────────────────────────────────────────
-import news1Img from "../../assets/News-1.jpg"; // 👈 新增
+import news1Img from "../../assets/News-1.png"; // 👈 新增
 import news2Img from "../../assets/News-2.png"; // 👈 新增
 
 // ─── 11 个高校 Logo ──────────────────────────────────────────
@@ -63,6 +64,7 @@ export {
   avatarShu,
   avatarSteven,
   avatarVincent,
+  avatarXueliang,
   heroModel1, 
   heroModel2,
   heroModel3, 

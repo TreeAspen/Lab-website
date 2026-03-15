@@ -8,6 +8,7 @@ import {
   avatarSteven, 
   avatarVincent, 
   avatarZhaoxi,
+  avatarXueliang, // 👈 新增导入 Xueliang 的照片
   videoSegmentation, // 用于 Sensing
   videoStretched,    // 用于 VR
   videoUrbanAI,      // 用于 Agent/AI
@@ -98,8 +99,8 @@ export const projects: ProjectData[] = [
   },
   {
     id: 3,
-    slug: "citywe-collaborative-agent",
-    title: "CityWe: Urban Design Agent",
+    slug: "CoDesignAI-collaborative-agent",
+    title: "CoDesignAI: Urban Design Agent",
     desc: "Collaborative Urban Design Agent for Multi-Users.",
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
@@ -246,7 +247,7 @@ export const highlightDetailData: HighlightData[] = [
       "AI for participatory planning and design: using AI agents and interactive systems to support communication, engagement, and co-design among communities, planners, designers, and other stakeholders.",
       "AI for collaborative design: building tools that help people visualize ideas, generate design options, solve conflicts and contribute local knowledge and narratives to the shaping of neighborhoods, public spaces, and urban futures."
     ],
-    relatedProjects: ["citywe-collaborative-agent", "ghana-climate-risk-agent"],
+    relatedProjects: ["CoDesignAI-collaborative-agent", "ghana-climate-risk-agent"],
     publications: [
       { citation: "Li, J., Zhang, Z., Mendel, T., & Yabe, T. (2026). Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction (arXiv:2601.23095). arXiv.", link: "https://doi.org/10.48550/arXiv.2601.23095" },
       { citation: "Zhang, Zhaoxi and Mendel, Tamir and Yin, Wen and Raipat, Vaidehi and Yabe, Takahiro, Human-Chatbot Conversations About Urban Park Experiences: A Case Study from Washington Square Park in New York City.", link: "http://dx.doi.org/10.2139/ssrn.5378600" }
@@ -267,11 +268,11 @@ export const teamMembers: TeamMember[] = [
     id: "zhaoxi-zhang",
     name: "Dr. Zhaoxi Zhang",
     role: "Lab Director",
-    title: "Assistant Professor of Urban Technology, UF",
+    title: "Assistant Professor, University of Florida", 
     category: "faculty",
     avatar: avatarZhaoxi, 
-    bio: "Dr. Zhang leads the U.TOP Lab, focusing on the intersection of urban science, physiological computing, and virtual reality.",
-    fullBio: "Dr. Zhaoxi Zhang's research pioneers the use of multimodal sensing (EEG/EDA) within immersive VR environments to decode human physiological responses to complex urban spaces. He holds a Ph.D. in Urban Planning and directs multiple projects aiming to create evidence-based, neuro-inclusive design guidelines for future cities.",
+    bio: "Dr. Zhang's research focuses on the intersection of the built environment, human health and technology, developing new tools for participatory design and planning.",
+    fullBio: "Zhaoxi Zhang is an Assistant Professor in the Department of Urban and Regional Planning at the University of Florida’s College of Design, Construction and Planning. Her research focuses on the intersection of the built environment, human health and technology. This involves leveraging interdisciplinary knowledge and cutting-edge tools to build capacity for socio-technical transitions and dynamics. Her current research focuses on ‘human-computer-environment’ interaction in participatory design and planning. She works on developing new tools and methods to measure human-level evidence, gather public opinion, and study human decision-making processes for health-priority urban design and a smart future.",
     research: ["Urban Sensing", "VR/AR", "Physiological Computing", "Urban Agent"],
     email: "z.zhang@ufl.edu",
     website: "https://zhaoxizhang.com",
@@ -284,7 +285,20 @@ export const teamMembers: TeamMember[] = [
       { title: "Using virtual reality to study human response to flood risk across controlled experiments", venue: "International Journal of Disaster Risk Reduction", year: "2025" },
       { title: "Assessing the association between urban features and human physiological stress response using wearable sensors", venue: "Health and Place", year: "2022" }
     ],
-    projects: ["cool-project-heat-stress", "virtual-therapy-urban-stress", "citywe-collaborative-agent", "ghana-climate-risk-agent"]
+    projects: ["cool-project-heat-stress", "virtual-therapy-urban-stress", "CoDesignAI-collaborative-agent", "ghana-climate-risk-agent"]
+  },
+  // 🌟 新增的 Xueliang Yang 团队成员信息
+  {
+    id: "xueliang-yang",
+    name: "Xueliang Yang",
+    role: "PhD Student",
+    title: "Urban Data Scientist & Environmental Epidemiologist",
+    category: "phd",
+    avatar: avatarXueliang,
+    bio: "Xueliang bridges quantitative analytics, environmental health, and health geography to identify how urban exposures impact population health disparities.",
+    fullBio: "Xueliang Yang is an Urban Data Scientist and Environmental Epidemiologist currently pursuing his PhD in Social and Behavioral Sciences at New York University School of Global Public Health. With a unique interdisciplinary background spanning Mathematics with Finance (BSc) and Applied Urban Science and Informatics (MS), Xueliang bridges the gap between quantitative analytics, environmental health and health geography research.\n\nHis research investigates the dynamic interplay between the built environment, social structures, and human behavior. While his early work focused on urban stress, his current scholarship has expanded to examine broader environmental and social determinants of health. By integrating sensor technologies, geospatial data, and advanced computational methods, Xueliang seeks to identify how urban exposures impact population health disparities.\n\nAspiring to be a Data-Driven Health Geographer, Xueliang is dedicated to generating robust scientific evidence that advances our understanding of environmental justice and healthy urban systems.",
+    research: ["Urban Data Science", "Environmental Epidemiology", "Health Geography", "Environmental Justice"],
+    projects: [] 
   },
   {
     id: "isaiah-garnett", 
@@ -308,7 +322,7 @@ export const teamMembers: TeamMember[] = [
     bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", 
     research: ["Data Analytics", "Community Engagement", "VR"],
     publications: [{ title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }], 
-    projects: ["virtual-therapy-urban-stress", "citywe-collaborative-agent"]
+    projects: ["virtual-therapy-urban-stress", "CoDesignAI-collaborative-agent"]
   },
   {
     id: "shu-aspen-yang", 

@@ -1,18 +1,39 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useState, useEffect } from "react";
+import { projects, teamMembers, highlightDetailData } from "../data/projects";
 
+// 🌟 1. 导入刚刚在 Collaborators 里暴露出来的真实数组
+import { partnersList } from "./Collaborators";
+
+// A. 统计所有团队成员的 Publications 总数
+const totalPublications = teamMembers.reduce((acc, member) => {
+  return acc + (member.publications ? member.publications.length : 0);
+}, 0);
+
+// B. 统计所有 Highlights 中的 Conferences 总数
+const totalConferences = highlightDetailData.reduce((acc, highlight) => {
+  return acc + (highlight.conferences ? highlight.conferences.length : 0);
+}, 0);
+
+// C. 🌟 核心修改：直接获取真实的合作机构数量 (你删了 FSU，这里就会自动变成 10)
+const totalPartners = partnersList.length;
+
+// D. 统计 Tools & Demos 的总数
+const totalToolsAndDemos = projects.length + highlightDetailData.length;
+
+// 将计算出的真实数据注入到 stats 数组中
 const stats = [
-  { id: 1, value: "19", label: "Publications" },
-  { id: 2, value: "24", label: "Conferences" },
-  { id: 3, value: "8", label: "Partners" },
-  { id: 4, value: "12", label: "Tools & Demos" },
+  { id: 1, value: String(totalPublications), label: "Publications" },
+  { id: 2, value: String(totalConferences), label: "Conferences" },
+  { id: 3, value: String(totalPartners), label: "Partners" },
+  { id: 4, value: String(totalToolsAndDemos), label: "Tools & Demos" },
 ];
 
 function AnimatedNumber({ value, delay }: { value: string; delay: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
   const [count, setCount] = useState(0);
-  const target = parseInt(value);
+  const target = parseInt(value) || 0;
 
   useEffect(() => {
     if (!isInView) return;

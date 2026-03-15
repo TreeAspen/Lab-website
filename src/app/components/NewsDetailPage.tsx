@@ -3,9 +3,20 @@ import { motion } from "motion/react";
 import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import { newsDetailData } from "../data/projects";
 
+// 🌟 1. 导入与首页一致的本地图片和视频变量
+import { news1Img, news2Img, videoUrbanAI } from "../assets";
+
+// 🌟 2. 保持与 News.tsx 完全一致的媒体映射表
+const newsMedia: Record<number, { type: 'image' | 'video', src: string }> = {
+  1: { type: 'image', src: news1Img },
+  2: { type: 'video', src: videoUrbanAI }, 
+  3: { type: 'image', src: news2Img }      
+};
+
 export function NewsDetailPage() {
   const { id } = useParams();
-  const news = newsDetailData.find((n) => n.id === Number(id));
+  const newsId = Number(id);
+  const news = newsDetailData.find((n) => n.id === newsId);
 
   if (!news) {
     return (
@@ -24,6 +35,9 @@ export function NewsDetailPage() {
       </div>
     );
   }
+
+  // 🌟 获取当前新闻对应的媒体配置，如果没有则回退到数据库里的默认 heroImage
+  const currentMedia = newsMedia[newsId] || { type: 'image', src: news.heroImage };
 
   return (
     <div className="bg-[#F4F4EB] min-h-screen pt-20">
@@ -63,13 +77,24 @@ export function NewsDetailPage() {
             </span>
           </div>
 
-          {/* Image */}
+          {/* 🌟 3. 核心修改：条件渲染 Hero 区域的图片或视频 */}
           <div className="relative h-[250px] md:h-[400px] overflow-hidden">
-            <img
-              src={news.heroImage}
-              alt={news.title}
-              className="w-full h-full object-cover"
-            />
+            {currentMedia.type === 'video' ? (
+              <video
+                src={currentMedia.src}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img
+                src={currentMedia.src}
+                alt={news.title}
+                className="w-full h-full object-cover"
+              />
+            )}
             <div
               className="absolute inset-0 pointer-events-none opacity-[0.05]"
               style={{
@@ -172,29 +197,45 @@ export function NewsDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {newsDetailData
             .filter((n) => n.id !== news.id)
-            .map((item) => (
-              <Link
-                key={item.id}
-                to={`/news/${item.id}`}
-                className="group bg-white border-2 border-black rounded-xl overflow-hidden transition-all"
-              >
-                <div className="h-32 overflow-hidden">
-                  <img
-                    src={item.heroImage}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-4">
-                  <p className="font-mono text-xs text-gray-500 mb-1">
-                    {item.date}
-                  </p>
-                  <h4 className="font-['VT323'] text-xl uppercase group-hover:text-[#FF7A00] transition-colors">
-                    {item.title}
-                  </h4>
-                </div>
-              </Link>
-            ))}
+            .map((item) => {
+              // 🌟 4. 同步应用到推荐新闻卡片的媒体封面
+              const itemMedia = newsMedia[item.id] || { type: 'image', src: item.heroImage };
+              
+              return (
+                <Link
+                  key={item.id}
+                  to={`/news/${item.id}`}
+                  className="group bg-white border-2 border-black rounded-xl overflow-hidden transition-all"
+                >
+                  <div className="h-32 overflow-hidden">
+                    {itemMedia.type === 'video' ? (
+                      <video
+                        src={itemMedia.src}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <img
+                        src={itemMedia.src}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <p className="font-mono text-xs text-gray-500 mb-1">
+                      {item.date}
+                    </p>
+                    <h4 className="font-['VT323'] text-xl uppercase group-hover:text-[#FF7A00] transition-colors">
+                      {item.title}
+                    </h4>
+                  </div>
+                </Link>
+              );
+            })}
         </div>
       </div>
     </div>
