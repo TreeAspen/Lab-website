@@ -4,9 +4,11 @@ import { newsFeature as img3, news1Img, news2Img, vrVideo } from "../assets";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import { Link } from "react-router-dom";
 
+// 🌟 核心修改 1：在 newsItems 中为每一项增加 slug 字段
 const newsItems = [
   {
     id: 1,
+    slug: "1", // 第一条暂未定义特殊名称，保持 1
     title: "Latest Publication: VR Study on Flood Risk Response",
     desc: "Our latest research published in IJDRR leverages Virtual Reality to simulate urban floods, uncovering how human responses shift across different contexts.",
     detail: "The study reveals that people are significantly more sensitive to flood risks when in a car than on the street, especially at night. It also highlights how self-efficacy, warning sirens, and socioeconomic factors critically shape emergency evacuation behaviors.",
@@ -14,6 +16,7 @@ const newsItems = [
   },
   {
     id: 2,
+    slug: "codesignai", // 🌟 对应你的新路径名称
     title: "Tools Release: CoDesignAI Collaborative Platform",
     desc: "CoDesignAI is a web-based collaborative platform that uses multi-agent AI to support participatory urban design.",
     detail:
@@ -21,17 +24,17 @@ const newsItems = [
   },
   {
     id: 3,
+    slug: "vrgreencallforusers", // 🌟 对应你的新路径名称
     title: "On-going User Test: Virtual Therapy to Urban Stress",
     desc: "Virtual Therapy to Urban Stress is an immersive research project that uses Virtual Reality (VR) and multimodal physiological sensors to evaluate how context-specific urban greenery impacts human stress and well-being. ",
     detail: "The study integrates AI-modified 360° visual stimuli with EEG, EDA, and psychological surveys to track real-time cognitive and physiological responses across diverse urban settings, such as parks, waterfronts, and traffic corridors. By bridging neuroscience and urban design, the project aims to provide evidence-based guidelines for effective green space planning and validate VR as an accessible therapeutic tool for public health."
   }
 ];
 
-// 🌟 核心修改：将 id: 3 的图片恢复为 news2Img
 const newsMedia: Record<number, { type: 'image' | 'video', src: string }> = {
   1: { type: 'image', src: news1Img },
   2: { type: 'video', src: vrVideo },
-  3: { type: 'image', src: news2Img } // 👈 恢复成 News-2.png 
+  3: { type: 'image', src: news2Img } 
 };
 
 export function News() {
@@ -132,18 +135,18 @@ export function News() {
                           <p className="text-xs md:text-sm font-mono opacity-80 mb-5 leading-relaxed">
                             {item.detail}
                           </p>
-                          <button
+                          <div
                             onClick={(e) => {
                               e.stopPropagation();
                             }}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-[#ff6b00] border-2 border-black rounded-full uppercase text-sm tracking-wider cursor-pointer transition-all duration-150 group hover:bg-[#E2F16B] hover:text-black w-full justify-center md:w-auto"
+                            className="inline-flex items-center gap-2 bg-black text-[#ff6b00] border-2 border-black rounded-full uppercase text-sm tracking-wider cursor-pointer transition-all duration-150 group hover:bg-[#E2F16B] hover:text-black w-full justify-center md:w-auto overflow-hidden"
                           >
                             {item.externalLink ? (
                               <a 
                                 href={item.externalLink} 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-2 px-5 py-2.5 w-full h-full justify-center"
                               >
                                 <span className="font-['VT323'] text-base tracking-widest">
                                   Read Paper
@@ -151,14 +154,15 @@ export function News() {
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                               </a>
                             ) : (
-                              <Link to={`/news/${item.id}`} className="flex items-center gap-2">
+                              /* 🌟 核心修改 2：这里的 to 从 item.id 改为 item.slug */
+                              <Link to={`/news/${item.slug}`} className="flex items-center gap-2 px-5 py-2.5 w-full h-full justify-center">
                                 <span className="font-['VT323'] text-base tracking-widest">
                                   Learn More
                                 </span>
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                               </Link>
                             )}
-                          </button>
+                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -169,7 +173,7 @@ export function News() {
           })}
         </div>
 
-        {/* ─── 右侧：Image Collage (仅在 md 及以上屏幕显示) ──────────── */}
+        {/* ─── 右侧：Image Collage 保持不变 ──────────────────────────── */}
         <div
           ref={containerRef}
           onMouseMove={handleMouseMove}
@@ -202,9 +206,9 @@ export function News() {
                 <div className="flex items-center justify-between px-3 py-2 bg-black text-white border-b-2 border-black">
                   <div className="flex items-center gap-2">
                     <div className="flex gap-1.5">
-                      <span className="w-3 h-3 rounded-full bg-[#ff6b00] border border-white/20" />
-                      <span className="w-3 h-3 rounded-full bg-[#E2F16B] border border-white/20" />
-                      <span className="w-3 h-3 rounded-full bg-white/30 border border-white/20" />
+                      <span className="w-3 h-3 rounded-full bg-[#ff6b00]" />
+                      <span className="w-3 h-3 rounded-full bg-[#E2F16B]" />
+                      <span className="w-3 h-3 rounded-full bg-white/30" />
                     </div>
                     <span className="font-['VT323'] text-sm tracking-wider ml-2 opacity-70">
                       NEWS_{String(activeId).padStart(2, "0")}.exe

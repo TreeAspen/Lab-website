@@ -29,6 +29,7 @@ import heroModel4 from "../../assets/intelligence.png";
 import news1Img from "../../assets/News-1.png"; 
 import news2Img from "../../assets/News-2.png"; 
 import vrPoster from "../../assets/VR-Poster.png"; 
+import UrbanAIHead from"../../assets/UrbanAIHead.jpg";
 
 // ─── 11 个高校 Logo ──────────────────────────────────────────
 import logoEmory from "../../assets/Emory.png";
@@ -78,6 +79,7 @@ export {
   news1Img,
   news2Img,
   vrPoster,
+  UrbanAIHead,
   logoEmory,
   logoFAU,
   logoFSU,

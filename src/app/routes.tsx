@@ -12,12 +12,14 @@ import { ProjectDetailPage } from "./components/ProjectDetailPage";
 import { NewsDetailPage } from "./components/NewsDetailPage";
 import { HighlightDetailPage } from "./components/HighlightDetailPage";
 import { TeamPage } from "./components/TeamPage";
-// 👇 这个导入和下面数组里的组件是一一对应的
 import { TeamMemberDetailPage } from "./components/TeamMemberDetailPage";
 
 import { ScrollToTop } from "./components/ScrollToTop";
 import { Link } from "react-router-dom";
 
+/**
+ * 全局布局组件
+ */
 function Layout() {
   return (
     <div className="min-h-screen bg-[#F4F4EB] font-mono text-black selection:bg-[#FF7A00] selection:text-white">
@@ -31,6 +33,9 @@ function Layout() {
   );
 }
 
+/**
+ * 首页组件
+ */
 function HomePage() {
   return (
     <>
@@ -45,6 +50,9 @@ function HomePage() {
   );
 }
 
+/**
+ * 路由配置核心
+ */
 export const router = createHashRouter([
   {
     path: "/",
@@ -58,6 +66,10 @@ export const router = createHashRouter([
         path: "projects/:slug", 
         Component: ProjectDetailPage 
       },
+      // 🌟 这个路由现在同时支持：
+      // /news/2  -> id 为 "2"
+      // /news/codesignai -> id 为 "codesignai"
+      // /news/vrgreencallforusers -> id 为 "vrgreencallforusers"
       { 
         path: "news/:id", 
         Component: NewsDetailPage 

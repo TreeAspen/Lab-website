@@ -26,7 +26,7 @@ const stats = [
   { id: 1, value: String(totalPublications), label: "Publications" },
   { id: 2, value: String(totalConferences), label: "Conferences" },
   { id: 3, value: String(totalPartners), label: "Partners" },
-  { id: 4, value: String(totalToolsAndDemos), label: "Tools & Demos" },
+  { id: 4, value: String(totalToolsAndDemos), label: "Projects" },
 ];
 
 function AnimatedNumber({ value, delay }: { value: string; delay: number }) {
