@@ -9,10 +9,9 @@ import {
   avatarVincent, 
   avatarZhaoxi,
   avatarXueliang,
-  videoSegmentation, // 用于 Sensing
+  // 注意：这里我们删除了 videoSegmentation 和 htmlUrbanSensor 的引入，因为它们现在在 public 文件夹了
   videoStretched,    // 用于 VR
-  videoUrbanAI,      // 用于 Agent/AI
-  htmlUrbanSensor 
+  videoUrbanAI       // 用于 Agent/AI
 } from "../assets";
 
 export interface ProjectData {
@@ -74,7 +73,11 @@ export const projects: ProjectData[] = [
     title: "The 'COOL' Project",
     desc: "Integrating Mobile Sensing and Environmental Simulation for Heat Stress Mitigation.",
     heroImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoSegmentation, // 🌟 Sensing 类视频
+    
+    // 🌟 直接读取 public 文件夹里的文件
+    heroVideo: "/Segmentation.mp4", 
+    embedHtml: "/UrbanSensorInteractive.html",
+
     gallery: [], tags: ["Urban Sensing", "Heat Stress", "Simulation"], year: "2025", status: "ACTIVE",
     overview: "The Climate-Optimized Outdoor Living (COOL) project focuses on understanding and mitigating urban heat stress. By integrating mobile sensing data with advanced environmental simulations, we assess how adaptive urban design can improve thermal comfort in outdoor spaces.",
     sections: [
@@ -89,7 +92,7 @@ export const projects: ProjectData[] = [
     title: "Virtual Therapy to Urban Stress",
     desc: "Exploring visual elements in mitigating urban stress via Body Sensing and VR.",
     heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoStretched, // 🌟 VR 类视频
+    heroVideo: videoStretched,
     gallery: [], tags: ["Urban VR", "EEG/EDA", "Biosensing"], year: "2025", status: "ACTIVE",
     overview: "This project integrates the use of virtual reality (VR) scenes with physiological data collected from Emotiv (EEG) and Empatica (EDA) biosensors. We aim to understand individuals’ responses to greenery as a potential therapeutic in relation to urban stress.",
     sections: [
@@ -103,7 +106,7 @@ export const projects: ProjectData[] = [
     title: "CoDesignAI: Urban Design Agent",
     desc: "Collaborative Urban Design Agent for Multi-Users.",
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
+    heroVideo: videoUrbanAI, 
     gallery: [], tags: ["Urban Agent", "HCI", "Co-design"], year: "2025", status: "PROTOTYPE",
     overview: "CityWe is an AI-assisted, location-based visual tool designed to support collaboration among diverse stakeholders during the early stages of urban design. It enables anyone to interact with and modify street environments.",
     sections: [
@@ -117,7 +120,7 @@ export const projects: ProjectData[] = [
     title: "LLM Soundscape Mapping",
     desc: "Detecting and Mapping Soundscapes using Large Language Models.",
     heroImage: "https://images.unsplash.com/photo-1508739773402-3ea1af4c6bb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
+    heroVideo: videoUrbanAI, 
     gallery: [], tags: ["Urban Sensing", "LLM", "Spatial Analysis"], year: "2026", status: "ACTIVE",
     overview: "This project utilizes Large Language Models (LLMs) and spatial analysis to categorize sources and intensities of urban sound, evaluating the noise pollution landscape in New York City.",
     sections: [
@@ -132,7 +135,7 @@ export const projects: ProjectData[] = [
     title: "Ghana Climate Risk Agent",
     desc: "AI Agent Empowered with Community Data for Urban Air Pollution.",
     heroImage: "https://images.unsplash.com/photo-1611270418597-a6cbf224e7eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoUrbanAI, // 🌟 AI/Agent 类视频
+    heroVideo: videoUrbanAI, 
     gallery: [], tags: ["Urban Agent", "Global Health", "Climate"], year: "2025", status: "ACTIVE",
     overview: "An AI agent system designed for urban air pollution and climate risk management in Ghana. The system is empowered by ground-level community data to provide localized, actionable environmental insights.",
     sections: [
@@ -146,7 +149,7 @@ export const projects: ProjectData[] = [
     title: "Inclusive Greenspace Emotion",
     desc: "Sensitivity-Inclusive Approaches to Understand Emotional Responses.",
     heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoStretched, // 🌟 VR 类视频
+    heroVideo: videoStretched, 
     gallery: [], tags: ["Urban VR", "Landscape", "Emotion"], year: "2025", status: "ACTIVE",
     overview: "A VR-based study quantifying how specific urban features, such as greenery, contribute to high-quality environments and shape psychological perceptions like safety and preference across diverse populations.",
     sections: [
@@ -191,8 +194,11 @@ export const highlightDetailData: HighlightData[] = [
     id: "urban",
     title: "Urban Sensing",
     heroImage: "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    heroVideo: videoSegmentation, 
-    embedHtml: htmlUrbanSensor, 
+    
+    // 🌟 这里也改成了 public 文件夹的直接路径
+    heroVideo: "/Segmentation.mp4", 
+    embedHtml: "/UrbanSensorInteractive.html", 
+    
     tags: ["Wearables", "Biosensors", "Micro-scale"],
     overview: [
       "Urban Sensing uses wearable and portable sensors to understand how people experience the city at the micro scale—streets, parks, plazas, and everyday routes. Our goal is to measure what happens in real places, linking environmental conditions (e.g., noise, heat, air quality, and light) with human stress signals captured by biosensors (e.g., heart rate patterns, skin conductance, and skin temperature). By grounding sensing in everyday mobility and public space use, we move beyond citywide averages and bring urban health evidence to the level where design and planning decisions happen.",

@@ -149,7 +149,6 @@ export function ProjectDetailPage() {
               </span>
             </div>
             
-            {/* 💡 核心修复：移动端直接给 1400px 的超大高度让长条完全展开，消除内部滚动条。电脑端保持 aspect-video 宽屏比例 */}
             <div className="w-full h-[1400px] sm:h-[1200px] md:h-auto md:aspect-video relative bg-white overflow-hidden">
               <iframe 
                 src={project.embedHtml} 
@@ -200,7 +199,6 @@ export function ProjectDetailPage() {
                 i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               } gap-4 md:gap-6 items-stretch`}
             >
-              {/* Section number - decorative */}
               <div className="hidden md:flex flex-col items-center justify-start pt-6 w-16 shrink-0">
                 <div className="w-12 h-12 bg-black text-[#E2F16B] rounded-full flex items-center justify-center font-['VT323'] text-2xl border-2 border-[#E2F16B]">
                   {String(i + 1).padStart(2, "0")}
@@ -210,7 +208,6 @@ export function ProjectDetailPage() {
                 )}
               </div>
 
-              {/* Content card */}
               <div className="flex-1 bg-white border-2 border-black rounded-xl p-5 md:p-8 transition-all hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="font-['VT323'] text-xl md:text-3xl uppercase tracking-wider mb-3 md:mb-4 flex items-center gap-2">
                   <span className="text-[#FF7A00] text-base md:text-lg">{">"}</span>
