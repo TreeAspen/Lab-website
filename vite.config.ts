@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // 1. 设置基础路径：仅需仓库名，前后带斜杠
-  base: '/Lab-website/', 
+  // 1. 设置基础路径：由于绑定了顶级域名，必须改为根路径
+  base: '/', 
 
   plugins: [
     // React 和 Tailwind 插件对项目运行至关重要，请勿移除
