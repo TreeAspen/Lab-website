@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Research Workflow - Interactive Flow</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,14 +22,17 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* 🌟 核心修复 1：将 body 的 padding 改为百分比，且避免使用固定定位防溢出 */
     body {
       font-family: 'DM Sans', system-ui, sans-serif;
       background: #000;
       color: var(--text);
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3%;
+      overflow-x: hidden; /* 强制防止横向滚动 */
     }
 
     body::before {
@@ -45,23 +48,23 @@
       z-index: -1;
     }
 
+    /* 🌟 核心修复 2：彻底抛弃 vw，使用 100% 和 max-width */
     .container {
-      width: min(96vw, 1720px);
-      aspect-ratio: auto;
-      min-height: auto;
+      width: 100%;
+      max-width: 1720px;
+      height: auto;
       padding: 1.3rem;
       border: 1px solid var(--border);
       border-radius: 16px;
       background: #050505;
       position: relative;
-      overflow: visible;
       box-shadow: 0 28px 70px rgba(0, 0, 0, 0.72);
     }
 
     .container::after {
       content: "";
       position: absolute;
-      inset: 12px;
+      inset: 10px;
       border: 1px solid rgba(255, 212, 0, 0.2);
       border-radius: 10px;
       pointer-events: none;
@@ -86,7 +89,7 @@
       padding: 0.95rem 1rem;
       box-shadow: var(--shadow);
       position: relative;
-      overflow: visible;
+      overflow: hidden; /* 防止内部元素撑破卡片 */
       align-self: start;
       animation: rise 580ms var(--delay, 0ms) ease both;
       transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
@@ -116,11 +119,6 @@
       transform: translateY(-1px);
     }
 
-    .step:focus-visible {
-      outline: none;
-      box-shadow: var(--shadow), 0 0 0 2px var(--accent);
-    }
-
     .step-title {
       display: flex;
       align-items: center;
@@ -146,6 +144,7 @@
       font-weight: 800;
       line-height: 1;
       color: #fff;
+      flex-shrink: 0; /* 防止数字被挤压 */
     }
 
     .step-detail { font-size: 0.81rem; line-height: 1.4; color: var(--text); }
@@ -158,116 +157,53 @@
     .step-2 { grid-column: 2; grid-row: 1; --delay: 120ms; }
     .step-3 { grid-column: 2; grid-row: 2; --delay: 180ms; }
     .step-4 { grid-column: 2; grid-row: 3; --delay: 220ms; }
-     .step-5 { grid-column: 3; grid-row: 1 / 3; --delay: 260ms; }
+    .step-5 { grid-column: 3; grid-row: 1 / 3; --delay: 260ms; }
     .step-6 { display: none; }
     .step-7 { grid-column: 3; grid-row: 3; --delay: 340ms; }
 
-    .step-1 {
-      padding: 1.12rem 1.14rem;
-      overflow: hidden;
-      align-self: stretch;
-    }
+    .step-1 { padding: 1.12rem 1.14rem; align-self: stretch; }
+    .step-1 .step-title { margin-bottom: 0.66rem; font-size: 1.02rem; }
+    .step-1 .step-num { width: 2rem; height: 2rem; font-size: 0.96rem; }
+    .step-1 .step-detail { font-size: 0.8rem; line-height: 1.4; }
 
-    .step-1 .step-title {
-      margin-bottom: 0.66rem;
-      font-size: 1.02rem;
-    }
-
-    .step-1 .step-num {
-      width: 2rem;
-      height: 2rem;
-      font-size: 0.96rem;
-    }
-
-    .step-1 .step-detail {
-      font-size: 0.8rem;
-      line-height: 1.4;
-      height: auto;
-      display: block;
-    }
-
-    .step-1 .bullet-list {
-      display: block;
-    }
-
-    .step-1 ul.bullet-list li {
-      margin-bottom: 0.2rem;
-    }
-
-    .step-1 ul.bullet-list li:last-child {
-      margin-bottom: 0;
-    }
-
-    .step-1 .route-item {
-      margin-top: 0;
-    }
-
-    .step-1 .route-visual-box {
-      margin-bottom: 0;
-    }
-
-    .step-1 .route-map-svg {
-      height: 74px;
-    }
-
-    .sensor-visual-box,
-    .morph-visual-box,
-    .route-visual-box,
-    .video-slot {
+    .sensor-visual-box, .morph-visual-box, .route-visual-box, .video-slot {
       margin-top: 0.36rem;
       border: 1.5px dashed rgba(255, 212, 0, 0.55);
       border-radius: 10px;
       padding: 0.36rem;
       background: rgba(255, 212, 0, 0.04);
+      width: 100%;
     }
 
-    .sensor-icon-grid,
-    .morph-grid {
+    .sensor-icon-grid, .morph-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.42rem;
+      width: 100%;
     }
 
-    .sensor-icon-tile,
-    .morph-tile {
+    .sensor-icon-tile, .morph-tile {
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 8px;
       padding: 0.28rem 0.2rem;
       background: rgba(0, 0, 0, 0.5);
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    .sensor-icon-tile svg {
-      width: 30px;
-      height: 30px;
-      display: block;
-      margin: 0 auto 0.18rem;
-      stroke: #ffd400;
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+    .sensor-icon-tile svg { width: 24px; height: 24px; margin-bottom: 4px; stroke: #ffd400; fill: none; stroke-width: 1.8; }
+    .morph-tile svg { width: 34px; height: 22px; margin-bottom: 4px; stroke: #ffd400; fill: none; stroke-width: 1.6; }
 
-    .morph-tile svg {
-      width: 42px;
-      height: 28px;
+    .sensor-icon-tile span, .morph-tile span {
       display: block;
-      margin: 0 auto 0.18rem;
-      stroke: #ffd400;
-      fill: none;
-      stroke-width: 1.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .sensor-icon-tile span,
-    .morph-tile span {
-      display: block;
-      font-size: 0.64rem;
-      line-height: 1.2;
+      font-size: 0.6rem;
+      line-height: 1.1;
       color: #fff;
-      letter-spacing: 0.02em;
+      word-wrap: break-word; /* 允许单词内部换行防止溢出 */
+      hyphens: auto;
     }
 
     .route-map-svg {
@@ -278,23 +214,10 @@
       background: rgba(0, 0, 0, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.18);
     }
-
     .route-map-svg .grid-line { stroke: rgba(255, 255, 255, 0.16); stroke-width: 1; }
-    .route-map-svg .route-line {
-      stroke: #ffd400;
-      stroke-width: 2.4;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 4 3;
-    }
+    .route-map-svg .route-line { stroke: #ffd400; stroke-width: 2.4; fill: none; stroke-dasharray: 4 3; }
     .route-map-svg .route-node { fill: #111; stroke: #ffd400; stroke-width: 1.8; }
-    .route-map-svg text {
-      fill: #fff;
-      font-size: 7px;
-      font-weight: 700;
-      font-family: 'DM Sans', system-ui, sans-serif;
-    }
+    .route-map-svg text { fill: #fff; font-size: 7px; font-weight: 700; }
 
     .video-frame {
       width: 100%;
@@ -304,182 +227,125 @@
       background: #000;
       display: block;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
-    .step-3 {
-      overflow: visible;
-      margin-top: 0;
-      align-self: stretch;
-      min-height: auto;
-      padding: 1.02rem 1.04rem;
-    }
+    .step-3 { align-self: stretch; padding: 1.02rem 1.04rem; }
+    .step-3 .step-detail { font-size: 0.77rem; line-height: 1.31; }
+    .step-3 .video-frame { width: 100%; max-width: none; }
 
-    .step-3 .step-detail {
-      font-size: 0.77rem;
-      line-height: 1.31;
-    }
+    .step-2 { padding: 0.72rem 0.9rem; align-self: stretch; }
 
-    .step-3 .step-detail p {
-      margin-bottom: 0.3rem;
-    }
-
-    .step-3 .video-slot {
-      margin-top: 0.25rem;
-      padding: 0.28rem;
-    }
-
-    .step-3 .video-frame {
-      width: 68%;
-      max-width: 205px;
-      margin: 0 auto;
-    }
-
-    .step-3 ul.bullet-list {
-      margin-top: 0.22rem;
-      padding-left: 0.95rem;
-    }
-
-    .step-3 ul.bullet-list li {
-      margin-bottom: 0.15rem;
-    }
-
-    .step-2 {
-      padding: 0.72rem 0.9rem;
-      align-self: stretch;
-      min-height: auto;
-    }
-
-    .step-2 .step-title {
-      font-size: 0.9rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .step-2 .step-num {
-      width: 1.9rem;
-      height: 1.9rem;
-      font-size: 0.88rem;
-    }
-
-    .step-2 .step-detail {
-      font-size: 0.74rem;
-      line-height: 1.28;
-    }
-
-    .step-2 .step-detail p {
-      margin-bottom: 0.14rem;
-    }
-
-    .step-4 {
-      width: 100%;
-      justify-self: stretch;
-      margin-top: 0;
-      align-self: stretch;
-    }
-
+    .step-4 { width: 100%; align-self: stretch; }
     .pipeline-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; margin-top: 0.45rem; }
-    .pipeline-box {
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.42rem 0.62rem;
-      font-size: 0.76rem;
-    }
+    .pipeline-box { background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border); border-radius: 8px; padding: 0.42rem 0.62rem; font-size: 0.76rem; }
     .pipeline-label { font-size: 0.68rem; color: var(--accent); margin-bottom: 0.12rem; }
     .pipeline-arrow { color: var(--text-muted); font-size: 0.75rem; }
 
     .state-badges { display: flex; gap: 0.42rem; flex-wrap: wrap; }
-    .state-badge {
-      padding: 0.22rem 0.56rem;
-      border-radius: 6px;
-      font-size: 0.76rem;
-      font-weight: 600;
-    }
+    .state-badge { padding: 0.22rem 0.56rem; border-radius: 6px; font-size: 0.76rem; font-weight: 600; }
     .state-badge.baseline { background: #2a2a2a; color: #fff; border: 1px solid rgba(255, 255, 255, 0.25); }
     .state-badge.stressful { background: #ffd400; color: #000; }
     .state-badge.relaxed { background: #fff; color: #000; }
 
-    .analysis-visual-box {
-      margin-top: 0.36rem;
-      border: 1.5px dashed rgba(255, 212, 0, 0.55);
-      border-radius: 10px;
-      padding: 0.36rem;
-      background: rgba(255, 212, 0, 0.04);
-    }
+    .analysis-visual-box { margin-top: 0.36rem; border: 1.5px dashed rgba(255, 212, 0, 0.55); border-radius: 10px; padding: 0.36rem; background: rgba(255, 212, 0, 0.04); }
     .analysis-deployment-svg { width: 100%; height: auto; min-height: 160px; display: block; }
 
-    .step-5, .step-6, .step-7 {
-      padding: 0.88rem 0.9rem;
-      min-height: auto;
-      overflow: visible;
-      align-self: stretch;
-    }
-    .step-5 { padding: 0.75rem 0.85rem; }
+    .step-5, .step-6, .step-7 { padding: 0.88rem 0.9rem; align-self: stretch; }
     .step-5 .step-title, .step-6 .step-title, .step-7 .step-title { font-size: 0.9rem; margin-bottom: 0.42rem; }
     .step-5 .step-num, .step-6 .step-num, .step-7 .step-num { width: 1.95rem; height: 1.95rem; font-size: 0.9rem; }
-    .step-5 .step-detail { font-size: 0.74rem; line-height: 1.3; }
-    .step-6 .step-detail, .step-7 .step-detail { font-size: 0.76rem; line-height: 1.34; }
-
+    
     .data-fusion-diagram { margin-top: 0.4rem; display: flex; flex-direction: column; gap: 0.15rem; }
     .fusion-sources-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; margin-bottom: 0.1rem; }
     .fusion-arrow-vertical { height: 20px; display: flex; justify-content: center; align-items: center; color: rgba(255, 212, 0, 0.6); margin: 0.1rem 0; }
     .fusion-arrow-vertical svg { height: 100%; width: auto; filter: drop-shadow(0 0 2px rgba(255, 212, 0, 0.4)); }
-    .fusion-row { display: flex; align-items: center; justify-content: center; gap: 0.24rem; flex-wrap: wrap; }
-    .fusion-row--process { justify-content: center; gap: 0.35rem; }
-    .fusion-box {
-      flex: 1 1 auto; background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 212, 0, 0.4);
-      border-radius: 6px; padding: 0.35rem 0.4rem; text-align: center; display: flex;
-      flex-direction: column; gap: 0.1rem; width: 100%;
-    }
+    .fusion-box { flex: 1 1 auto; background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 212, 0, 0.4); border-radius: 6px; padding: 0.35rem 0.4rem; text-align: center; display: flex; flex-direction: column; gap: 0.1rem; width: 100%; }
     .fusion-box--process { flex: 0 1 auto; min-width: 110px; }
     .fusion-box--highlight { border-color: rgba(255, 212, 0, 0.6); background: rgba(255, 212, 0, 0.06); }
     .fusion-box--final { border-color: rgba(255, 212, 0, 0.75); background: rgba(255, 212, 0, 0.1); width: 85%; margin: 0 auto; }
     .fusion-box__label { font-size: 0.72rem; font-weight: 600; color: var(--accent); line-height: 1.25; }
     .fusion-box__detail { font-size: 0.62rem; color: var(--text-muted); line-height: 1.15; }
 
-    .flow-arrows {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: visible;
-    }
-
+    .flow-arrows { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: visible; }
     .flow-arrows svg { width: 100%; height: 100%; }
-
-    .flow-path {
-      fill: none;
-      stroke: rgba(255, 212, 0, 0.82);
-      stroke-width: 2.2;
-      stroke-dasharray: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 5px rgba(255, 212, 0, 0.5));
-    }
-
-    .arrow-label {
-      position: absolute;
-      left: 0;
-      top: 0;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      background: rgba(7, 17, 28, 0.9);
-      border: 1px solid rgba(255, 212, 0, 0.3);
-      padding: 0.2rem 0.45rem;
-      border-radius: 6px;
-      transform: translate(-50%, -50%);
-    }
+    .flow-path { fill: none; stroke: rgba(255, 212, 0, 0.82); stroke-width: 2.2; filter: drop-shadow(0 0 5px rgba(255, 212, 0, 0.5)); }
 
     @keyframes rise {
       from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* =========================================
+       📱 终极移动端防溢出适配法则 
+       ========================================= */
     @media (max-width: 900px) {
-      .container { width: 96vw; min-height: auto; padding: 0.9rem; }
-      .flow-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
-      .step-1,.step-2,.step-3,.step-4,.step-5,.step-6,.step-7 { grid-column: 1 !important; grid-row: auto !important; }
+      body { 
+        padding: 10px; 
+        display: block; /* 取消 flex 居中，防止内容超出顶部/左侧被直接截断 */
+      }
+      
+      .container { 
+        width: 100%; 
+        padding: 12px; 
+        box-shadow: none; /* 移动端减弱阴影提升性能 */
+      }
+      
+      .container::after {
+        inset: 4px; /* 边框收缩 */
+      }
+      
+      .flow-grid { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 0.8rem; 
+      }
+      
+      .step { 
+        width: 100%; 
+        padding: 14px 12px;
+        grid-column: auto !important; 
+        grid-row: auto !important; 
+      }
+      
+      /* 强制逻辑顺序 */
+      .step-1 { order: 1; }
+      .step-2 { order: 2; }
+      .step-3 { order: 3; }
+      .step-4 { order: 4; }
+      .step-5 { order: 5; } 
+      .step-7 { order: 6; }
+      
       .flow-arrows { display: none; }
+
+      /* 🌟 核心 3：收缩间距，调整字体，防止子元素撑破容器 */
+      .step-title { font-size: 1rem !important; margin-bottom: 8px;}
+      .step-detail { font-size: 0.85rem !important; line-height: 1.45 !important; }
+      ul.bullet-list { padding-left: 1rem; }
+      
+      .sensor-visual-box, .morph-visual-box { padding: 6px; }
+      .sensor-icon-grid, .morph-grid { gap: 6px; }
+      .sensor-icon-tile, .morph-tile { padding: 6px 4px; }
+      
+      /* 缩小图标和文字，防止网格宽度溢出 */
+      .sensor-icon-tile svg, .morph-tile svg { width: 20px; height: 20px; }
+      .sensor-icon-tile span, .morph-tile span { 
+        font-size: 9px; 
+        letter-spacing: 0;
+      }
+
+      /* 🌟 核心 4：竖向排版流程 */
+      .pipeline-row { 
+        flex-direction: column; 
+        align-items: stretch; 
+        gap: 8px;
+      }
+      .pipeline-row > div { text-align: center; }
+      .pipeline-arrow { transform: rotate(90deg); text-align: center; margin: 4px 0; }
+      .state-badges { justify-content: center; }
+      .pipeline-box { font-size: 0.7rem; padding: 8px; }
+      
+      .fusion-box { padding: 6px; }
+      .fusion-box__label { font-size: 0.7rem; }
+      .fusion-box__detail { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -492,7 +358,7 @@
           <div class="step-detail">
             <p>Design a field-based sensing study to capture how people experience urban spaces.</p>
             <ul class="bullet-list">
-              <li>Sensor choice: select wearable and portable sensors (e.g., sound meter, air pollutant sensor, heat sensor) based on target exposures and outcomes (e.g., physiology, environment, mobility).
+              <li>Sensor choice: select wearable and portable sensors (e.g., sound meter, air pollutant sensor, heat sensor) based on target exposures and outcomes.
                 <div class="sensor-visual-box" aria-label="Sensor types">
                   <div class="sensor-icon-grid">
                     <div class="sensor-icon-tile">
@@ -528,7 +394,7 @@
                   </div>
                 </div>
               </li>
-              <li class="route-item">Route planning: define routes and sampling protocols (duration, indoor/outdoor segments, time windows, sampling rate).
+              <li class="route-item">Route planning: define routes and sampling protocols.
                 <div class="route-visual-box" aria-label="Route planning map">
                   <svg class="route-map-svg" viewBox="0 0 240 90" aria-hidden="true">
                     <path class="grid-line" d="M10 15h220M10 35h220M10 55h220M10 75h220"></path>
@@ -550,28 +416,21 @@
           <div class="step-title"><span class="step-num">2</span> Data Collection</div>
           <div class="step-detail">
             <p>Collect synchronized field data following approved and standardized procedures.</p>
-            <p>After IRB approval, we recruit participants for on-site sensing sessions and collect synchronized streams (wearable signals, environmental exposure, GPS, and optional imagery).</p>
+            <p>After IRB approval, we recruit participants for on-site sensing sessions and collect synchronized streams.</p>
           </div>
         </div>
 
         <div class="step step-3" data-step="3" tabindex="0">
-          <div class="step-title"><span class="step-num">3</span> Urban Feature Extraction (Image/Visual Sensing)</div>
+          <div class="step-title"><span class="step-num">3</span> Urban Feature Extraction</div>
           <div class="step-detail">
             <p>Translate street-level imagery into measurable urban features.</p>
             <div class="video-slot" aria-label="Video slot 7 by 4">
-              <video 
-                class="video-frame" 
-                autoplay 
-                loop 
-                muted 
-                playsinline
-              >
+              <video class="video-frame" autoplay loop muted playsinline>
                 <source src="./Segmentation.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
               </video>
             </div>
             <ul class="bullet-list">
-              <li>Computer vision for feature detection: detect and quantify micro-scale visual features, including greenery, sky openness, street enclosure, building/road presence, crowding, and visual complexity.</li>
+              <li>Computer vision for feature detection: detect and quantify micro-scale visual features.</li>
             </ul>
           </div>
         </div>
@@ -691,9 +550,8 @@
           <div class="step-title"><span class="step-num">4</span> Health/Response Labeling</div>
           <div class="step-detail">
             <p>Derive interpretable response states from wearable signals (optional).</p>
-            <ul class="bullet-list"><li>Compute physiological features and generate response indicators (e.g., stress vs. baseline/recovery).</li></ul>
             <div class="pipeline-row">
-              <div class="pipeline-box">Training set: WESAD (wrist-only) · Models: Transformer + LSTM </div>
+              <div class="pipeline-box">Training set: WESAD<br>Models: Transformer</div>
               <span class="pipeline-arrow">→</span>
               <div><div class="pipeline-label">Model Training</div><div class="pipeline-box">ACC, EDA, BVP, TEMP</div></div>
               <span class="pipeline-arrow">→</span>
@@ -702,15 +560,6 @@
           </div>
         </div>
 
-        <div class="step step-6" data-step="6" tabindex="0">
-          <div class="step-title"><span class="step-num">6</span> Data Fusion</div>
-          <div class="step-detail">
-            <p>Integrate environmental, mobility, and imagery-derived features into a single linked dataset by aligning records in time and space (e.g., fixed-interval resampling).</p>
-            <ul class="bullet-list"><li>Link by time and location, e.g., fixed-interval resampling.</li></ul>
-          </div>
-        </div>
-
-       
     </div>
   </div>
 
