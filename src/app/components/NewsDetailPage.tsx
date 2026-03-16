@@ -3,14 +3,13 @@ import { motion } from "motion/react";
 import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import { newsDetailData } from "../data/projects";
 
-// 🌟 导入同样的资源文件
+// 🌟 导入资源文件
 import { news1Img, vrVideo, vrPoster } from "../assets";
 
-// 🌟 保持映射同步
 const newsMedia: Record<number, { type: 'image' | 'video', src: string }> = {
   1: { type: 'image', src: news1Img },
   2: { type: 'video', src: vrVideo },
-  3: { type: 'image', src: vrPoster }
+  3: { type: 'video', src: vrVideo } 
 };
 
 export function NewsDetailPage() {
@@ -36,7 +35,6 @@ export function NewsDetailPage() {
     );
   }
 
-  // 当前新闻对应的媒体
   const currentMedia = newsMedia[newsId] || { type: 'image', src: news.heroImage };
 
   return (
@@ -52,13 +50,14 @@ export function NewsDetailPage() {
         </Link>
       </div>
 
-      {/* ─── Hero Image (顶部装饰) ────── */}
+      {/* ─── Hero Media (顶部装饰窗) ────── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="max-w-4xl mx-auto px-4 md:px-8"
       >
+        {/* 🌟 这里的阴影已去掉 */}
         <div className="rounded-xl overflow-hidden border-4 border-black">
           <div className="bg-black px-4 py-2.5 flex items-center justify-between border-b-2 border-white/20">
             <div className="flex items-center gap-2">
@@ -75,11 +74,10 @@ export function NewsDetailPage() {
           </div>
 
           <div className="relative h-[200px] md:h-[300px] overflow-hidden bg-black">
-             {/* 顶部 Hero 仅作为背景装饰，保持一定的暗度 */}
             {currentMedia.type === 'video' ? (
-              <video src={currentMedia.src} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-50" />
+              <video src={currentMedia.src} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-60" />
             ) : (
-              <img src={currentMedia.src} alt={news.title} className="w-full h-full object-cover opacity-50" />
+              <img src={currentMedia.src} alt={news.title} className="w-full h-full object-cover opacity-60" />
             )}
             <div className="absolute inset-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: "repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 3px)" }} />
           </div>
@@ -115,7 +113,6 @@ export function NewsDetailPage() {
           </div>
         </div>
 
-        {/* 文字内容 */}
         <div className="space-y-6 mb-10">
           {news.content.map((paragraph, i) => (
             <p key={i} className="font-mono text-base leading-relaxed text-gray-800">
@@ -124,18 +121,20 @@ export function NewsDetailPage() {
           ))}
         </div>
 
-        {/* 🌟 核心修改区：直接在正文中嵌入图像/视频展示 🌟 */}
-        <div className="my-12 rounded-2xl overflow-hidden border-4 border-black bg-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          {currentMedia.type === 'video' ? (
+        {/* 🌟 核心修改区：展示模块已去掉 shadow 🌟 */}
+        <div className="my-12 rounded-2xl overflow-hidden border-4 border-black bg-black">
+          {newsId === 3 ? (
             <div className="flex flex-col">
-              <video 
-                src={currentMedia.src} 
-                controls 
-                autoPlay 
-                loop 
-                muted 
-                className="w-full h-auto"
-              />
+              <img src={vrPoster} alt="VR Research Poster" className="w-full h-auto" />
+              <div className="bg-black p-3 text-center border-t border-white/10">
+                <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
+                  Research_Visual_Documentation.png
+                </span>
+              </div>
+            </div>
+          ) : currentMedia.type === 'video' ? (
+            <div className="flex flex-col">
+              <video src={currentMedia.src} controls autoPlay loop muted className="w-full h-auto" />
               <div className="bg-black p-3 text-center border-t border-white/10">
                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
                   Live_Project_Demonstration.mp4
@@ -144,11 +143,7 @@ export function NewsDetailPage() {
             </div>
           ) : (
             <div className="flex flex-col">
-              <img 
-                src={currentMedia.src} 
-                alt="Project Feature" 
-                className="w-full h-auto"
-              />
+              <img src={currentMedia.src} alt="Project Feature" className="w-full h-auto" />
               <div className="bg-black p-3 text-center border-t border-white/10">
                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
                   Technical_Visual_Asset.png
@@ -170,7 +165,7 @@ export function NewsDetailPage() {
         </div>
       </motion.article>
 
-      {/* ─── Related News ──────────────────────────── */}
+      {/* ... 底部 Related News 保持不变 ... */}
       <div className="max-w-4xl mx-auto px-4 md:px-8 mt-12 mb-20">
         <h3 className="font-['VT323'] text-2xl uppercase tracking-wider mb-6 flex items-center gap-2">
           <span className="text-[#FF7A00]">///</span> More News
