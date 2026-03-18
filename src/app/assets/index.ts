@@ -12,6 +12,7 @@ import avatarShu from "../../assets/Shu_Yang.jpg";
 import avatarSteven from "../../assets/Steven Shi.jpg"; 
 import avatarVincent from "../../assets/Vincent Cao.png";
 import avatarXueliang from "../../assets/Xueliang Yang.jpg";
+import avatarSridevi from "../../assets/Sridevi Turaga.png";
 
 // ─── 原有的 Hero & Highlights 资源 ──────────────────────────
 import heroModel1 from "../../assets/bf2bbc386da37f36888e2dc21afb70b3a90d7d2c.png";
@@ -69,6 +70,7 @@ export {
   avatarSteven,
   avatarVincent,
   avatarXueliang,
+  avatarSridevi,
   heroModel1, 
   heroModel2,
   heroModel3, 

@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { teamMembers, projects } from "../data/projects";
 
-// 👇 请务必保留这个 export function！
 export function TeamMemberDetailPage() {
   const { id } = useParams();
   const member = teamMembers.find((m) => m.id === id);
@@ -76,7 +75,6 @@ export function TeamMemberDetailPage() {
         className="max-w-6xl mx-auto px-4 md:px-8"
       >
         <div className="relative border-2 border-white/30 rounded-2xl overflow-hidden">
-          {/* Grid overlay */}
           <div
             className="absolute inset-0 pointer-events-none opacity-10"
             style={{
@@ -110,8 +108,6 @@ export function TeamMemberDetailPage() {
                   </div>
                 </>
               )}
-
-              {/* 细密扫描线 */}
               <div
                 className="absolute inset-0 pointer-events-none opacity-10"
                 style={{
@@ -121,7 +117,6 @@ export function TeamMemberDetailPage() {
               />
             </div>
 
-            {/* Info */}
             <div className="relative flex-1 p-6 md:p-10 flex flex-col justify-center bg-black/40">
               <div className="flex items-center gap-2 mb-6">
                 <div className="flex gap-1.5">
@@ -155,36 +150,37 @@ export function TeamMemberDetailPage() {
                 {member.title}
               </p>
 
-              <div className="flex gap-2 flex-wrap mb-6">
+              <div className="flex gap-2 flex-wrap mb-8">
                 {member.research.map((tag) => (
                   <span
                     key={tag}
-                    className="bg-white/8 border border-white/15 px-3 py-1 rounded-full font-mono text-xs text-white/60 uppercase"
+                    className="bg-black border border-[#E2F16B]/50 px-3 py-1 rounded-sm font-mono text-xs text-[#E2F16B] uppercase shadow-[0_0_8px_rgba(226,241,107,0.15)]"
                   >
-                    {tag}
+                    <span className="text-white/30 mr-1">#</span>{tag}
                   </span>
                 ))}
               </div>
 
               <div className="flex gap-4 flex-wrap">
-                {member.email && (
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="inline-flex items-center gap-2 bg-white/5 border border-white/15 rounded-full px-4 py-2 font-mono text-xs text-white/60 hover:text-[#FF7A00] hover:border-[#FF7A00]/40 transition-colors"
-                  >
-                    <Mail className="w-3.5 h-3.5" />
-                    {member.email}
-                  </a>
-                )}
                 {member.website && (
                   <a
                     href={member.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-white/5 border border-white/15 rounded-full px-4 py-2 font-mono text-xs text-white/60 hover:text-[#E2F16B] hover:border-[#E2F16B]/40 transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#E2F16B] text-black border border-transparent rounded-sm px-5 py-2 font-['VT323'] text-lg uppercase tracking-wider hover:bg-white hover:shadow-[0_0_15px_rgba(226,241,107,0.6)] transition-all transform hover:-translate-y-0.5"
                   >
-                    <Globe className="w-3.5 h-3.5" />
+                    <Globe className="w-4 h-4" />
                     Personal Website
+                  </a>
+                )}
+                
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="inline-flex items-center gap-2 bg-transparent border border-white/30 rounded-sm px-5 py-2 font-mono text-xs text-white/60 hover:text-white hover:border-white transition-all"
+                  >
+                    <Mail className="w-4 h-4" />
+                    {member.email}
                   </a>
                 )}
               </div>
@@ -241,9 +237,23 @@ export function TeamMemberDetailPage() {
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-sm text-gray-200 leading-relaxed mb-1">
-                        {pub.title}
-                      </p>
+                      
+                      {/* 🌟 核心修改 2：如果存在 link 字段，则渲染为可点击的高亮链接 */}
+                      {pub.link ? (
+                        <a
+                          href={pub.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-mono text-sm text-[#E2F16B] hover:text-[#FF7A00] underline decoration-[#E2F16B]/40 hover:decoration-[#FF7A00]/80 underline-offset-4 leading-relaxed mb-1 block transition-colors"
+                        >
+                          {pub.title}
+                        </a>
+                      ) : (
+                        <p className="font-mono text-sm text-gray-200 leading-relaxed mb-1">
+                          {pub.title}
+                        </p>
+                      )}
+
                       <p className="font-mono text-xs text-white/40">
                         <span className="text-[#E2F16B]">{pub.venue}</span>
                         {" · "}
@@ -261,7 +271,7 @@ export function TeamMemberDetailPage() {
         </motion.div>
       )}
 
-      {/* ─── Related Projects (取消跳转) ──────────────────────── */}
+      {/* ─── Related Projects ──────────────────────── */}
       {linkedProjects.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}

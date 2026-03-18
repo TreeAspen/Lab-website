@@ -2,26 +2,46 @@ import { motion, useInView } from "motion/react";
 import { useRef, useState, useEffect } from "react";
 import { projects, teamMembers, highlightDetailData } from "../data/projects";
 
-// 🌟 1. 导入刚刚在 Collaborators 里暴露出来的真实数组
+// 🌟 1. 导入合作机构数组
 import { partnersList } from "./Collaborators";
 
-// A. 统计所有团队成员的 Publications 总数
-const totalPublications = teamMembers.reduce((acc, member) => {
-  return acc + (member.publications ? member.publications.length : 0);
-}, 0);
+// ─── 🌟 核心修改：只从 teamMembers 提取并进行“严格去标点”去重 ───
 
-// B. 统计所有 Highlights 中的 Conferences 总数
-const totalConferences = highlightDetailData.reduce((acc, highlight) => {
-  return acc + (highlight.conferences ? highlight.conferences.length : 0);
-}, 0);
+// A. 统计 Publications：仅从团队成员的数据中提取，刚好 9 篇
+const uniquePublications = new Set<string>();
+teamMembers.forEach((member) => {
+  member.publications?.forEach((pub) => {
+    // 极其严格的去重：转小写，去除所有标点符号，去除多余空格
+    const cleanTitle = pub.title
+      .replace(/[^\w\s]/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+    uniquePublications.add(cleanTitle);
+  });
+});
+const totalPublications = uniquePublications.size;
 
-// C. 🌟 核心修改：直接获取真实的合作机构数量 (你删了 FSU，这里就会自动变成 10)
+// B. 统计 Conferences：从 Highlights 提取
+const uniqueConferences = new Set<string>();
+highlightDetailData.forEach((highlight) => {
+  highlight.conferences?.forEach((conf) => {
+    uniqueConferences.add(conf.trim().toLowerCase());
+  });
+});
+const totalConferences = uniqueConferences.size;
+
+// C. 统计 Partners：直接取数组长度
 const totalPartners = partnersList.length;
 
-// D. 统计 Tools & Demos 的总数
-const totalToolsAndDemos = projects.length + highlightDetailData.length;
+// D. 统计 Projects：去重合并
+const uniqueProjects = new Set<string>();
+projects.forEach((p) => uniqueProjects.add(p.title.trim().toLowerCase()));
+highlightDetailData.forEach((h) => uniqueProjects.add(h.title.trim().toLowerCase()));
+const totalToolsAndDemos = uniqueProjects.size;
 
-// 将计算出的真实数据注入到 stats 数组中
+// ─────────────────────────────────────────────────────────────────
+
 const stats = [
   { id: 1, value: String(totalPublications), label: "Publications" },
   { id: 2, value: String(totalConferences), label: "Conferences" },

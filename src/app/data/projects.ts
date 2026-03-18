@@ -9,9 +9,9 @@ import {
   avatarVincent, 
   avatarZhaoxi,
   avatarXueliang,
-  // 注意：这里我们删除了 videoSegmentation 和 htmlUrbanSensor 的引入，因为它们现在在 public 文件夹了
-  videoStretched,    // 用于 VR
-  videoUrbanAI       // 用于 Agent/AI
+  avatarSridevi,
+  videoStretched,
+  videoUrbanAI
 } from "../assets";
 
 export interface ProjectData {
@@ -44,7 +44,8 @@ export interface TeamMember {
   email?: string;
   website?: string;
   education?: string[];
-  publications?: { title: string; venue: string; year: string }[];
+  // 🌟 修改：支持了可选的 link 字段
+  publications?: { title: string; venue: string; year: string; link?: string }[];
   projects?: string[];
 }
 
@@ -73,11 +74,8 @@ export const projects: ProjectData[] = [
     title: "The 'COOL' Project",
     desc: "Integrating Mobile Sensing and Environmental Simulation for Heat Stress Mitigation.",
     heroImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    
-    // 🌟 直接读取 public 文件夹里的文件
     heroVideo: "/Segmentation.mp4", 
     embedHtml: "/UrbanSensorInteractive.html",
-
     gallery: [], tags: ["Urban Sensing", "Heat Stress", "Simulation"], year: "2025", status: "ACTIVE",
     overview: "The Climate-Optimized Outdoor Living (COOL) project focuses on understanding and mitigating urban heat stress. By integrating mobile sensing data with advanced environmental simulations, we assess how adaptive urban design can improve thermal comfort in outdoor spaces.",
     sections: [
@@ -112,7 +110,7 @@ export const projects: ProjectData[] = [
     sections: [
       { heading: "Platform Features", body: "By translating complex planning jargon into intuitive visual modifications, CityWe makes it easier for the public to communicate ideas, preferences, and design intentions directly with planners and decision-makers." },
     ],
-    team: ["Dr. Zhaoxi Zhang", "Tamir Mendel", "Ruolin Wu"],
+    team: ["Dr. Zhaoxi Zhang", "Ruolin Wu", "Feiyang Ren", "Sridevi Turaga", "Tamir Mendel"],
   },
   {
     id: 4,
@@ -194,11 +192,8 @@ export const highlightDetailData: HighlightData[] = [
     id: "urban",
     title: "Urban Sensing",
     heroImage: "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    
-    // 🌟 这里也改成了 public 文件夹的直接路径
     heroVideo: "/Segmentation.mp4", 
     embedHtml: "/UrbanSensorInteractive.html", 
-    
     tags: ["Wearables", "Biosensors", "Micro-scale"],
     overview: [
       "Urban Sensing uses wearable and portable sensors to understand how people experience the city at the micro scale—streets, parks, plazas, and everyday routes. Our goal is to measure what happens in real places, linking environmental conditions (e.g., noise, heat, air quality, and light) with human stress signals captured by biosensors (e.g., heart rate patterns, skin conductance, and skin temperature). By grounding sensing in everyday mobility and public space use, we move beyond citywide averages and bring urban health evidence to the level where design and planning decisions happen.",
@@ -261,6 +256,7 @@ export const highlightDetailData: HighlightData[] = [
     ],
     relatedProjects: ["CoDesignAI-collaborative-agent", "ghana-climate-risk-agent"],
     publications: [
+      { citation: "Zhang, Z., Wu, R., Ren, F., Turaga, S., & Mendel, T. (2025). CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage. arXiv. cs.HC", link: "" },
       { citation: "Li, J., Zhang, Z., Mendel, T., & Yabe, T. (2026). Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction (arXiv:2601.23095). arXiv.", link: "https://doi.org/10.48550/arXiv.2601.23095" },
       { citation: "Zhang, Zhaoxi and Mendel, Tamir and Yin, Wen and Raipat, Vaidehi and Yabe, Takahiro, Human-Chatbot Conversations About Urban Park Experiences: A Case Study from Washington Square Park in New York City.", link: "http://dx.doi.org/10.2139/ssrn.5378600" }
     ],
@@ -289,6 +285,7 @@ export const teamMembers: TeamMember[] = [
     email: "z.zhang@ufl.edu",
     website: "https://zhaoxizhang.com",
     publications: [
+      { title: "CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage", venue: "arXiv", year: "2025" },
       { title: "Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction", venue: "arXiv", year: "2026" },
       { title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" },
       { title: "ConResSim: An Interactive Tool for Conflict Detection and Analysis in Community Engagement", venue: "ICUA", year: "2026" },
@@ -331,8 +328,12 @@ export const teamMembers: TeamMember[] = [
     category: "master", 
     avatar: avatarRuolin,
     bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", 
+    website: "https://rolwu.me",
     research: ["Data Analytics", "Community Engagement", "VR"],
-    publications: [{ title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }], 
+    publications: [
+      { title: "CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage", venue: "arXiv", year: "2025" },
+      { title: "A Multi-User and Multi-Agent Approach to Community Engagement", venue: "AAG Annual Meeting", year: "2026" }
+    ], 
     projects: ["virtual-therapy-urban-stress", "CoDesignAI-collaborative-agent"]
   },
   {
@@ -342,9 +343,31 @@ export const teamMembers: TeamMember[] = [
     title: "USI-P13 Project Member", 
     category: "master", 
     avatar: avatarShu,
-    bio: "Aspen focuses on developing the VR environments and processing 360° panoramic video data for urban simulations.", 
-    research: ["VR Engineering", "Spatial Analysis", "Computer Vision"], 
+    bio: "Aspen bridges rigorous data science, machine learning, and spatial analytics. Her work focuses on time series forecasting, automated urban auditing via computer vision, and using causal inference to decode complex human-environment interactions.", 
+    fullBio: "Shu (Aspen) Yang is an Urban Data Scientist and Machine Learning Engineer currently pursuing her M.S. at New York University’s Center for Urban Science and Progress (CUSP). With a unique interdisciplinary background spanning Graphic Design and advanced spatial analytics, Aspen excels at translating high-dimensional, multi-source data into impactful, evidence-based narratives.\n\nHer research sits at the intersection of deep learning, spatial modeling, and statistical imputation. Recent milestones include a Spotlight Presentation at NeurIPS 2025 for pioneering work in multivariate time series forecasting (the AMRC framework), and architecting automated urban audit systems using state-of-the-art vision-language models (YOLOv8, SegFormer, VLMs). From harmonizing 50 years of longitudinal spatial databases to designing robust causal inference frameworks (PSM, A/B Testing) for product strategy, Aspen is dedicated to building scalable AI pipelines that drive actionable and equitable urban insights.",
+    website: "https://treeaspen.github.io/Portfolio/",
+    research: ["Machine Learning", "Time Series", "Spatial Data Science", "Computer Vision"], 
+    publications: [
+      // 🌟 修改：加入了 NeurIPS 论文的 arxiv 链接
+      { title: "Abstain Mask Retain Core: Time Series Prediction by Adaptive Masking Loss", venue: "NeurIPS 2025", year: "2025", link: "https://arxiv.org/abs/2510.19980" }
+    ],
     projects: ["virtual-therapy-urban-stress"]
+  },
+  {
+    id: "sridevi-turaga",
+    name: "Sridevi Turaga",
+    role: "Graduate Researcher",
+    title: "M.S. in Applied Urban Science & Informatics",
+    category: "master",
+    avatar: avatarSridevi,
+    bio: "Develops AI systems focused on multi-agent architectures, multimodal data pipelines, and retrieval-augmented reasoning.",
+    fullBio: "Develops AI systems focused on multi-agent architectures, multimodal data pipelines, and retrieval-augmented reasoning. Her work explores multi-agent systems using Microsoft AutoGen to simulate and evaluate conflict resolution dynamics. The research integrates adaptive mediator interventions and human-in-the-loop assessment to robustly analyze negotiation efficacy across qualitative metrics.",
+    research: ["LLMs", "Multi-Agent Systems", "Agentic AI", "Human-AI Collaboration (HITL)"],
+    publications: [
+      { title: "CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage", venue: "arXiv", year: "2025" },
+      { title: "Multi-Agent Large Language Models for Conflict Detection and Resolution in Group Dialogues", venue: "ICUA", year: "2026" }
+    ],
+    projects: ["CoDesignAI-collaborative-agent"]
   },
   {
     id: "steven-shi", 
