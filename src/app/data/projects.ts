@@ -44,7 +44,6 @@ export interface TeamMember {
   email?: string;
   website?: string;
   education?: string[];
-  // 🌟 修改：支持了可选的 link 字段
   publications?: { title: string; venue: string; year: string; link?: string }[];
   projects?: string[];
 }
@@ -324,10 +323,11 @@ export const teamMembers: TeamMember[] = [
     id: "ruolin-wu", 
     name: "Ruolin Wu", 
     role: "Graduate Researcher", 
-    title: "USI-P13 Project Member", 
+    title: "Researcher Assistant", 
     category: "master", 
     avatar: avatarRuolin,
-    bio: "Ruolin leads data processing and experimental implementation, including multi-agent approaches to community engagement.", 
+    bio: "Ruolin studies how people perceive and respond to urban change under uncertainty, using immersive, biosensing, and AI-based systems to support more informed and participatory decision-making.", 
+    fullBio: "Ruolin's research lies at the intersection of Digital Civics, Human–Computer–Environment Interaction, and urban simulation. Her work examines how individuals and communities interpret and respond to complex urban transformations under conditions of uneven or uncertain information. She develops interactive and data-driven systems—including immersive virtual environments, biosensing approaches (e.g., EEG and EDA), and AI-mediated interfaces—to investigate how urban environments shape perception, cognition, and stress responses. Through this, her research aims to make civic and physiological data more interpretable and to support more informed and participatory urban decision-making.",
     website: "https://rolwu.me",
     research: ["Data Analytics", "Community Engagement", "VR"],
     publications: [
@@ -340,7 +340,7 @@ export const teamMembers: TeamMember[] = [
     id: "shu-aspen-yang", 
     name: "Shu (Aspen) Yang", 
     role: "Graduate Researcher", 
-    title: "USI-P13 Project Member", 
+    title: "Research Assistant", 
     category: "master", 
     avatar: avatarShu,
     bio: "Aspen bridges rigorous data science, machine learning, and spatial analytics. Her work focuses on time series forecasting, automated urban auditing via computer vision, and using causal inference to decode complex human-environment interactions.", 
@@ -348,7 +348,6 @@ export const teamMembers: TeamMember[] = [
     website: "https://treeaspen.github.io/Portfolio/",
     research: ["Machine Learning", "Time Series", "Spatial Data Science", "Computer Vision"], 
     publications: [
-      // 🌟 修改：加入了 NeurIPS 论文的 arxiv 链接
       { title: "Abstain Mask Retain Core: Time Series Prediction by Adaptive Masking Loss", venue: "NeurIPS 2025", year: "2025", link: "https://arxiv.org/abs/2510.19980" }
     ],
     projects: ["virtual-therapy-urban-stress"]

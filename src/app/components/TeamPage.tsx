@@ -133,7 +133,6 @@ export function TeamPage() {
               className="group bg-white/5 border-2 border-white/15 rounded-xl overflow-hidden hover:border-[#E2F16B]/50 transition-all flex flex-col"
             >
               <Link to={`/team/${member.id}`} className="block flex-1 flex flex-col h-full">
-                {/* 🌟 核心修改：使用 aspect-[4/3] 固定长宽比，并彻底去除了灰色滤镜 */}
                 <div className="relative aspect-[4/3] bg-[#0a0a0a] overflow-hidden flex items-center justify-center border-b border-white/10 shrink-0">
                   
                   {member.avatar ? (
@@ -181,9 +180,12 @@ export function TeamPage() {
                   <p className="font-mono text-xs text-white/50 uppercase tracking-wide mb-3">
                     {member.title}
                   </p>
-                  <p className="font-mono text-sm text-gray-400 leading-relaxed line-clamp-3 mb-4 flex-1">
+                  
+                  {/* 🌟 核心修改：移除了 line-clamp-3 限制，保留 flex-1 让它自适应撑开内容 */}
+                  <p className="font-mono text-sm text-gray-400 leading-relaxed mb-4 flex-1">
                     {member.bio}
                   </p>
+                  
                   <div className="flex gap-1.5 flex-wrap mt-auto">
                     {member.research.map((tag) => (
                       <span key={tag} className="bg-white/8 border border-white/10 px-2.5 py-0.5 rounded font-mono text-[10px] text-white/50 uppercase">
