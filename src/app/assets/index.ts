@@ -29,7 +29,16 @@ import heroModel4 from "../../assets/intelligence.png";
 // 🌟 完美修复：全部使用正确的 .png 后缀
 import news1Img from "../../assets/News-1.png"; 
 import news2Img from "../../assets/News-2.png"; 
-import vrPoster from "../../assets/VR-Poster.png"; 
+import vrPoster from "../../assets/VR-Poster.png";
+import vrFinalPoster from "../../assets/VR-Final-Poster.png";
+import vrAIStandarize from "../../assets/VR-AI-Standarize.png";
+import vrResearchDesign from "../../assets/VR-Research-Design.png";
+import vrPlaceSelection from "../../assets/VR-PlaceSelection.png";
+import vrSegformer from "../../assets/VR-Segformer.png";
+import vrExperimentWorkflow from "../../assets/VR-Experiment-Workflow.png";
+import vrEEGResult from "../../assets/VR-EEG-Result.png";
+import vrEDAResult from "../../assets/VR-EDA-Result.png";
+import vrSurveyResult from "../../assets/VR-Survey-Result.png";
 import UrbanAIHead from"../../assets/UrbanAIHead.jpg";
 
 // ─── 11 个高校 Logo ──────────────────────────────────────────
@@ -81,6 +90,15 @@ export {
   news1Img,
   news2Img,
   vrPoster,
+  vrFinalPoster,
+  vrAIStandarize,
+  vrResearchDesign,
+  vrPlaceSelection,
+  vrSegformer,
+  vrExperimentWorkflow,
+  vrEEGResult,
+  vrEDAResult,
+  vrSurveyResult,
   UrbanAIHead,
   logoEmory,
   logoFAU,

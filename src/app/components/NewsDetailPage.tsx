@@ -4,7 +4,7 @@ import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import { newsDetailData } from "../data/projects";
 
 // 🌟 1. 导入所有相关的资源文件
-import { news1Img, vrVideo, UrbanAIHead, videoStretched, vrPoster } from "../assets";
+import { news1Img, vrVideo, UrbanAIHead, videoStretched, vrFinalPoster } from "../assets";
 
 /**
  * 🌟 核心修改：精细化媒体配置
@@ -28,7 +28,7 @@ const newsMediaConfig: Record<number, {
   // News 3 (vrgreencallforusers): 头图用 videoStretched, 正文用 vrPoster
   3: { 
     hero: videoStretched, heroType: 'video', 
-    content: vrPoster, contentType: 'image' 
+    content: vrFinalPoster, contentType: 'image'
   }
 };
 
@@ -155,11 +155,17 @@ export function NewsDetailPage() {
           ))}
         </div>
 
-        <h1 className="font-['VT323'] text-4xl md:text-5xl lg:text-6xl uppercase leading-[0.95] mb-6">
+        <h1 className="font-['VT323'] text-4xl md:text-5xl lg:text-6xl uppercase leading-[0.95] mb-3">
           {news.title}
         </h1>
 
-        <div className="flex items-center gap-6 mb-10 pb-6 border-b-4 border-black">
+        {(news as any).subtitle && (
+          <p className="font-['VT323'] text-2xl md:text-3xl text-gray-500 uppercase leading-tight mb-6">
+            {(news as any).subtitle}
+          </p>
+        )}
+
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-4 pb-6 border-b-4 border-black">
           <div className="flex items-center gap-2 font-mono text-sm text-gray-600">
             <Clock className="w-4 h-4" />
             {news.date}
@@ -168,31 +174,60 @@ export function NewsDetailPage() {
             <User className="w-4 h-4" />
             {news.author}
           </div>
+          {(news as any).sponsor && (
+            <div className="font-mono text-sm text-gray-600">
+              <span className="text-gray-400">Sponsor: </span>{(news as any).sponsor}
+            </div>
+          )}
+          {(news as any).mentors && (
+            <div className="font-mono text-sm text-gray-600">
+              <span className="text-gray-400">Faculty Mentors: </span>{(news as any).mentors}
+            </div>
+          )}
         </div>
 
         <div className="space-y-6 mb-10">
           {news.content.map((paragraph, i) => (
-            <p
-              key={i}
-              className="font-mono text-base leading-relaxed text-gray-800"
-            >
+            <p key={i} className="font-mono text-base leading-relaxed text-gray-800">
               {paragraph}
             </p>
           ))}
         </div>
 
-        {/* 🌟 核心：正文内嵌多媒体展示区 (media.content) 🌟 */}
+        {(news as any).sections && (news as any).sections.length > 0 && (
+          <div className="space-y-8 mb-12">
+            {((news as any).sections as { heading: string; body: string; images?: string[] }[]).map((section, i) => (
+              <div key={i} className="bg-white border-2 border-black rounded-xl p-6 md:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-1 h-7 bg-[#FF7A00] flex-shrink-0" />
+                  <h2 className="font-['VT323'] text-2xl uppercase tracking-wider">{section.heading}</h2>
+                </div>
+                <div className="space-y-3">
+                  {section.body.split('\n').map((line, j) =>
+                    line.trim() === '' ? null : (
+                      <p key={j} className={`font-mono text-sm leading-relaxed ${line.startsWith('•') ? 'pl-4 text-gray-700' : 'text-gray-800'}`}>
+                        {line}
+                      </p>
+                    )
+                  )}
+                </div>
+                {section.images && section.images.map((src, j) => (
+                  <img
+                    key={j}
+                    src={src}
+                    alt={`${section.heading} ${j + 1}`}
+                    className="w-full h-auto mt-6 rounded-lg"
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="my-12 rounded-2xl overflow-hidden border-4 border-black bg-black">
           {media.contentType === 'video' ? (
             <div className="flex flex-col">
-              <video 
-                src={media.content} 
-                controls 
-                autoPlay 
-                loop 
-                muted 
-                className="w-full h-auto"
-              />
+              <video src={media.content} controls autoPlay loop muted className="w-full h-auto" />
               <div className="bg-black p-3 text-center border-t border-white/10">
                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
                   LIVE_DEMONSTRATION_FEED.mp4
@@ -201,30 +236,17 @@ export function NewsDetailPage() {
             </div>
           ) : (
             <div className="flex flex-col">
-              <img 
-                src={media.content} 
-                alt="Article Visual" 
-                className="w-full h-auto"
-              />
+              <img src={media.content} alt="Research Poster" className="w-full h-auto" />
               <div className="bg-black p-3 text-center border-t border-white/10">
                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
-                  RESEARCH_VISUAL_DOCUMENT.png
+                  RESEARCH_POSTER.png
                 </span>
               </div>
             </div>
           )}
         </div>
 
-        <div className="bg-white border-2 border-black rounded-xl p-6 md:p-8 mb-20">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-1 h-8 bg-[#FF7A00]" />
-            <h3 className="font-['VT323'] text-2xl uppercase tracking-wider">Research Notes</h3>
-          </div>
-          <p className="font-mono text-sm text-gray-600">
-            This asset serves as critical evidence for the ongoing research within the U.TOP Lab. 
-            For technical specifications, please refer to our main project documentation.
-          </p>
-        </div>
+        <div className="mb-20" />
       </motion.article>
 
       {/* ─── 更多新闻 ──────────────────────────── */}

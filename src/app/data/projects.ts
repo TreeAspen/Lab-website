@@ -1,17 +1,25 @@
 /**
  * Centralized project data used by both OurWork listing & ProjectDetail pages.
  */
-import { 
-  avatarIsaiah, 
-  avatarRuolin, 
-  avatarShu, 
-  avatarSteven, 
-  avatarVincent, 
+import {
+  avatarIsaiah,
+  avatarRuolin,
+  avatarShu,
+  avatarSteven,
+  avatarVincent,
   avatarZhaoxi,
   avatarXueliang,
   avatarSridevi,
   videoStretched,
-  videoUrbanAI
+  videoUrbanAI,
+  vrAIStandarize,
+  vrResearchDesign,
+  vrPlaceSelection,
+  vrSegformer,
+  vrExperimentWorkflow,
+  vrEEGResult,
+  vrEDAResult,
+  vrSurveyResult,
 } from "../assets";
 
 export interface ProjectData {
@@ -174,11 +182,71 @@ export const newsDetailData = [
     ]
   },
   {
-    id: 3, title: "On-going User Test: Virtual Therapy to Urban Stress", date: "2025-12-15", author: "U.TOP HCI Team",
-    heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", tags: ["User Study", "VR", "Biosensing"],
+    id: 3,
+    title: "Physiological and Psychological Response to Context-Specific Greenery",
+    subtitle: "An Immersive Experiment Using Virtual Reality and Multi-Measurement",
+    date: "2026-03-17",
+    author: "Ruolin Wu, Shu Yang, Isaiah Garnett",
+    sponsor: "Prince Michael Amegbor",
+    mentors: "Anton Rozhkov, Zhaoxi Zhang, H. Shellae Versey",
+    heroImage: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    tags: ["VR", "EEG/EDA", "Biosensing", "Urban Greenery", "Stress"],
     content: [
-      "Virtual Therapy to Urban Stress is an immersive research project that uses Virtual Reality (VR) and multimodal physiological sensors to evaluate how context-specific urban greenery impacts human stress and well-being.",
-      "The study integrates AI-modified 360° visual stimuli with EEG, EDA, and psychological surveys to track real-time cognitive and physiological responses across diverse urban settings, such as parks, waterfronts, and traffic corridors. By bridging neuroscience and urban design, the project aims to provide evidence-based guidelines for effective green space planning and validate VR as an accessible therapeutic tool for public health."
+      "This study investigates how urban greenery and surrounding spatial context jointly influence stress reduction through VR-based simulation with physiological sensing and psychological scaling.",
+      "Using Meta Quest 3 headsets, 25 participants experienced four AI-standardized 360° urban scenes — waterfront, park, residential, and road — while EEG (Emotiv Insight) and EDA (Empatica E4) biosensors captured real-time physiological responses. Results were presented at the 2026 American Association of Geographers Annual Meeting, San Francisco, March 17–21, 2026."
+    ],
+    sections: [
+      {
+        heading: "1. Objectives",
+        body: "This project investigates how urban greenery and surrounding spatial context jointly influence stress reduction through VR-based simulation with physiological sensing and psychological scaling.\n\n• Examine how physiological responses vary across different urban contexts (park, waterfront, residential, roadway)\n• Identify context-specific conditions under which greenery produces stronger restorative effects\n• Explore relationships between urban visual features and human stress responses to inform evidence-based urban design"
+      },
+      {
+        heading: "2. Background",
+        body: "Rapid urbanization is increasing stress and mental health burdens in cities. While prior studies show that greenery can improve thermal comfort and provide psychological restoration, most research focuses solely on the quantity of greenery, or makes sweeping comparisons across urban vs. suburban contexts.\n\nLess is known about how different specific urban contexts shape the stress-reducing effects of greenery."
+      },
+      {
+        heading: "3. Research Design",
+        body: "The study follows a full pipeline from literature review through data validation. N = 25 participants were recruited (21 valid datasets retained for EEG and EDA analysis). Physiological sensors — EEG: Emotiv Insight; EDA: Empatica E4. Psychological scales — PANAS-X Manual; Perceived Realism in VR; Perceived Residential Environment Quality Indicator.",
+        images: [vrResearchDesign]
+      },
+      {
+        heading: "3.1 Urban Context Selection",
+        body: "Four real-world urban settings were selected to represent distinct restorative potentials: parks as green spaces, waterfronts as blue-green spaces, residential areas as everyday greenery, and roads as higher-stress urban settings. 360° videos were captured on-site for each context.",
+        images: [vrPlaceSelection]
+      },
+      {
+        heading: "3.2 Greenery Standardization",
+        body: "Initial GVI calculations showed unequal greenery levels across the four urban contexts. Using SegFormer-b2 with ADE20K scene parsing and Google Veo 2.0 AI video generation, GVI was unified to 24–34% across all scenes. This isolates the effect of urban context from the effect of raw greenery quantity, allowing a controlled comparison.",
+        images: [vrAIStandarize, vrSegformer]
+      },
+      {
+        heading: "3.3 Experiment Workflow",
+        body: "Pre-Stimulation: participants filled a before-exposure survey, wore EEG, VR headset, and EDA sensors, then recorded a resting baseline. Stimulation: participants watched each of the 4 urban VR video clips in a randomized order. After each clip they rested and completed a short VR Video Clip survey. A final post-survey was collected after all four exposures.",
+        images: [vrExperimentWorkflow]
+      },
+      {
+        heading: "4.1 EEG Results",
+        body: "Frontal Alpha Asymmetry (FAA): RM-ANOVA F(3, 57) = 3.35, p = 0.0255* (uncorr.), partial η²p = 0.090. Park and Waterfront tended toward more positive valence-related responses than Road and Residential settings.\n\nArousal (Beta/Alpha Ratio): RM-ANOVA F(3, 57) = 1.94, p = 0.1543 ns, partial η²p = 0.057. Stress scores (Emotiv PM.Stress) were lowest for Waterfront, while raw Beta/Alpha power was highest for Waterfront and Park, suggesting more favorable EEG responses in greener urban contexts.",
+        images: [vrEEGResult]
+      },
+      {
+        heading: "4.2 EDA Results",
+        body: "Tonic SCL RM-ANOVA: F(3, 57) = 0.68, p = .567, η²p = .034 (n = 20).\nPhasic SCR RM-ANOVA: F(3, 57) = 1.87, p = .177, η²p = .026 (n = 20).\n\nNeither phasic nor tonic EDA measures differed significantly across the four urban contexts (all p > 0.05), with consistently small effect sizes. At the current sample size (n=20), sympathetic arousal — both event-driven (SCR) and sustained (SCL) — was not reliably differentiated by urban scene type.",
+        images: [vrEDAResult]
+      },
+      {
+        heading: "4.3 Survey Results",
+        body: "Emotional responses differed significantly by context (HighPositive & CalmPositive, p < 0.05), with park and waterfront scenes rated more positively and road scenes less favorably.\n\nFor perceived AI modification: overall paired test Cochran's Q = 1.20, p = 0.753, n = 23. Participants generally could not reliably detect AI-generated greenery changes across scenes (p > 0.05), confirming the ecological validity of the GVI standardization approach.",
+        images: [vrSurveyResult]
+      },
+      {
+        heading: "4.4 Conclusion",
+        body: "EEG and survey results suggest that urban contexts shape restorative responses, with park and waterfront environments showing the strongest potential to promote positive emotions and psychological recovery. Greenery benefits are not uniform — they depend on the surrounding urban setting."
+      },
+      {
+        heading: "5. Discussion & Future Directions",
+        body: "Limitations:\n• Modest sample size may limit statistical power.\n• Sample was mainly students and young adults.\n• VR scenes may not fully capture the complexity of real-world urban environments.\n• EDA signals may be influenced by slower response dynamics and baseline variability across individuals.\n\nFuture Steps:\n• Recruit a larger and more diverse sample.\n• Include more urban contexts and longer exposure durations.\n• Add BVP, HRV, and eye-tracking metrics.\n• Use computer vision to analyze visual attention patterns."
+      }
     ]
   },
 ];
