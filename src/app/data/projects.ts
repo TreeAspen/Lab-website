@@ -183,7 +183,7 @@ export const newsDetailData = [
   },
   {
     id: 3,
-    title: "Physiological and Psychological Response to Context-Specific Greenery",
+    title: "VR Greenery Study: Physiological & Psychological Response to Urban Context",
     subtitle: "An Immersive Experiment Using Virtual Reality and Multi-Measurement",
     date: "2026-03-17",
     author: "Ruolin Wu, Shu Yang, Isaiah Garnett",

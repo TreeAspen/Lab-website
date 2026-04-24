@@ -38,7 +38,8 @@ export function NewsDetailPage() {
   // 🌟 建立名称（Slug）与 原始 ID 的映射
   const slugMap: Record<string, number> = {
     "codesignai": 2,
-    "vrgreencallforusers": 3
+    "vr-urban-stress-study": 3,
+    "vrgreencallforusers": 3,
   };
 
   // 如果 id 是名称，则转为 ID 数字；否则直接转数字

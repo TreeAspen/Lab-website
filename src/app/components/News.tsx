@@ -24,10 +24,10 @@ const newsItems = [
   },
   {
     id: 3,
-    slug: "vrgreencallforusers", // 🌟 对应你的新路径名称
-    title: "On-going User Test: Virtual Therapy to Urban Stress",
-    desc: "Virtual Therapy to Urban Stress is an immersive research project that uses Virtual Reality (VR) and multimodal physiological sensors to evaluate how context-specific urban greenery impacts human stress and well-being. ",
-    detail: "The study integrates AI-modified 360° visual stimuli with EEG, EDA, and psychological surveys to track real-time cognitive and physiological responses across diverse urban settings, such as parks, waterfronts, and traffic corridors. By bridging neuroscience and urban design, the project aims to provide evidence-based guidelines for effective green space planning and validate VR as an accessible therapeutic tool for public health."
+    slug: "vr-urban-stress-study",
+    title: "VR Greenery Study: Physiological & Psychological Response",
+    desc: "How does urban context shape the stress-reducing effects of greenery? We completed a controlled VR experiment with 25 participants across four urban scenes — waterfront, park, residential, and road — using EEG and EDA biosensors to find out.",
+    detail: "EEG results showed a significant context effect (FAA, p < 0.05), with park and waterfront environments producing more positive valence-related responses. Survey findings confirmed that emotional responses differed significantly by context. Greenery benefits are not uniform — they depend on the surrounding urban setting."
   }
 ];
 
