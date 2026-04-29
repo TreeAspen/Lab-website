@@ -1,0 +1,19 @@
+{
+  "id": 2,
+  "slug": "codesignai",
+  "title": "Tools Release: CoDesignAI Collaborative Platform",
+  "date": "2025-11-20",
+  "author": "U.TOP Lab",
+  "tags": ["Tools", "AI", "Co-Design"],
+  "desc": "CoDesignAI is a web-based collaborative platform that uses multi-agent AI to support participatory urban design.",
+  "detail": "The system integrates conversational AI with Google Maps and Street View to help multiple users explore real-world urban contexts, discuss ideas, and generate visual design concepts together. By enabling iterative discussion and AI-assisted visualization, CoDesignAI aims to make early-stage urban design more open, collaborative, and accessible to diverse participants.",
+  "externalLink": "",
+  "homeMedia": { "type": "video", "src": "/uploads/news/UrbanAI-2.mp4" },
+  "heroMedia": { "type": "image", "src": "/uploads/news/UrbanAIHead.jpg" },
+  "contentMedia": { "type": "video", "src": "/uploads/news/UrbanAI-2.mp4" },
+  "content": [
+    "CoDesignAI is a web-based collaborative platform that uses multi-agent AI to support participatory urban design.",
+    "The system integrates conversational AI with Google Maps and Street View to help multiple users explore real-world urban contexts, discuss ideas, and generate visual design concepts together. By enabling iterative discussion and AI-assisted visualization, CoDesignAI aims to make early-stage urban design more open, collaborative, and accessible to diverse participants."
+  ],
+  "sections": []
+}

@@ -1,6 +1,8 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useState, useEffect } from "react";
-import { projects, teamMembers, highlightDetailData } from "../data/projects";
+import { projects } from "../data/projects-loader";
+import { teamMembers } from "../data/people";
+import { highlights as highlightDetailData } from "../data/highlights";
 
 // 🌟 1. 导入合作机构数组
 import { partnersList } from "./Collaborators";

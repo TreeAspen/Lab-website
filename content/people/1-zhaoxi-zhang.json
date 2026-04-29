@@ -1,0 +1,25 @@
+{
+  "id": "zhaoxi-zhang",
+  "order": 1,
+  "name": "Dr. Zhaoxi Zhang",
+  "role": "Lab Director",
+  "title": "Assistant Professor, University of Florida",
+  "category": "faculty",
+  "avatar": "/uploads/people/Zhaoxi Zhang.jpg",
+  "bio": "Dr. Zhang's research focuses on the intersection of the built environment, human health and technology, developing new tools for participatory design and planning.",
+  "fullBio": "Zhaoxi Zhang is an Assistant Professor in the Department of Urban and Regional Planning at the University of Florida's College of Design, Construction and Planning. Her research focuses on the intersection of the built environment, human health and technology. This involves leveraging interdisciplinary knowledge and cutting-edge tools to build capacity for socio-technical transitions and dynamics. Her current research focuses on 'human-computer-environment' interaction in participatory design and planning. She works on developing new tools and methods to measure human-level evidence, gather public opinion, and study human decision-making processes for health-priority urban design and a smart future.",
+  "research": ["Urban Sensing", "VR/AR", "Physiological Computing", "Urban Agent"],
+  "email": "z.zhang@ufl.edu",
+  "website": "https://zhaoxizhang.com",
+  "publications": [
+    { "title": "CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage", "venue": "arXiv", "year": "2025" },
+    { "title": "Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction", "venue": "arXiv", "year": "2026" },
+    { "title": "A Multi-User and Multi-Agent Approach to Community Engagement", "venue": "AAG Annual Meeting", "year": "2026" },
+    { "title": "ConResSim: An Interactive Tool for Conflict Detection and Analysis in Community Engagement", "venue": "ICUA", "year": "2026" },
+    { "title": "Smart Conversations in the City: AI Chatbots for Urban Management—A Case Study in NYC", "venue": "ACSP Annual Conference", "year": "2026" },
+    { "title": "Human-Chatbot Conversations About Urban Park Experiences: A Case Study from Washington Square Park in NYC", "venue": "SSRN", "year": "2025" },
+    { "title": "Using virtual reality to study human response to flood risk across controlled experiments", "venue": "International Journal of Disaster Risk Reduction", "year": "2025" },
+    { "title": "Assessing the association between urban features and human physiological stress response using wearable sensors", "venue": "Health and Place", "year": "2022" }
+  ],
+  "projects": ["cool-project-heat-stress", "virtual-therapy-urban-stress", "CoDesignAI-collaborative-agent", "ghana-climate-risk-agent"]
+}

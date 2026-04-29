@@ -1,0 +1,14 @@
+{
+  "id": "isaiah-garnett",
+  "order": 3,
+  "name": "Isaiah Garnett",
+  "role": "Graduate Researcher",
+  "title": "M.S. Student in Urban Data Science",
+  "category": "master",
+  "avatar": "/uploads/people/Isaiah_Garnett.jpg",
+  "bio": "Isaiah's research sits at the intersection of urban environments and human physiology. As part of the biosensing project, he works on processing and analyzing EDA and BVP signals to examine how people respond to different urban settings in immersive VR environments.",
+  "fullBio": "Isaiah's research sits at the intersection of urban environments and human physiology. As part of the biosensing project, he works on processing and analyzing EDA and BVP signals to examine how people respond to different urban settings in immersive VR environments. His broader interests include urban data science, mobility analytics, and applying machine learning to real-world city challenges.",
+  "research": ["Urban Informatics", "Biosensing", "Data Science"],
+  "publications": [],
+  "projects": ["virtual-therapy-urban-stress"]
+}

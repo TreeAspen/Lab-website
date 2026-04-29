@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "slug": "vr-flood-risk",
+  "title": "Latest Publication: VR Study on Flood Risk Response",
+  "date": "2025-01-15",
+  "author": "U.TOP Research",
+  "tags": ["Publication", "VR", "Disaster Risk"],
+  "desc": "Our latest research published in IJDRR leverages Virtual Reality to simulate urban floods, uncovering how human responses shift across different contexts.",
+  "detail": "The study reveals that people are significantly more sensitive to flood risks when in a car than on the street, especially at night. It also highlights how self-efficacy, warning sirens, and socioeconomic factors critically shape emergency evacuation behaviors.",
+  "externalLink": "https://doi.org/10.1016/j.ijdrr.2025.105956",
+  "homeMedia": { "type": "image", "src": "/uploads/news/News-1.png" },
+  "heroMedia": { "type": "image", "src": "/uploads/news/News-1.png" },
+  "contentMedia": { "type": "image", "src": "/uploads/news/News-1.png" },
+  "content": [
+    "Our latest research, 'Using virtual reality to study human response to flood risk across controlled experiments', has been officially published in the International Journal of Disaster Risk Reduction (IJDRR, Vol. 132)."
+  ],
+  "sections": []
+}

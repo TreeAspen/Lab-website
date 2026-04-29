@@ -1,0 +1,18 @@
+{
+  "id": 2,
+  "slug": "virtual-therapy-urban-stress",
+  "order": 2,
+  "title": "Virtual Therapy to Urban Stress",
+  "desc": "Exploring visual elements in mitigating urban stress via Body Sensing and VR.",
+  "heroImage": "https://images.unsplash.com/photo-1535223289827-42f1e9919769?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/VID_stretched_43.mp4",
+  "gallery": [],
+  "tags": ["Urban VR", "EEG/EDA", "Biosensing"],
+  "year": "2025",
+  "status": "ACTIVE",
+  "overview": "This project integrates the use of virtual reality (VR) scenes with physiological data collected from Emotiv (EEG) and Empatica (EDA) biosensors. We aim to understand individuals' responses to greenery as a potential therapeutic in relation to urban stress.",
+  "sections": [
+    { "heading": "Collaborators", "body": "Collaborate with: Dr. Prince Amegbor (NYU), Dr. H. Shellae Versey (Fordham University), Anton Rozhkov (CUSP, NYU Tandon)." }
+  ],
+  "team": ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Dr. H. Shellae Versey (Fordham)", "Anton Rozhkov (NYU)", "Isaiah Garnett", "Ruolin Wu", "Shu (Aspen) Yang"]
+}

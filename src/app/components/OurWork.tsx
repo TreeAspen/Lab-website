@@ -1,38 +1,17 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-// 🌟 1. 导入所有相关的视频变量
-import { videoSegmentation, videoStretched, videoUrbanAI } from "../assets"; 
+import { highlights } from "../data/highlights";
 
-const workAreas = [
-  {
-    id: "sensing",
-    title: "Urban Sensing",
-    desc: "Sensor-based measurements capturing urban life — mobile data, wearables, computer vision, and environmental monitoring.",
-    href: "/highlights/urban",
-    color: "#E2F16B",
-    // 🌟 Urban Sensing 的视频
-    heroVideo: videoSegmentation,
-  },
-  {
-    id: "vr",
-    title: "Urban VR",
-    desc: "Immersive VR, photogrammetry, and 3D interfaces for urban planning and participatory design.",
-    href: "/highlights/vr",
-    color: "#FF7A00",
-    // 🌟 2. 替换图片，使用 VR 的视频
-    heroVideo: videoStretched,
-  },
-  {
-    id: "agent", 
-    title: "Urban Agent", 
-    desc: "AI agents and conversational systems bridging complex urban data with citizens' daily lives.",
-    href: "/highlights/agent",
-    color: "#E2F16B",
-    // 🌟 3. 替换图片，使用 AI/Agent 的视频
-    heroVideo: videoUrbanAI,
-  },
-];
+const workAreas = highlights.map((h) => ({
+  id: h.id,
+  title: h.title,
+  desc: h.ourWorkDesc,
+  href: `/highlights/${h.id}`,
+  color: h.ourWorkColor,
+  heroVideo: h.homeVideo,
+  heroImage: h.heroImage,
+}));
 
 export function OurWork() {
   return (

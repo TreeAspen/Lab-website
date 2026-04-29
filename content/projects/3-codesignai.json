@@ -1,0 +1,18 @@
+{
+  "id": 3,
+  "slug": "CoDesignAI-collaborative-agent",
+  "order": 3,
+  "title": "CoDesignAI: Urban Design Agent",
+  "desc": "Collaborative Urban Design Agent for Multi-Users.",
+  "heroImage": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/UrbanAI.mp4",
+  "gallery": [],
+  "tags": ["Urban Agent", "HCI", "Co-design"],
+  "year": "2025",
+  "status": "PROTOTYPE",
+  "overview": "CityWe is an AI-assisted, location-based visual tool designed to support collaboration among diverse stakeholders during the early stages of urban design. It enables anyone to interact with and modify street environments.",
+  "sections": [
+    { "heading": "Platform Features", "body": "By translating complex planning jargon into intuitive visual modifications, CityWe makes it easier for the public to communicate ideas, preferences, and design intentions directly with planners and decision-makers." }
+  ],
+  "team": ["Dr. Zhaoxi Zhang", "Ruolin Wu", "Feiyang Ren", "Sridevi Turaga", "Tamir Mendel"]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "sridevi-turaga",
+  "order": 6,
+  "name": "Sridevi Turaga",
+  "role": "Graduate Researcher",
+  "title": "M.S. in Applied Urban Science & Informatics",
+  "category": "master",
+  "avatar": "/uploads/people/Sridevi Turaga.png",
+  "bio": "Develops AI systems focused on multi-agent architectures, multimodal data pipelines, and retrieval-augmented reasoning.",
+  "fullBio": "Develops AI systems focused on multi-agent architectures, multimodal data pipelines, and retrieval-augmented reasoning. Her work explores multi-agent systems using Microsoft AutoGen to simulate and evaluate conflict resolution dynamics. The research integrates adaptive mediator interventions and human-in-the-loop assessment to robustly analyze negotiation efficacy across qualitative metrics.",
+  "research": ["LLMs", "Multi-Agent Systems", "Agentic AI", "Human-AI Collaboration (HITL)"],
+  "publications": [
+    { "title": "CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage", "venue": "arXiv", "year": "2025" },
+    { "title": "Multi-Agent Large Language Models for Conflict Detection and Resolution in Group Dialogues", "venue": "ICUA", "year": "2026" }
+  ],
+  "projects": ["CoDesignAI-collaborative-agent"]
+}

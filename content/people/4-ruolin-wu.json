@@ -1,0 +1,18 @@
+{
+  "id": "ruolin-wu",
+  "order": 4,
+  "name": "Ruolin Wu",
+  "role": "Graduate Researcher",
+  "title": "Researcher Assistant",
+  "category": "master",
+  "avatar": "/uploads/people/Ruolin_Wu.jpg",
+  "bio": "Ruolin studies how people perceive and respond to urban change under uncertainty, using immersive, biosensing, and AI-based systems to support more informed and participatory decision-making.",
+  "fullBio": "Ruolin's research lies at the intersection of Digital Civics, Human–Computer–Environment Interaction, and urban simulation. Her work examines how individuals and communities interpret and respond to complex urban transformations under conditions of uneven or uncertain information. She develops interactive and data-driven systems—including immersive virtual environments, biosensing approaches (e.g., EEG and EDA), and AI-mediated interfaces—to investigate how urban environments shape perception, cognition, and stress responses. Through this, her research aims to make civic and physiological data more interpretable and to support more informed and participatory urban decision-making.",
+  "website": "https://rolwu.me",
+  "research": ["Data Analytics", "Community Engagement", "VR"],
+  "publications": [
+    { "title": "CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage", "venue": "arXiv", "year": "2025" },
+    { "title": "A Multi-User and Multi-Agent Approach to Community Engagement", "venue": "AAG Annual Meeting", "year": "2026" }
+  ],
+  "projects": ["virtual-therapy-urban-stress", "CoDesignAI-collaborative-agent"]
+}

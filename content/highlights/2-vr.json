@@ -1,0 +1,31 @@
+{
+  "id": "vr",
+  "order": 2,
+  "title": "Urban VR",
+  "label": "Immersive — Urban VR",
+  "num": "Pillar 2",
+  "tags": ["VR", "Photogrammetry", "3D", "Interaction"],
+  "summary": "If sensing is about measuring, the next step is making that data legible and actionable. We develop urban VR systems — integrating immersive reality, photogrammetry, and 3D interfaces — that allow people to literally step into future urban realities.",
+  "focus": "By turning complex \"what-if\" scenarios into playful, interactive experiences, we move beyond dry planning toward a more human-centered process.",
+  "homeVideo": "/uploads/shared/VID_stretched_43.mp4",
+  "ourWorkDesc": "Immersive VR, photogrammetry, and 3D interfaces for urban planning and participatory design.",
+  "ourWorkColor": "#FF7A00",
+  "heroImage": "https://images.unsplash.com/photo-1708924401329-bb17acf6c16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/VID_stretched_43.mp4",
+  "tagsDetail": ["Immersive", "EEG/EDA", "Digital Twins"],
+  "overview": [
+    "Urban VR uses immersive technologies, 3D modelling and digitalization to improve our understanding of how people experience, evaluate and respond to urban spaces. Our aim is to study human–environment interaction in systematically designed and controlled virtual settings, enabling us to test how specific urban features influence human responses, behavioral patterns, and decision-making processes. By integrating VR with wearable devices such as EEG headsets, EDA watches, and eye tracking technology, we can capture cognitive, emotional, and attentional responses in real time as participants interact with simulated urban environments. This enables us to translate urban environments into interactive digital worlds and provide experimental evidence in spaces where design and planning issues can be examined more directly.",
+    "Urban VR enables us to 'test' the city through immersive digital environments. By using VR alongside 3D modelling technologies, we can create realistic yet controllable urban scenarios. This enables us to isolate design variables, simulate environmental conditions and observe how people perceive and act in different settings. This helps us to understand not only which environments people prefer, but also how they behave within them and how they respond to environmental cues. It also helps us to understand how design influences choice and experience."
+  ],
+  "focusPoints": [
+    "Controlled VR-based experiments: quantifying how urban features (e.g. greenery) contribute to high-quality environments and shape psychological perceptions, such as safety and preference.",
+    "Human behavior and decision-making in virtual environments: reveal the behavioral mechanisms in everyday experience in cities through using immersive digital environments."
+  ],
+  "relatedProjects": ["virtual-therapy-urban-stress", "inclusive-greenspace-vr"],
+  "publications": [
+    { "citation": "Zhang, Z. *, Li, Q., Sun, Q., and Ceferino, L. (2025). Using virtual reality to study human response to flood risk across controlled experiments. International Journal of Disaster Risk Reduction, 105956.", "link": "https://doi.org/10.1016/j.ijdrr.2025.105956" }
+  ],
+  "conferences": [
+    "Wu, R. (Student), Yang, S. (Student), Garnett, I. (Student), Versey, H.S. (Student), Rozhkov A., Amegbor, P. M. and Zhang, Z.* (PI), Physiological and Psychological Response to Context-specific Greenery: An Immersive Experiment Using Virtual Reality and Multimodal Measurement. The 2026 American Association of Geographers Annual Meeting. San Francisco, USA, March 17-21, 2026."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "xueliang-yang",
+  "order": 2,
+  "name": "Xueliang Yang",
+  "role": "PhD Student",
+  "title": "Urban Data Scientist & Environmental Epidemiologist",
+  "category": "phd",
+  "avatar": "/uploads/people/Xueliang Yang.jpg",
+  "bio": "Xueliang bridges quantitative analytics, environmental health, and health geography to identify how urban exposures impact population health disparities.",
+  "fullBio": "Xueliang Yang is an Urban Data Scientist and Environmental Epidemiologist currently pursuing his PhD in Social and Behavioral Sciences at New York University School of Global Public Health. With a unique interdisciplinary background spanning Mathematics with Finance (BSc) and Applied Urban Science and Informatics (MS), Xueliang bridges the gap between quantitative analytics, environmental health and health geography research.\n\nHis research investigates the dynamic interplay between the built environment, social structures, and human behavior. While his early work focused on urban stress, his current scholarship has expanded to examine broader environmental and social determinants of health. By integrating sensor technologies, geospatial data, and advanced computational methods, Xueliang seeks to identify how urban exposures impact population health disparities.\n\nAspiring to be a Data-Driven Health Geographer, Xueliang is dedicated to generating robust scientific evidence that advances our understanding of environmental justice and healthy urban systems.",
+  "research": ["Urban Data Science", "Environmental Epidemiology", "Health Geography", "Environmental Justice"],
+  "publications": [],
+  "projects": []
+}

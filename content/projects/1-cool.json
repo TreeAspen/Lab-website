@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "slug": "cool-project-heat-stress",
+  "order": 1,
+  "title": "The 'COOL' Project",
+  "desc": "Integrating Mobile Sensing and Environmental Simulation for Heat Stress Mitigation.",
+  "heroImage": "https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/Segmentation.mp4",
+  "embedHtml": "/UrbanSensorInteractive.html",
+  "gallery": [],
+  "tags": ["Urban Sensing", "Heat Stress", "Simulation"],
+  "year": "2025",
+  "status": "ACTIVE",
+  "overview": "The Climate-Optimized Outdoor Living (COOL) project focuses on understanding and mitigating urban heat stress. By integrating mobile sensing data with advanced environmental simulations, we assess how adaptive urban design can improve thermal comfort in outdoor spaces.",
+  "sections": [
+    { "heading": "Methodology", "body": "We deploy portable environmental sensors alongside physiological monitors to capture the co-occurrence of heat and human stress in real urban settings. This allows us to move beyond static climate maps and understand heat exposure at the human scale." },
+    { "heading": "Collaborators", "body": "Collaborate with: Dr. Jun Wang (Assistant Professor, Urban and Regional Planning, FAU) and Dr. Yohan Kim (Assistant Professor, School of Architecture, UF)." }
+  ],
+  "team": ["Dr. Zhaoxi Zhang", "Dr. Jun Wang (FAU)", "Dr. Yohan Kim (UF)"]
+}

@@ -2,51 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-// 🌟 1. 导入所有相关的视频变量
-import { videoSegmentation, videoStretched, videoUrbanAI } from "../assets"; 
-
-// 🌟 2. Highlights 专用的 pillars 数据数组
-const pillars = [
-  {
-    id: "urban",
-    label: "Perceptive — Urban Sensing",
-    num: "Pillar 1",
-    summary:
-      "To understand the city, we first need to measure it. We deploy sensor-based measurements that capture urban life at every level. By combining mobile data, wearables, and computer vision, we move beyond static maps to track the \"pulse\" of daily life.",
-    focus:
-      "Our work specifically focuses on urban exposure, quantifying how things like environmental stress and spatial design affect our mental and physical health.",
-    tags: ["IoT", "Wearables", "Computer Vision", "Exposure"],
-    // 🌟 Sensing 的视频
-    video: videoSegmentation,
-  },
-  {
-    id: "vr",
-    label: "Immersive — Urban VR",
-    num: "Pillar 2",
-    summary:
-      "If sensing is about measuring, the next step is making that data legible and actionable. We develop urban VR systems — integrating immersive reality, photogrammetry, and 3D interfaces — that allow people to literally step into future urban realities.",
-    focus:
-      "By turning complex \"what-if\" scenarios into playful, interactive experiences, we move beyond dry planning toward a more human-centered process.",
-    tags: ["VR", "Photogrammetry", "3D", "Interaction"],
-    // 🌟 VR 的视频
-    video: videoStretched,
-  },
-  {
-    id: "agent",
-    label: "Responsive — Urban Agent",
-    num: "Pillar 3",
-    summary:
-      "If sensing measures the city and VR lets us see it, our final pillar is about making the city respond. We build AI agents and conversational systems to bridge complex urban data with the daily lives of citizens.",
-    focus:
-      "Our urban systems are not merely efficient — they are traceable, intuitive, and deeply responsive to human needs.",
-    tags: ["AI Agents", "Co-Design", "NLP", "Responsive"],
-    // 🌟 Agent 的视频
-    video: videoUrbanAI,
-  },
-];
+import { highlights as pillars } from "../data/highlights";
 
 export function Highlights() {
-  const [activeTab, setActiveTab] = useState("urban");
+  const [activeTab, setActiveTab] = useState(pillars[0]?.id ?? "urban");
   const active = pillars.find((p) => p.id === activeTab)!;
 
   return (
@@ -104,9 +63,9 @@ export function Highlights() {
               >
                 <div className="bg-[#eef093] h-64 md:h-80 w-full mb-6 relative overflow-hidden rounded-md border-2 border-black">
                    {/* 🌟 条件渲染区：如果有视频播放视频，没有则后备（虽然现在全都是视频了） */}
-                   {active.video ? (
-                     <video 
-                        src={active.video} 
+                   {active.homeVideo ? (
+                     <video
+                        src={active.homeVideo}
                         autoPlay 
                         loop 
                         muted 

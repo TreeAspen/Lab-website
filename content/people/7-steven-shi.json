@@ -1,0 +1,14 @@
+{
+  "id": "steven-shi",
+  "order": 7,
+  "name": "Steven Shi",
+  "role": "Graduate Researcher",
+  "title": "Project Member",
+  "category": "master",
+  "avatar": "/uploads/people/Steven Shi.jpg",
+  "bio": "Steven explores the potential of using LLMs to classify urban sound environments and support research on noise exposure and its implications for health.",
+  "fullBio": "The project Steven is currently working on is 'Detecting and Mapping of Soundscape using Large Language Model in New York City'. Urban noise is a common environmental exposure in cities and has been associated with various physical and mental health outcomes. As urban populations grow, understanding how people are exposed to different sources of noise in everyday environments has become increasingly important for environmental public health research. Traditional methods of assessing noise exposure often rely on sound meters or location-based estimates, which can be time-consuming and may not fully capture the complexity of real-world sound environments. Recent advances in generative artificial intelligence, particularly Large Language Models (LLMs), offer new possibilities for analyzing audio data and classifying noise sources more efficiently. This study explores the potential of using LLMs to classify urban sound environments and support research on noise exposure and its implications for health and well-being.",
+  "research": ["LLM", "Urban Sensing", "Soundscape"],
+  "publications": [],
+  "projects": ["soundscape-llm-mapping"]
+}

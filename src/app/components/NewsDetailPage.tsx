@@ -1,50 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, Clock, User, Tag } from "lucide-react";
-import { newsDetailData } from "../data/projects";
-
-// 🌟 1. 导入所有相关的资源文件
-import { news1Img, vrVideo, UrbanAIHead, videoStretched, vrFinalPoster } from "../assets";
-
-/**
- * 🌟 核心修改：精细化媒体配置
- * 为每个项目指定 [头图] 和 [正文展示图] 及其类型
- */
-const newsMediaConfig: Record<number, { 
-  hero: string, 
-  heroType: 'image' | 'video',
-  content: string, 
-  contentType: 'image' | 'video' 
-}> = {
-  1: { 
-    hero: news1Img, heroType: 'image', 
-    content: news1Img, contentType: 'image' 
-  },
-  // News 2 (codesignai): 头图用 media 2 (UrbanAIHead), 正文用 media 4 (vrVideo)
-  2: { 
-    hero: UrbanAIHead, heroType: 'image', 
-    content: vrVideo, contentType: 'video' 
-  },
-  // News 3 (vrgreencallforusers): 头图用 videoStretched, 正文用 vrPoster
-  3: { 
-    hero: videoStretched, heroType: 'video', 
-    content: vrFinalPoster, contentType: 'image'
-  }
-};
+import { newsItems, findNewsBySlugOrId } from "../data/news";
 
 export function NewsDetailPage() {
   const { id } = useParams();
-
-  // 🌟 建立名称（Slug）与 原始 ID 的映射
-  const slugMap: Record<string, number> = {
-    "codesignai": 2,
-    "vr-urban-stress-study": 3,
-    "vrgreencallforusers": 3,
-  };
-
-  // 如果 id 是名称，则转为 ID 数字；否则直接转数字
-  const newsId = slugMap[id || ""] || Number(id);
-  const news = newsDetailData.find((n) => n.id === newsId);
+  const news = findNewsBySlugOrId(id);
 
   // 错误处理
   if (!news) {
@@ -65,11 +26,8 @@ export function NewsDetailPage() {
     );
   }
 
-  // 获取该新闻对应的媒体配置
-  const media = newsMediaConfig[newsId] || { 
-    hero: news.heroImage, heroType: 'image', 
-    content: news.heroImage, contentType: 'image' 
-  };
+  const heroMedia = news.heroMedia ?? news.homeMedia ?? { type: "image" as const, src: "" };
+  const contentMedia = news.contentMedia ?? heroMedia;
 
   return (
     <div className="bg-[#F4F4EB] min-h-screen pt-20">
@@ -109,10 +67,9 @@ export function NewsDetailPage() {
           </div>
 
           <div className="relative h-[200px] md:h-[300px] overflow-hidden bg-black">
-            {/* 这里的 media.hero 是根据 config 选取的头图 */}
-            {media.heroType === 'video' ? (
+            {heroMedia.type === 'video' ? (
               <video
-                src={media.hero}
+                src={heroMedia.src}
                 autoPlay
                 loop
                 muted
@@ -121,7 +78,7 @@ export function NewsDetailPage() {
               />
             ) : (
               <img
-                src={media.hero}
+                src={heroMedia.src}
                 alt={news.title}
                 className="w-full h-full object-cover opacity-60"
               />
@@ -226,9 +183,9 @@ export function NewsDetailPage() {
         )}
 
         <div className="my-12 rounded-2xl overflow-hidden border-4 border-black bg-black">
-          {media.contentType === 'video' ? (
+          {contentMedia.type === 'video' ? (
             <div className="flex flex-col">
-              <video src={media.content} controls autoPlay loop muted className="w-full h-auto" />
+              <video src={contentMedia.src} controls autoPlay loop muted className="w-full h-auto" />
               <div className="bg-black p-3 text-center border-t border-white/10">
                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
                   LIVE_DEMONSTRATION_FEED.mp4
@@ -237,7 +194,7 @@ export function NewsDetailPage() {
             </div>
           ) : (
             <div className="flex flex-col">
-              <img src={media.content} alt="Research Poster" className="w-full h-auto" />
+              <img src={contentMedia.src} alt="Research Poster" className="w-full h-auto" />
               <div className="bg-black p-3 text-center border-t border-white/10">
                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.2em]">
                   RESEARCH_POSTER.png
@@ -256,22 +213,21 @@ export function NewsDetailPage() {
           <span className="text-[#FF7A00]">///</span> More News
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {newsDetailData
+          {newsItems
             .filter((n) => n.id !== news.id)
             .map((item) => {
-              // 底部卡片预览图统一使用各配置中的 hero 图
-              const itemMedia = newsMediaConfig[item.id] || { hero: item.heroImage, heroType: 'image' };
-              
+              const itemMedia = item.heroMedia ?? item.homeMedia ?? { type: "image" as const, src: "" };
+
               return (
                 <Link
                   key={item.id}
-                  to={`/news/${item.id}`}
+                  to={`/news/${item.slug}`}
                   className="group bg-white border-2 border-black rounded-xl overflow-hidden transition-all"
                 >
                   <div className="h-32 overflow-hidden bg-black">
-                    {itemMedia.heroType === 'video' ? (
+                    {itemMedia.type === 'video' ? (
                       <video
-                        src={itemMedia.hero}
+                        src={itemMedia.src}
                         autoPlay
                         loop
                         muted
@@ -280,7 +236,7 @@ export function NewsDetailPage() {
                       />
                     ) : (
                       <img
-                        src={itemMedia.hero}
+                        src={itemMedia.src}
                         alt={item.title}
                         className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
                       />

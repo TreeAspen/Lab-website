@@ -1,0 +1,18 @@
+{
+  "id": 5,
+  "slug": "ghana-climate-risk-agent",
+  "order": 5,
+  "title": "Ghana Climate Risk Agent",
+  "desc": "AI Agent Empowered with Community Data for Urban Air Pollution.",
+  "heroImage": "https://images.unsplash.com/photo-1611270418597-a6cbf224e7eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/UrbanAI.mp4",
+  "gallery": [],
+  "tags": ["Urban Agent", "Global Health", "Climate"],
+  "year": "2025",
+  "status": "ACTIVE",
+  "overview": "An AI agent system designed for urban air pollution and climate risk management in Ghana. The system is empowered by ground-level community data to provide localized, actionable environmental insights.",
+  "sections": [
+    { "heading": "Collaborators", "body": "Collaborate with: Dr. Reginald Quansah (University of Ghana), Dr. Xiao Huang (Emory University), and Dr. Prince Amegbor (NYU)." }
+  ],
+  "team": ["Dr. Zhaoxi Zhang", "Dr. Reginald Quansah (Ghana)", "Dr. Xiao Huang (Emory)", "Dr. Prince Amegbor (NYU)"]
+}

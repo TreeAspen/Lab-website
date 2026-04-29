@@ -1,12 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, Target, FolderOpen, FileText, Presentation, ExternalLink, PlayCircle, Users } from "lucide-react";
-// 注意：请确保你的 HighlightData 类型定义中包含 aspectRatio?: string
-import { highlightDetailData, projects, teamMembers, type HighlightData } from "../data/projects";
+import { findHighlightById } from "../data/highlights";
+import { projects } from "../data/projects-loader";
+import { teamMembers } from "../data/people";
 
 export function HighlightDetailPage() {
   const { id } = useParams();
-  const data = highlightDetailData.find((h: HighlightData) => h.id === id);
+  const data = findHighlightById(id);
 
   if (!data) {
     return (

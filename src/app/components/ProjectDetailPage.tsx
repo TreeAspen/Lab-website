@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Calendar, Users, Zap } from "lucide-react";
-import { projects } from "../data/projects";
+import { projects } from "../data/projects-loader";
 
 export function ProjectDetailPage() {
   const { slug } = useParams();

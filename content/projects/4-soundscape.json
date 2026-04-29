@@ -1,0 +1,19 @@
+{
+  "id": 4,
+  "slug": "soundscape-llm-mapping",
+  "order": 4,
+  "title": "LLM Soundscape Mapping",
+  "desc": "Detecting and Mapping Soundscapes using Large Language Models.",
+  "heroImage": "https://images.unsplash.com/photo-1508739773402-3ea1af4c6bb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/UrbanAI.mp4",
+  "gallery": [],
+  "tags": ["Urban Sensing", "LLM", "Spatial Analysis"],
+  "year": "2026",
+  "status": "ACTIVE",
+  "overview": "This project utilizes Large Language Models (LLMs) and spatial analysis to categorize sources and intensities of urban sound, evaluating the noise pollution landscape in New York City.",
+  "sections": [
+    { "heading": "Diagnostic Framework", "body": "Developing a diagnostic framework for urban soundscape analysis in NYC. By fine-tuning multimodal models and integrating geospatial metadata like land-use types, the work aims to move beyond simple classification to provide context-aware noise source identification." },
+    { "heading": "Collaborators", "body": "Collaborate with: Dr. Prince Amegbor (Assistant Professor of Global and Environmental Health, NYU)." }
+  ],
+  "team": ["Dr. Zhaoxi Zhang", "Dr. Prince Amegbor (NYU)", "Steven Shi", "Vincent (Fanghua) Cao"]
+}

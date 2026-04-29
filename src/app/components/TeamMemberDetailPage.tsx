@@ -10,7 +10,8 @@ import {
   FolderOpen,
   Users
 } from "lucide-react";
-import { teamMembers, projects } from "../data/projects";
+import { teamMembers } from "../data/people";
+import { projects } from "../data/projects-loader";
 
 export function TeamMemberDetailPage() {
   const { id } = useParams();

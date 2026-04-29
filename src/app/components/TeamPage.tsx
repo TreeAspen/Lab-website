@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, Mail, Globe, Users, GraduationCap, BookOpen } from "lucide-react";
-import { teamMembers, type TeamMember } from "../data/projects";
+import { teamMembers, type Person as TeamMember } from "../data/people";
 import { useState } from "react";
 
 const categories = [

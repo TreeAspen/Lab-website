@@ -1,41 +1,9 @@
 import { useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
-import { newsFeature as img3, news1Img, news2Img, vrVideo } from "../assets";
+import { newsFeature as img3 } from "../assets";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import { Link } from "react-router-dom";
-
-// 🌟 核心修改 1：在 newsItems 中为每一项增加 slug 字段
-const newsItems = [
-  {
-    id: 1,
-    slug: "1", // 第一条暂未定义特殊名称，保持 1
-    title: "Latest Publication: VR Study on Flood Risk Response",
-    desc: "Our latest research published in IJDRR leverages Virtual Reality to simulate urban floods, uncovering how human responses shift across different contexts.",
-    detail: "The study reveals that people are significantly more sensitive to flood risks when in a car than on the street, especially at night. It also highlights how self-efficacy, warning sirens, and socioeconomic factors critically shape emergency evacuation behaviors.",
-    externalLink: "https://doi.org/10.1016/j.ijdrr.2025.105956",
-  },
-  {
-    id: 2,
-    slug: "codesignai", // 🌟 对应你的新路径名称
-    title: "Tools Release: CoDesignAI Collaborative Platform",
-    desc: "CoDesignAI is a web-based collaborative platform that uses multi-agent AI to support participatory urban design.",
-    detail:
-      "The system integrates conversational AI with Google Maps and Street View to help multiple users explore real-world urban contexts, discuss ideas, and generate visual design concepts together. By enabling iterative discussion and AI-assisted visualization, CoDesignAI aims to make early-stage urban design more open, collaborative, and accessible to diverse participants.",
-  },
-  {
-    id: 3,
-    slug: "vr-urban-stress-study",
-    title: "VR Greenery Study: Physiological & Psychological Response",
-    desc: "How does urban context shape the stress-reducing effects of greenery? We completed a controlled VR experiment with 25 participants across four urban scenes — waterfront, park, residential, and road — using EEG and EDA biosensors to find out.",
-    detail: "EEG results showed a significant context effect (FAA, p < 0.05), with park and waterfront environments producing more positive valence-related responses. Survey findings confirmed that emotional responses differed significantly by context. Greenery benefits are not uniform — they depend on the surrounding urban setting."
-  }
-];
-
-const newsMedia: Record<number, { type: 'image' | 'video', src: string }> = {
-  1: { type: 'image', src: news1Img },
-  2: { type: 'video', src: vrVideo },
-  3: { type: 'image', src: news2Img } 
-};
+import { newsItems } from "../data/news";
 
 export function News() {
   const [activeId, setActiveId] = useState<number | null>(1);
@@ -82,7 +50,7 @@ export function News() {
         <div className="flex flex-col gap-4">
           {newsItems.map((item) => {
             const isActive = activeId === item.id;
-            const itemMedia = newsMedia[item.id]; 
+            const itemMedia = item.homeMedia;
 
             return (
               <div key={item.id} className="relative">
@@ -193,7 +161,11 @@ export function News() {
           />
 
           <AnimatePresence mode="wait">
-            {activeId && newsMedia[activeId] && (
+            {(() => {
+              const activeItem = newsItems.find((n) => n.id === activeId);
+              const activeMedia = activeItem?.homeMedia;
+              if (!activeId || !activeMedia) return null;
+              return (
               <motion.div
                 key={activeId}
                 initial={{ scale: 0.3, opacity: 0, y: 60 }}
@@ -216,12 +188,12 @@ export function News() {
                   </div>
                   <X className="w-3.5 h-3.5 opacity-50" />
                 </div>
-                
+
                 <div className="relative w-full aspect-[16/10] overflow-hidden bg-black">
-                  {newsMedia[activeId].type === 'video' ? (
+                  {activeMedia.type === 'video' ? (
                     <motion.video
                       key={`vid-${activeId}`}
-                      src={newsMedia[activeId].src}
+                      src={activeMedia.src}
                       autoPlay
                       loop
                       muted
@@ -234,7 +206,7 @@ export function News() {
                   ) : (
                     <motion.img
                       key={`img-${activeId}`}
-                      src={newsMedia[activeId].src}
+                      src={activeMedia.src}
                       alt={`News ${activeId}`}
                       className="w-full h-full object-cover opacity-80"
                       initial={{ scale: 1.15 }}
@@ -252,7 +224,8 @@ export function News() {
                   />
                 </div>
               </motion.div>
-            )}
+              );
+            })()}
           </AnimatePresence>
         </div>
       </div>

@@ -1,0 +1,270 @@
+backend:
+  name: github
+  repo: TreeAspen/Lab-website
+  branch: main
+  # OAuth proxy (Cloudflare Worker). Replace with your Worker URL after deploy.
+  # See docs/CMS-SETUP.md for setup instructions.
+  base_url: https://helloworld.sy4254.workers.dev
+  auth_endpoint: auth
+
+# Default media folder for new uploads. Each collection can override below.
+media_folder: public/uploads
+public_folder: /uploads
+
+# Open editorial workflow = new posts go through draft → review → publish.
+# Set to "simple" if you'd rather have edits go live immediately on save.
+publish_mode: editorial_workflow
+
+# UI language
+locale: zh_Hans
+
+site_url: https://utoplab.net
+display_url: https://utoplab.net
+logo_url: https://utoplab.net/lab_logo.png
+
+collections:
+  - name: news
+    label: "新闻 (News)"
+    label_singular: "新闻"
+    folder: content/news
+    media_folder: "/public/uploads/news"
+    public_folder: "/uploads/news"
+    create: true
+    format: json
+    extension: json
+    slug: "{{id}}-{{slug}}"
+    summary: "{{date}} · {{title}}"
+    sortable_fields: [date, id, title]
+    view_filters:
+      - label: "今年"
+        field: date
+        pattern: "2026"
+    fields:
+      - { name: id, label: "ID (整数，唯一，不要重复)", widget: number, value_type: int, min: 1, hint: "新闻的唯一编号；新建时填一个比现有最大值更大的整数" }
+      - { name: slug, label: "URL 名称 (英文小写、连字符)", widget: string, hint: "出现在 /news/<这里> 的网址中，发布后请勿修改" }
+      - name: aliases
+        label: "URL 旧名 (兼容老链接，可空)"
+        widget: list
+        required: false
+        field: { name: alias, label: 旧名, widget: string }
+      - { name: title, label: "标题", widget: string }
+      - { name: subtitle, label: "副标题 (可选)", widget: string, required: false }
+      - { name: date, label: "日期", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: author, label: "作者", widget: string }
+      - { name: sponsor, label: "赞助方 (可选)", widget: string, required: false }
+      - { name: mentors, label: "指导教师 (可选)", widget: string, required: false }
+      - name: tags
+        label: "标签"
+        widget: list
+        field: { name: tag, label: 标签, widget: string }
+      - { name: desc, label: "首页卡片简介", widget: text }
+      - { name: detail, label: "首页卡片展开详情", widget: text }
+      - { name: externalLink, label: "外部链接 (可选；填了首页卡片就显示 Read Paper 而不是 Learn More)", widget: string, required: false }
+
+      - name: homeMedia
+        label: "首页弹窗媒体 (右侧动画窗口里展示的图/视频)"
+        widget: object
+        required: false
+        fields:
+          - { name: type, label: 类型, widget: select, options: ["image", "video"], default: "image" }
+          - { name: src, label: 文件, widget: file }
+
+      - name: heroMedia
+        label: "详情页头图 (顶部装饰窗里的图/视频)"
+        widget: object
+        required: false
+        fields:
+          - { name: type, label: 类型, widget: select, options: ["image", "video"], default: "image" }
+          - { name: src, label: 文件, widget: file }
+
+      - name: contentMedia
+        label: "详情页正文媒体 (Poster 或 Demo 视频)"
+        widget: object
+        required: false
+        fields:
+          - { name: type, label: 类型, widget: select, options: ["image", "video"], default: "image" }
+          - { name: src, label: 文件, widget: file }
+
+      - name: content
+        label: "正文段落 (每行一段)"
+        widget: list
+        field: { name: paragraph, label: 段落, widget: text }
+
+      - name: sections
+        label: "详细章节 (可选；用于研究类长文)"
+        widget: list
+        required: false
+        fields:
+          - { name: heading, label: 小标题, widget: string }
+          - { name: body, label: 正文 (用空行分段；以 • 开头表示子要点), widget: text }
+          - name: images
+            label: 配图 (可多张)
+            widget: list
+            required: false
+            field: { name: image, label: 图片, widget: file }
+
+  # ──────────────────────────────────────────────────────────
+  - name: highlights
+    label: "研究方向 (Highlights / Pillars)"
+    label_singular: "研究方向"
+    folder: content/highlights
+    media_folder: "/public/uploads/highlights"
+    public_folder: "/uploads/highlights"
+    create: false
+    delete: false
+    format: json
+    extension: json
+    summary: "{{order}}. {{title}} ({{id}})"
+    fields:
+      - { name: id, label: "ID (英文 slug，URL 名称，发布后请勿修改)", widget: string }
+      - { name: order, label: "排序 (1, 2, 3 …)", widget: number, value_type: int, min: 1 }
+      - { name: title, label: "短标题 (例: Urban Sensing)", widget: string }
+      - { name: label, label: "首页 Tab 长标签 (例: Perceptive — Urban Sensing)", widget: string }
+      - { name: num, label: "Pillar 编号 (例: Pillar 1)", widget: string }
+      - name: tags
+        label: "Tab 标签"
+        widget: list
+        field: { name: tag, label: 标签, widget: string }
+      - { name: summary, label: "首页摘要段 1", widget: text }
+      - { name: focus, label: "首页摘要段 2", widget: text }
+      - { name: homeVideo, label: "首页 Tab 视频", widget: file, required: false }
+      - { name: ourWorkDesc, label: "Our Work 卡片简介", widget: text }
+      - { name: ourWorkColor, label: "Our Work 卡片配色 (#hex)", widget: string, default: "#E2F16B" }
+      - { name: heroImage, label: "详情页头图", widget: string, hint: "可填外部 URL 或上传文件后的路径" }
+      - { name: heroVideo, label: "详情页头视频 (可选)", widget: file, required: false }
+      - { name: embedHtml, label: "详情页嵌入 HTML 路径 (可选)", widget: string, required: false }
+      - { name: aspectRatio, label: "嵌入框宽高比 (可选，例: 9 / 8)", widget: string, required: false }
+      - name: tagsDetail
+        label: "详情页页签 (可选)"
+        widget: list
+        required: false
+        field: { name: tag, label: 标签, widget: string }
+      - name: overview
+        label: "Overview 段落"
+        widget: list
+        field: { name: paragraph, label: 段落, widget: text }
+      - name: focusPoints
+        label: "Research Focus 要点"
+        widget: list
+        field: { name: point, label: 要点, widget: text }
+      - name: relatedProjects
+        label: "关联 Project (用 slug)"
+        widget: list
+        field: { name: slug, label: project slug, widget: string }
+      - name: publications
+        label: "Selected Publications"
+        widget: list
+        required: false
+        fields:
+          - { name: citation, label: 引用全文, widget: text }
+          - { name: link, label: 链接 (DOI, 可选), widget: string, required: false }
+      - name: conferences
+        label: "Selected Conferences"
+        widget: list
+        required: false
+        field: { name: conf, label: 会议引用, widget: text }
+      - name: mediaLink
+        label: "外部 Media Link (可选)"
+        widget: object
+        required: false
+        fields:
+          - { name: label, label: 按钮文字, widget: string }
+          - { name: url, label: URL, widget: string }
+
+  # ──────────────────────────────────────────────────────────
+  - name: projects
+    label: "项目 (Projects)"
+    label_singular: "项目"
+    folder: content/projects
+    media_folder: "/public/uploads/projects"
+    public_folder: "/uploads/projects"
+    create: true
+    format: json
+    extension: json
+    slug: "{{id}}-{{slug}}"
+    summary: "{{order}}. {{title}} [{{status}}]"
+    sortable_fields: [order, year, title]
+    fields:
+      - { name: id, label: "ID (整数，唯一)", widget: number, value_type: int, min: 1 }
+      - { name: slug, label: "URL 名称 (英文)", widget: string }
+      - { name: order, label: "排序", widget: number, value_type: int, min: 1 }
+      - { name: title, label: "标题", widget: string }
+      - { name: desc, label: "简介 (一句话)", widget: text }
+      - { name: heroImage, label: "Hero 图 (URL 或上传)", widget: string }
+      - { name: heroVideo, label: "Hero 视频 (可选)", widget: file, required: false }
+      - { name: embedHtml, label: "交互 HTML 路径 (可选)", widget: string, required: false }
+      - name: gallery
+        label: "图集 (可选，多张)"
+        widget: list
+        required: false
+        field: { name: image, label: 图, widget: file }
+      - name: tags
+        label: "Tags"
+        widget: list
+        field: { name: tag, label: tag, widget: string }
+      - { name: year, label: "年份", widget: string }
+      - { name: status, label: "状态", widget: select, options: ["ACTIVE", "PROTOTYPE", "COMPLETED", "PAUSED"], default: "ACTIVE" }
+      - { name: overview, label: "Overview", widget: text }
+      - name: sections
+        label: "章节"
+        widget: list
+        fields:
+          - { name: heading, label: 小标题, widget: string }
+          - { name: body, label: 正文, widget: text }
+          - { name: image, label: 配图 (可选), widget: file, required: false }
+      - name: team
+        label: "团队成员名字 (字符串列表)"
+        widget: list
+        field: { name: member, label: 成员, widget: string }
+
+  # ──────────────────────────────────────────────────────────
+  - name: people
+    label: "成员 (People / Team)"
+    label_singular: "成员"
+    folder: content/people
+    media_folder: "/public/uploads/people"
+    public_folder: "/uploads/people"
+    create: true
+    format: json
+    extension: json
+    slug: "{{order}}-{{id}}"
+    summary: "{{order}}. {{name}} — {{role}}"
+    sortable_fields: [order, name, category]
+    view_groups:
+      - label: "按类别"
+        field: category
+    fields:
+      - { name: id, label: "ID (英文 slug，URL 名称，发布后请勿修改)", widget: string, hint: "如 zhaoxi-zhang" }
+      - { name: order, label: "排序", widget: number, value_type: int, min: 1 }
+      - { name: name, label: "姓名 (含 Dr. 前缀如适用)", widget: string }
+      - { name: role, label: "角色 (例: Lab Director, PhD Student)", widget: string }
+      - { name: title, label: "职称/学位 (例: Assistant Professor, ...)", widget: string }
+      - { name: category, label: "分类", widget: select, options: ["faculty", "phd", "master", "alumni"] }
+      - { name: avatar, label: "头像", widget: image }
+      - { name: bio, label: "短介绍 (列表卡片显示)", widget: text }
+      - { name: fullBio, label: "详细传记", widget: markdown, required: false }
+      - name: research
+        label: "研究方向 Tags"
+        widget: list
+        field: { name: tag, label: tag, widget: string }
+      - { name: email, label: "邮箱 (可选)", widget: string, required: false }
+      - { name: website, label: "个人主页 (可选)", widget: string, required: false }
+      - name: education
+        label: "教育经历 (可选)"
+        widget: list
+        required: false
+        field: { name: edu, label: 经历, widget: string }
+      - name: publications
+        label: "代表论文"
+        widget: list
+        required: false
+        fields:
+          - { name: title, label: 标题, widget: string }
+          - { name: venue, label: 发表机构/会议, widget: string }
+          - { name: year, label: 年份, widget: string }
+          - { name: link, label: 链接 (可选), widget: string, required: false }
+      - name: projects
+        label: "参与项目 (用 project slug)"
+        widget: list
+        required: false
+        field: { name: slug, label: project slug, widget: string }

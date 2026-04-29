@@ -1,0 +1,39 @@
+{
+  "id": "urban",
+  "order": 1,
+  "title": "Urban Sensing",
+  "label": "Perceptive — Urban Sensing",
+  "num": "Pillar 1",
+  "tags": ["IoT", "Wearables", "Computer Vision", "Exposure"],
+  "summary": "To understand the city, we first need to measure it. We deploy sensor-based measurements that capture urban life at every level. By combining mobile data, wearables, and computer vision, we move beyond static maps to track the \"pulse\" of daily life.",
+  "focus": "Our work specifically focuses on urban exposure, quantifying how things like environmental stress and spatial design affect our mental and physical health.",
+  "homeVideo": "/Segmentation.mp4",
+  "ourWorkDesc": "Sensor-based measurements capturing urban life — mobile data, wearables, computer vision, and environmental monitoring.",
+  "ourWorkColor": "#E2F16B",
+  "heroImage": "https://images.unsplash.com/photo-1758792621133-fc505136d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/Segmentation.mp4",
+  "embedHtml": "/UrbanSensorInteractive.html",
+  "aspectRatio": "9 / 8",
+  "overview": [
+    "Urban Sensing uses wearable and portable sensors to understand how people experience the city at the micro scale—streets, parks, plazas, and everyday routes. Our goal is to measure what happens in real places, linking environmental conditions (e.g., noise, heat, air quality, and light) with human stress signals captured by biosensors (e.g., heart rate patterns, skin conductance, and skin temperature). By grounding sensing in everyday mobility and public space use, we move beyond citywide averages and bring urban health evidence to the level where design and planning decisions happen.",
+    "Urban Sensing is how we \"listen\" to the city in everyday life. We measure minute by minute, place by place, to understand where stress builds up, what environmental stressors are happening at the same time, and which urban features support recovery and well-being."
+  ],
+  "focusPoints": [
+    "Co-occurrence of environmental stressors: measuring how noise, heat, air pollution, and other exposures overlap in real urban settings.",
+    "Health effects of urban features: linking street and public-space design elements (e.g., greenery, shade, traffic conditions, spatial form) to stress and comfort outcomes.",
+    "AI for sensing data: using machine learning to clean, align, and interpret multi-sensor streams, and to help generalize local findings to wider city contexts."
+  ],
+  "relatedProjects": ["cool-project-heat-stress", "soundscape-llm-mapping"],
+  "publications": [
+    { "citation": "Zhang, Z.*, Mˇechurov., K., Resch, B., Amegbor, P., and Sabel, C. E. (2023). Assessing the association between overcrowding and human physiological stress response in different urban contexts: a case study in Salzburg, Austria. International Journal of Health Geographics, 22(1), 15.", "link": "https://doi.org/10.1186/s12942-023-00334-7" },
+    { "citation": "Zhang, Z.*, Amegbor, P. M., Sigsgaard, T., and Sabel, C. E. (2022). Assessing the association between urban features and human physiological stress response using wearable sensors in different urban contexts. Health and Place, 78, 102924.", "link": "https://doi.org/10.1016/j.healthplace.2022.102924" },
+    { "citation": "Zhang, Z.*, Amegbor, P. M., and Sabel, C. E. (2022). The feasibility of integrating wearable cameras and health trackers for measuring personal exposure to urban features: a pilot study in Roskilde, Denmark. International Journal of E-Planning Research (IJEPR), 11(1), 1-21.", "link": "http://doi.org/10.4018/IJEPR.313181" },
+    { "citation": "Zhang, Z., Long, Y., Chen, L., and Chen, C. (2021). Assessing personal exposure to urban greenery using wearable cameras and machine learning. Cities, 109.", "link": "https://doi.org/10.1016/j.cities.2020.103006" },
+    { "citation": "Zhang, Z.*, Amegbor, P. M., and Sabel, C. E. (2021). Assessing the Current Integration of Multiple Personalised Wearable Sensors for Environment and Health Monitoring. Sensors (Basel), 21(22).", "link": "https://doi.org/10.3390/s21227693" }
+  ],
+  "conferences": [
+    "Shi, Steven (Student), Zhang, Z.*, and Amegbor, P. (2026, April). Categorizing Sources and Intensities of Sound and Evaluating Noise in New York City Using Large Language Model. International Conference on Urban Affairs (ICUA), Chicago, IL.",
+    "Yang. X. (Student), Zhang.X., Rozhkov, A., Zhang, Z., Amegbor, P. M., \"Sensor-Based Micro-Level Observations on Stress Spatial Distribution: A Case Study of Accra\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025.",
+    "Zhang. X. (Student), Yang.X., Rozhkov, A., Amegbor, P. M., Zhang, Z., \"Sensor-based Observation of Urban Stress in New York City\". The 2025 American Association of Geographers Annual Meeting. Detroit, Michigan USA, March 24–26, 2025."
+  ]
+}

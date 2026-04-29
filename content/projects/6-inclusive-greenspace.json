@@ -1,0 +1,18 @@
+{
+  "id": 6,
+  "slug": "inclusive-greenspace-vr",
+  "order": 6,
+  "title": "Inclusive Greenspace Emotion",
+  "desc": "Sensitivity-Inclusive Approaches to Understand Emotional Responses.",
+  "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/VID_stretched_43.mp4",
+  "gallery": [],
+  "tags": ["Urban VR", "Landscape", "Emotion"],
+  "year": "2025",
+  "status": "ACTIVE",
+  "overview": "A VR-based study quantifying how specific urban features, such as greenery, contribute to high-quality environments and shape psychological perceptions like safety and preference across diverse populations.",
+  "sections": [
+    { "heading": "Collaborators", "body": "Collaborate with: Dr. Jiayang Li (Assistant Professor, Landscape Architecture, UF) and Dr. Xiaoya Zhang (Assistant Professor, UF)." }
+  ],
+  "team": ["Dr. Zhaoxi Zhang", "Dr. Jiayang Li (UF)", "Dr. Xiaoya Zhang (UF)"]
+}

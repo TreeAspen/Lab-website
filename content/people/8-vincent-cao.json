@@ -1,0 +1,14 @@
+{
+  "id": "vincent-cao",
+  "order": 8,
+  "name": "Vincent (Fanghua) Cao",
+  "role": "Graduate Researcher",
+  "title": "ECE Master's Student",
+  "category": "master",
+  "avatar": "/uploads/people/Vincent Cao.png",
+  "bio": "Vincent holds a technical background in V2X systems and LLM Fine-Tuning.",
+  "fullBio": "Vincent (Fanghua) Cao is an ECE Master's student at the University of Florida, advised by Dr. Zhaoxi Zhang. He holds a technical background in V2X (Vehicle-to-Everything) systems and hardware integration, with extensive experience in the Supervised Fine-Tuning (SFT) and comprehensive evaluation of Large Language Models (LLMs). His research interests focus on using multimodal AI to analyze and diagnose complex urban environments.",
+  "research": ["LLM Fine-Tuning", "V2X Systems", "Multimodal AI"],
+  "publications": [],
+  "projects": ["soundscape-llm-mapping"]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "agent",
+  "order": 3,
+  "title": "Urban Agent",
+  "label": "Responsive — Urban Agent",
+  "num": "Pillar 3",
+  "tags": ["AI Agents", "Co-Design", "NLP", "Responsive"],
+  "summary": "If sensing measures the city and VR lets us see it, our final pillar is about making the city respond. We build AI agents and conversational systems to bridge complex urban data with the daily lives of citizens.",
+  "focus": "Our urban systems are not merely efficient — they are traceable, intuitive, and deeply responsive to human needs.",
+  "homeVideo": "/uploads/shared/UrbanAI.mp4",
+  "ourWorkDesc": "AI agents and conversational systems bridging complex urban data with citizens' daily lives.",
+  "ourWorkColor": "#E2F16B",
+  "heroImage": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "heroVideo": "/uploads/shared/UrbanAI.mp4",
+  "tagsDetail": ["AI Chatbot", "Co-Design", "Participatory"],
+  "overview": [
+    "Urban Agent uses AI, city science, and interactive digital systems to understand and support how people participate in shaping urban change. Our goal is to empower communities and other urban stakeholders by creating responsive tools that connect scientific evidence, expert knowledge, and lived experience. By making urban information more accessible, interactive, and actionable, we support more inclusive, collaborative, and evidence-informed urban design.",
+    "Urban Agent is how we make city science more responsive to people. We develop novel methodologies, conversational agents, generative and collaborative design tools that help communities, planners, designers, and decision-makers communicate across different forms of knowledge and expertise. In this way, we aim to make co-design more practical and scalable—supporting collective knowledge production, strengthening stakeholder dialogue, and bringing community narratives into planning and design processes."
+  ],
+  "focusPoints": [
+    "AI for participatory planning and design: using AI agents and interactive systems to support communication, engagement, and co-design among communities, planners, designers, and other stakeholders.",
+    "AI for collaborative design: building tools that help people visualize ideas, generate design options, solve conflicts and contribute local knowledge and narratives to the shaping of neighborhoods, public spaces, and urban futures."
+  ],
+  "relatedProjects": ["CoDesignAI-collaborative-agent", "ghana-climate-risk-agent"],
+  "publications": [
+    { "citation": "Zhang, Z., Wu, R., Ren, F., Turaga, S., & Mendel, T. (2025). CoDesignAI: An AI-Enabled Multi-Agent, Multi-User System for Collaborative Urban Design at the Conceptual Stage. arXiv. cs.HC", "link": "" },
+    { "citation": "Li, J., Zhang, Z., Mendel, T., & Yabe, T. (2026). Exploring sidewalk sheds in New York City through chatbot surveys and human computer interaction (arXiv:2601.23095). arXiv.", "link": "https://doi.org/10.48550/arXiv.2601.23095" },
+    { "citation": "Zhang, Zhaoxi and Mendel, Tamir and Yin, Wen and Raipat, Vaidehi and Yabe, Takahiro, Human-Chatbot Conversations About Urban Park Experiences: A Case Study from Washington Square Park in New York City.", "link": "http://dx.doi.org/10.2139/ssrn.5378600" }
+  ],
+  "conferences": [
+    "Zhang, Z.*, Wu, R., Ren, F. and Mendel.T., A Multi-User and Multi-Agent Approach to Community Engagement. The 2026 American Association of Geographers Annual Meeting. San Francisco, USA, March 17-21, 2026.",
+    "Turaga,S. (Student), Zhang, Z.*, Mendel.T., and Yabe.T. (2026, April). ConResSim: An Interactive Tool for Conflict Detection and Analysis in Community Engagement [Conference abstract]. International Conference on Urban Affairs (ICUA), Chicago, IL.",
+    "Zhang, Z.*, Mendel, T.+, Raipat V. (2025) and Yabe, T., Smart Conversations in the City: AI Chatbots for Urban Management—A Case Study in NYC. The 2026 ACSP Annual Conference. Pittsburgh, PA, USA, October 8-10, 2026."
+  ]
+}
