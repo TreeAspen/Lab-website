@@ -1,0 +1,102 @@
+backend:
+  name: github
+  repo: TreeAspen/Lab-website
+  branch: main
+  # OAuth proxy (Cloudflare Worker). Replace with your Worker URL after deploy.
+  # See docs/CMS-SETUP.md for setup instructions.
+  base_url: https://YOUR-WORKER.workers.dev
+  auth_endpoint: auth
+
+# Where uploaded media is stored in the repo, and the public URL prefix used in src.
+media_folder: public/uploads/news
+public_folder: /uploads/news
+
+# Open editorial workflow = new posts go through draft → review → publish.
+# Set to "simple" if you'd rather have edits go live immediately on save.
+publish_mode: editorial_workflow
+
+# UI language
+locale: zh_Hans
+
+site_url: https://utoplab.net
+display_url: https://utoplab.net
+logo_url: https://utoplab.net/lab_logo.png
+
+collections:
+  - name: news
+    label: "新闻 (News)"
+    label_singular: "新闻"
+    folder: content/news
+    create: true
+    format: json
+    extension: json
+    slug: "{{id}}-{{slug}}"
+    summary: "{{date}} · {{title}}"
+    sortable_fields: [date, id, title]
+    view_filters:
+      - label: "今年"
+        field: date
+        pattern: "2026"
+    fields:
+      - { name: id, label: "ID (整数，唯一，不要重复)", widget: number, value_type: int, min: 1, hint: "新闻的唯一编号；新建时填一个比现有最大值更大的整数" }
+      - { name: slug, label: "URL 名称 (英文小写、连字符)", widget: string, hint: "出现在 /news/<这里> 的网址中，发布后请勿修改" }
+      - name: aliases
+        label: "URL 旧名 (兼容老链接，可空)"
+        widget: list
+        required: false
+        field: { name: alias, label: 旧名, widget: string }
+      - { name: title, label: "标题", widget: string }
+      - { name: subtitle, label: "副标题 (可选)", widget: string, required: false }
+      - { name: date, label: "日期", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: author, label: "作者", widget: string }
+      - { name: sponsor, label: "赞助方 (可选)", widget: string, required: false }
+      - { name: mentors, label: "指导教师 (可选)", widget: string, required: false }
+      - name: tags
+        label: "标签"
+        widget: list
+        field: { name: tag, label: 标签, widget: string }
+      - { name: desc, label: "首页卡片简介", widget: text }
+      - { name: detail, label: "首页卡片展开详情", widget: text }
+      - { name: externalLink, label: "外部链接 (可选；填了首页卡片就显示 Read Paper 而不是 Learn More)", widget: string, required: false }
+
+      - name: homeMedia
+        label: "首页弹窗媒体 (右侧动画窗口里展示的图/视频)"
+        widget: object
+        required: false
+        fields:
+          - { name: type, label: 类型, widget: select, options: ["image", "video"], default: "image" }
+          - { name: src, label: 文件, widget: file }
+
+      - name: heroMedia
+        label: "详情页头图 (顶部装饰窗里的图/视频)"
+        widget: object
+        required: false
+        fields:
+          - { name: type, label: 类型, widget: select, options: ["image", "video"], default: "image" }
+          - { name: src, label: 文件, widget: file }
+
+      - name: contentMedia
+        label: "详情页正文媒体 (Poster 或 Demo 视频)"
+        widget: object
+        required: false
+        fields:
+          - { name: type, label: 类型, widget: select, options: ["image", "video"], default: "image" }
+          - { name: src, label: 文件, widget: file }
+
+      - name: content
+        label: "正文段落 (每行一段)"
+        widget: list
+        field: { name: paragraph, label: 段落, widget: text }
+
+      - name: sections
+        label: "详细章节 (可选；用于研究类长文)"
+        widget: list
+        required: false
+        fields:
+          - { name: heading, label: 小标题, widget: string }
+          - { name: body, label: 正文 (用空行分段；以 • 开头表示子要点), widget: text }
+          - name: images
+            label: 配图 (可多张)
+            widget: list
+            required: false
+            field: { name: image, label: 图片, widget: file }
